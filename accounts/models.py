@@ -19,7 +19,11 @@ class Department(CommonInfo):
 
 class Grade(CommonInfo):
     level = models.CharField(choices=l_choices, max_length=10)
-    department = models.ForeignKey(Department, on_delete=models.CASCADE)
+    department = models.ForeignKey(
+        Department,
+        on_delete=models.CASCADE,
+        related_name="grade",
+    )
 
     def __str__(self):
         return f"level: {self.level} department: {self.department.type}"
@@ -28,46 +32,57 @@ class Grade(CommonInfo):
 class Course(CommonInfo):
     course_name = models.CharField(max_length=100)
     descriptions = models.TextField(max_length=500)
-    grade = models.ForeignKey(Grade, on_delete=models.CASCADE)
+    grade = models.ForeignKey(Grade, on_delete=models.CASCADE, related_name="course")
 
     def __str__(self):
         return f"Course: {self.course_name}"
 
 
 class Student(CommonInfo):
-    student_userName = models.OneToOneField(User, on_delete=models.CASCADE)
-    user_role = models.ForeignKey(Role, on_delete=models.CASCADE)
+    student_userName = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name="student"
+    )
+    user_role = models.ForeignKey(
+        Role, on_delete=models.CASCADE, related_name="student"
+    )
     student_name = models.CharField(max_length=100)
     email = models.EmailField()
     address = models.CharField(max_length=100)
     gender = models.CharField(choices=g_choices, max_length=20)
     phone_no = models.CharField(max_length=15)
-    grade = models.ForeignKey(Grade, on_delete=models.CASCADE)
+    grade = models.ForeignKey(Grade, on_delete=models.CASCADE, related_name="student")
     dob = models.DateField()
 
 
 class Teacher(CommonInfo):
-    teacher_userName = models.OneToOneField(User, on_delete=models.CASCADE)
+    teacher_userName = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name="teacher"
+    )
     user_role = models.ForeignKey(
-        Role,
-        on_delete=models.CASCADE,
+        Role, on_delete=models.CASCADE, related_name="teacher"
     )
     teacher_name = models.CharField(max_length=100)
     email = models.EmailField()
     phone_no = models.CharField(max_length=15)
-    course = models.OneToOneField(Course, on_delete=models.CASCADE)
+    course = models.OneToOneField(
+        Course, on_delete=models.CASCADE, related_name="teacher"
+    )
 
     def __str__(self):
         return self.teacher_name
 
 
 class Parent(CommonInfo):
-    parent_userName = models.OneToOneField(User, on_delete=models.CASCADE)
-    user_role = models.ForeignKey(Role, on_delete=models.CASCADE)
+    parent_userName = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name="parent"
+    )
+    user_role = models.ForeignKey(Role, on_delete=models.CASCADE, related_name="parent")
     parent_name = models.CharField(max_length=100)
     email = models.EmailField()
     phone_no = models.CharField(max_length=15)
-    student = models.OneToOneField(Student, on_delete=models.CASCADE)
+    student = models.OneToOneField(
+        Student, on_delete=models.CASCADE, related_name="parent"
+    )
 
     def __str__(self):
         return self.teacher_name
