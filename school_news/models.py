@@ -9,7 +9,9 @@ class Holiday(CommonInfo):
 class Event(CommonInfo):
     name=models.CharField(max_length=50)
     descriptions=models.TextField()
+    image=models.ImageField()
     start=models.DateTimeField()
 class Announcement(CommonInfo):
     name=models.CharField(max_length=50)
+    image=models.ImageField()
     descriptions=models.TextField()

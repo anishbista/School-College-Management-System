@@ -1,6 +1,12 @@
 from django.contrib import admin
 from .models import *
 # Register your models here.
-admin.site.register(Holiday)
-admin.site.register(Event)
-admin.site.register(Announcement)
+@admin.register(Holiday)
+class HolidayAdmin(admin.ModelAdmin):
+    list_display=['name','type','start','end']
+@admin.register(Event)
+class EventAdmin(admin.ModelAdmin):
+    list_display=['name','description','start']
+@admin.register(Announcement)
+class AnnouncementAdmin(admin.ModelAdmin):
+    list_display=['name','description']
