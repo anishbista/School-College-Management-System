@@ -20,5 +20,5 @@ from accounts.views import my_html_view
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("my-html/", my_html_view, name="my-html-view"),
+    # path("my-html/", my_html_view, name="my-html-view"),
 ]
