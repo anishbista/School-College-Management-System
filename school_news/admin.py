@@ -6,7 +6,7 @@ class HolidayAdmin(admin.ModelAdmin):
     list_display=['name','type','start','end']
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
-    list_display=['name','description','start']
+    list_display=['name','descriptions','start']
 @admin.register(Announcement)
 class AnnouncementAdmin(admin.ModelAdmin):
-    list_display=['name','description']
+    list_display=['name','descriptions']

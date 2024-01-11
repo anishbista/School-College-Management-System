@@ -62,23 +62,6 @@ class DepartmentAdmin(admin.ModelAdmin):
     ]
     list_display = ["type"]
 
-
-# admin.site.register(Department)
-
-
-# @admin.register(Grade)
-# class GradeAdmin(admin.ModelAdmin):
-#     list_display = ["level"]
-
-
-@admin.register(Course)
-class CourseAdmin(admin.ModelAdmin):
-    list_display = [
-        "course_name",
-        "teacher",
-    ]
-
-
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
     list_display = [

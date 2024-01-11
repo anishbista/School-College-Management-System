@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from common.models import *
-
+from course_class.models import Grade,Course
 
 class Role(CommonInfo):
     role = models.CharField(choices=r_choices, default="Student", max_length=50)
@@ -15,28 +15,6 @@ class Department(CommonInfo):
 
     def __str__(self):
         return self.type
-
-
-class Grade(CommonInfo):
-    level = models.CharField(choices=l_choices, max_length=10)
-    department = models.ForeignKey(
-        Department,
-        on_delete=models.CASCADE,
-        related_name="grade",
-    )
-
-    def __str__(self):
-        return f"level: {self.level} department: {self.department.type}"
-
-
-class Course(CommonInfo):
-    course_name = models.CharField(max_length=100)
-    descriptions = models.TextField(max_length=500)
-    grade = models.ForeignKey(Grade, on_delete=models.CASCADE, related_name="course")
-
-    def __str__(self):
-        return f"Course: {self.course_name}"
-
 
 class Student(CommonInfo):
     student_userName = models.OneToOneField(
