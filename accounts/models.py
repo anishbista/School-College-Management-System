@@ -26,7 +26,7 @@ class Grade(CommonInfo):
     )
 
     def __str__(self):
-        return f"level: {self.level} department: {self.department.type}"
+        return f"levels: {self.level} department: {self.department.type}"
 
 
 class Course(CommonInfo):
