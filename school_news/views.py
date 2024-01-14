@@ -6,6 +6,4 @@ from django.http import HttpResponse
 class HolidayView(View):
     def get(self,request):
         holidays=Holiday.objects.all()
-        for h in holidays:
-            print(h)
-        return HttpResponse("Get holiday value")
+        return render(request,'school_news/holiday.html',{'holidays':holidays,'day':'active'})
