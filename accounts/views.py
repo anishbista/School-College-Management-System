@@ -40,7 +40,7 @@ class LoginView(View):
 
                 try:
                     teacher = Teacher.objects.get(teacher_userName=user)
-                    return redirect("https://twitter.com")
+                    return redirect(reverse("teacher_dashboard"))
                 except Teacher.DoesNotExist:
                     pass
                 try:

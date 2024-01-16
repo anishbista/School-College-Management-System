@@ -27,4 +27,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("login/", LoginView.as_view(), name="login"),
     path("student/", include("student.urls")),
+    path("teacher/", include("teacher.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

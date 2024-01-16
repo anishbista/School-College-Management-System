@@ -53,6 +53,9 @@ class Student(CommonInfo):
     grade = models.ForeignKey(Grade, on_delete=models.CASCADE, related_name="student")
     dob = models.DateField()
 
+    def __str__(self):
+        return self.student_name
+
 
 class Teacher(CommonInfo):
     teacher_userName = models.OneToOneField(
@@ -85,4 +88,4 @@ class Parent(CommonInfo):
     )
 
     def __str__(self):
-        return self.teacher_name
+        return self.parent_userName
