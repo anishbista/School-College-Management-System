@@ -31,15 +31,16 @@ class LoginView(View):
 
         if user is not None:
             if user.is_active:
-                login(request, user)
                 try:
                     student = Student.objects.get(student_userName=user)
+                    login(request, user)
                     return redirect(reverse("student_dashboard"))
                 except Student.DoesNotExist:
                     pass
 
                 try:
                     teacher = Teacher.objects.get(teacher_userName=user)
+
                     return redirect(reverse("teacher_dashboard"))
                 except Teacher.DoesNotExist:
                     pass
