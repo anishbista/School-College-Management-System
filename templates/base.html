@@ -282,8 +282,8 @@
                         <li>
                             <a href="exam.html"><i class="fas fa-clipboard-list"></i> <span>Exam list</span></a>
                         </li>
-                        <li>
-                            <a href="event.html"><i class="fas fa-calendar-day"></i> <span>Events</span></a>
+                        <li class="submenu {{eve}}">
+                            <a href="{% url 'school_news:event' %}"><i class="fas fa-calendar-day"></i> <span>Events</span></a>
                         </li>
                         <li>
                             <a href="time-table.html"><i class="fas fa-table"></i> <span>Time Table</span></a>
@@ -471,7 +471,6 @@
 
         
     </div>
-
     <script src="{% static 'js/jquery-3.6.0.min.js'%}"></script>
     <script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
     <script src="{% static 'js/feather.min.js'%}"></script>
