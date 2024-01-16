@@ -88,4 +88,4 @@ class Parent(CommonInfo):
     )
 
     def __str__(self):
-        return self.parent_userName
+        return self.parent_name

@@ -45,7 +45,7 @@ class LoginView(View):
                     pass
                 try:
                     parent = Parent.objects.get(parent_userName=user)
-                    return redirect("https://facebook.com")
+                    return redirect(reverse("parent_dashboard"))
                 except Parent.DoesNotExist:
                     pass
 
