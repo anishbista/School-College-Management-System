@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
+from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.contrib import messages
 
@@ -33,7 +34,7 @@ class LoginView(View):
                 login(request, user)
                 try:
                     student = Student.objects.get(student_userName=user)
-                    return redirect("https://youtube.com")
+                    return redirect(reverse("student_dashboard"))
                 except Student.DoesNotExist:
                     pass
 
