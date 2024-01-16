@@ -11,3 +11,7 @@ class EventView(View):
     def get(self,request):
         event=Event.objects.all()
         return render(request,'school_news/event.html',{'eve':'active','event':event})
+class AnnouncementView(View):
+    def get(self,request):
+        announcement=Announcement.objects.all()
+        return render(request,'school_news/announcement.html',{'ann':'active','announcement':announcement})

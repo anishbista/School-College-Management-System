@@ -16,20 +16,25 @@
         <div class="row">
             <div class="col-sm-12">
                 {% if not event %}
-                    <h5 class="text-center">Empty Event</h5>
+                <h5 class="text-center">Empty Event</h5>
                 {% endif %}
                 {% for e in event %}
-                    <div class="card mb-3">
-                        <img src="{{e.image.url}}" class="img-thumbnail" style="height: 100px;" alt="{{e.name}}">
-                        <div class="card-body">
-                        <h5 class="card-title">{{e.name}}</h5>
-                        <p class="card-text">{{e.description}}</p>
-                        <p class="card-text">Start:<small class="text-body-secondary">{{e.start}}</small></p>
+                    <div class="card mb-3" style="max-width: 540px;">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="{{e.image.url}}" class="img-fluid rounded-start" alt="{{e.name}}">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{e.name}}</h5>
+                                    <p class="card-text">{{e.descriptions}}</p>
+                                    <p class="card-text">Start:<small class="text-body-secondary">{{e.start}}</small></p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 {% endfor %}
             </div>
         </div>
     </div>
-</div>
-{% endblock content %}
+    {% endblock content %}

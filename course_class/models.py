@@ -8,16 +8,13 @@ class Grade(CommonInfo):
         on_delete=models.CASCADE,
         related_name="grade",
     )
-
     def __str__(self):
         return f"level: {self.level} department: {self.department.type}"
-
 
 class Course(CommonInfo):
     course_name = models.CharField(max_length=100)
     descriptions = models.TextField(max_length=500)
     grade = models.ForeignKey(Grade, on_delete=models.CASCADE, related_name="course")
-
     def __str__(self):
         return f"Course: {self.course_name}"
 
