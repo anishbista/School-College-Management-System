@@ -17,7 +17,6 @@ class Course(CommonInfo):
     grade = models.ForeignKey(Grade, on_delete=models.CASCADE, related_name="course")
     def __str__(self):
         return f"Course: {self.course_name}"
-
 class TimeTable(CommonInfo):
     tname=models.ForeignKey('accounts.Teacher',on_delete=models.CASCADE)
     tclass=models.ForeignKey(Grade,on_delete=models.CASCADE)

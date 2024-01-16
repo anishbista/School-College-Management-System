@@ -10,7 +10,7 @@ class GradeAdmin(admin.ModelAdmin):
 class CourseAdmin(admin.ModelAdmin):
     list_display = [
         "course_name",
-        "teacher",
+        "grade",
     ]
 @admin.register(TimeTable)
 class TimeTableAdmin(admin.ModelAdmin):
