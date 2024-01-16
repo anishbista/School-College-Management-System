@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
+from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.contrib import messages
 
@@ -30,21 +31,22 @@ class LoginView(View):
 
         if user is not None:
             if user.is_active:
-                login(request, user)
                 try:
                     student = Student.objects.get(student_userName=user)
-                    return redirect("https://youtube.com")
+                    login(request, user)
+                    return redirect(reverse("student_dashboard"))
                 except Student.DoesNotExist:
                     pass
 
                 try:
                     teacher = Teacher.objects.get(teacher_userName=user)
-                    return redirect("https://twitter.com")
+
+                    return redirect(reverse("teacher_dashboard"))
                 except Teacher.DoesNotExist:
                     pass
                 try:
                     parent = Parent.objects.get(parent_userName=user)
-                    return redirect("https://facebook.com")
+                    return redirect(reverse("parent_dashboard"))
                 except Parent.DoesNotExist:
                     pass
 
