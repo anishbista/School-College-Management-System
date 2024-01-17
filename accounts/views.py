@@ -41,12 +41,13 @@ class LoginView(View):
 
                 try:
                     teacher = Teacher.objects.get(teacher_userName=user)
-
+                    login(request, user)
                     return redirect(reverse("teacher_dashboard"))
                 except Teacher.DoesNotExist:
                     pass
                 try:
                     parent = Parent.objects.get(parent_userName=user)
+                    login(request, user)
                     return redirect(reverse("parent_dashboard"))
                 except Parent.DoesNotExist:
                     pass
@@ -64,4 +65,5 @@ class LogoutView(View):
 
     def get(self, request, *args, **kwargs):
         logout(request)
-        return render(request, self.template_name)
+        # return render(request, self.template_name)
+        return redirect(reverse("login"))
