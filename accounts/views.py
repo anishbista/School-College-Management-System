@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+
+from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.contrib import messages
@@ -55,4 +56,12 @@ class LoginView(View):
         else:
             messages.error(request, "Invalid login credentials.")
 
+        return render(request, self.template_name)
+
+
+class LogoutView(View):
+    template_name = "registration/login.html"
+
+    def get(self, request, *args, **kwargs):
+        logout(request)
         return render(request, self.template_name)
