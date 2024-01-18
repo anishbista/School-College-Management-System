@@ -25,7 +25,7 @@ from student.views import *
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("login/", LoginView.as_view(), name="login"),
+    path("", include("accounts.urls")),
     path("student/", include("student.urls")),
     path("teacher/", include("teacher.urls")),
     path("parent/", include("parent.urls")),

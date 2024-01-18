@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+
+from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.contrib import messages
@@ -40,12 +41,13 @@ class LoginView(View):
 
                 try:
                     teacher = Teacher.objects.get(teacher_userName=user)
-
+                    login(request, user)
                     return redirect(reverse("teacher_dashboard"))
                 except Teacher.DoesNotExist:
                     pass
                 try:
                     parent = Parent.objects.get(parent_userName=user)
+                    login(request, user)
                     return redirect(reverse("parent_dashboard"))
                 except Parent.DoesNotExist:
                     pass
@@ -56,3 +58,12 @@ class LoginView(View):
             messages.error(request, "Invalid login credentials.")
 
         return render(request, self.template_name)
+
+
+class LogoutView(View):
+    template_name = "registration/login.html"
+
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        # return render(request, self.template_name)
+        return redirect(reverse("login"))
