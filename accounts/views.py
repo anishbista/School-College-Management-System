@@ -19,6 +19,7 @@ class LoginView(View):
     template_name = "registration/login.html"
 
     def get(self, request, *args, **kwargs):
+        print("Here iam")
         return render(request, self.template_name)
 
     def post(self, request, *args, **kwargs):
