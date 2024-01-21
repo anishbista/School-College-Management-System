@@ -10,4 +10,9 @@ urlpatterns = [
         name="edit_assignment",
     ),
     path("list_assignment/", ListAssignmentView.as_view(), name="list_assignment"),
+    path(
+        "delete_assignment/<uuid:assignment_id>",
+        DeleteAssignmentView.as_view(),
+        name="delete_assignment",
+    ),
 ]
