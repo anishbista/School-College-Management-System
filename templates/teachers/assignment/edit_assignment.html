@@ -45,25 +45,25 @@
                                 <div class="col-12">
                                     <div class="form-group local-forms">
                                         <label>Name <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text" name="name" placeholder="Enter Assignment Name">
+                                        <input class="form-control" type="text" name="name" placeholder="Enter Assignment Name"  value="{{ form.name.value }}">
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group local-forms">
                                         <label>Description <span class="login-danger">*</span></label>
-                                        <textarea class="form-control" name="description" placeholder="Enter Assignment Description"></textarea>
+                                        <textarea class="form-control" name="description" placeholder="Enter Assignment Description">{{ form.description.value }}</textarea>
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-6">
                                     <div class="form-group local-forms calendar-icon">
                                         <label>Start Date <span class="login-danger">*</span></label>
-                                        <input class="" type="date" name="start" placeholder="YYYY-MM-DD">
+                                        <input class="" type="date" name="start" placeholder="YYYY-MM-DD" value="{{ form.start.value }}">
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-6">
                                     <div class="form-group local-forms calendar-icon">
                                         <label>End Date <span class="login-danger">*</span></label>
-                                        <input class="" type="date" name="end" placeholder="YYYY-MM-DD">
+                                        <input class="" type="date" name="end" placeholder="YYYY-MM-DD" value="{{ form.end.value }}">
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -71,7 +71,7 @@
                                         <label>Upload Image (Optional)</label>
                                         <div class="uplod">
                                             <label class="file-upload image-upbtn mb-0">
-                                                Choose File <input type="file" name="image">
+                                                Choose File <input type="file" name="image" value="{{ form.image.value }}">
                                             </label>
                                         </div>
                                     </div>
@@ -81,7 +81,7 @@
                                         <label>Upload Homework File (PDF or DOCX)</label>
                                         <div class="uplod">
                                             <label class="file-upload image-upbtn mb-0">
-                                                Choose File <input type="file" name="hw_file" id="hwFileInput">
+                                                Choose File <input type="file" name="hw_file" id="hwFileInput" value="{{ form.hw_file.value }}">
                                             </label>
                                         </div>
                                         <div id="selectedFileName"></div>
@@ -114,6 +114,17 @@
     <script>
         
         $(document).ready(function () {
+            var initialFileName = $('#hwFileInput').val();
+
+            
+            console.log("initialFileName")
+            console.log(initialFileName)
+
+            if(initialFileName){
+                var initialDisplayName = initialFileName.split('\\').pop();
+                $('#selectedFileName').text('Selected File:' + initialDisplayName);
+            }
+
             $('#hwFileInput').on('change', function () {
                 var fileName = $(this).val().split('\\').pop();
                 $('#selectedFileName').text('Selected File: ' + fileName);
