@@ -1,11 +1,12 @@
-from django.shortcuts import render, redirect
-from django.views.generic import View, CreateView
+from django.shortcuts import get_object_or_404, render, redirect
+from django.views.generic import View, CreateView, ListView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from accounts.models import *
 from .models import *
 from .forms import *
 from django.urls import reverse_lazy
+from django.utils.timezone import now
 
 
 class TeacherDashboardView(LoginRequiredMixin, View):
@@ -24,7 +25,7 @@ class AddAssignmentView(LoginRequiredMixin, CreateView):
     model = Assignment
     form_class = AssignmentForm
     template_name = "teachers/assignment/add_assignment.html"
-    success_url = reverse_lazy("teacher_dashboard")
+    success_url = reverse_lazy("list_assignment")
 
     def form_valid(self, form):
         print("Hello")
@@ -35,8 +36,59 @@ class AddAssignmentView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def form_invalid(self, form):
+        messages.error(
+            self.request, "Error creating assignment. Please correct the form."
+        )
         print("invalid")
         print("Form data:", form.data)
         print(form.errors)
 
         return super().form_invalid(form)
+
+
+class EditAssignmentView(LoginRequiredMixin, UpdateView):
+    model = Assignment
+    form_class = AssignmentForm
+    template_name = "teachers/assignment/edit_assignment.html"
+    success_url = reverse_lazy("list_assignment")
+
+    # def get_form_kwargs(self):
+    #     kwargs = super().get_form_kwargs()
+    #     kwargs["initial"]["start"] = self.object.start.strftime("%Y-%m-%d")
+    #     kwargs["initial"]["end"] = self.object.end.strftime("%Y-%m-%d")
+    #     return kwargs
+
+    def get_initial(self):
+        initial = super().get_initial()
+        assignment = self.get_object()
+        initial["start"] = assignment.start.strftime("%Y-%m-%d")
+        initial["end"] = assignment.end.strftime("%Y-%m-%d")
+        initial["image"] = assignment.image
+        initial["hw_file"] = assignment.hw_file
+        return initial
+
+    def form_valid(self, form):
+        form.instance.teacher = self.request.user.teacher
+        print("Form data:", form.data)
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(
+            self.request, "Error creating assignment. Please correct the form."
+        )
+        print("invalid")
+        print("Form data:", form.data)
+        print(form.errors)
+
+        return super().form_invalid(form)
+
+
+class ListAssignmentView(LoginRequiredMixin, ListView):
+    model = Assignment
+
+    template_name = "teachers/assignment/list_assignment.html"
+    context_object_name = "assignments"
+    ordering = ["-created_on"]
+
+    def get_queryset(self):
+        return Assignment.objects.filter(teacher=self.request.user.teacher)

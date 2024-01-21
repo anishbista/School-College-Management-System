@@ -35,7 +35,7 @@ class Course(CommonInfo):
     grade = models.ForeignKey(Grade, on_delete=models.CASCADE, related_name="course")
 
     def __str__(self):
-        return f"Course: {self.course_name}"
+        return f"Course: {self.course_name} Grade: {self.grade}"
 
 
 class Student(CommonInfo):
