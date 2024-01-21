@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render, redirect
-from django.views.generic import View, CreateView, ListView, UpdateView
+from django.views.generic import View, CreateView, ListView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from accounts.models import *
@@ -92,3 +92,20 @@ class ListAssignmentView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Assignment.objects.filter(teacher=self.request.user.teacher)
+
+
+# class DeleteAssignmentView(LoginRequiredMixin, DeleteView):
+#     model = Assignment
+#     template_name = "teachers/assignment/delete_assignment.html"
+#     success_url = reverse_lazy("list_assignment")
+
+
+class DeleteAssignmentView(View):
+    template_name = "your_template_name.html"  # Replace with the actual template name
+
+    def get(self, request, assignment_id):
+        assignment = get_object_or_404(Assignment, id=assignment_id)
+        assignment.delete()
+        return redirect(
+            "list_assignment"
+        )  # Replace with the name of the view where you display the assignments
