@@ -209,6 +209,16 @@
                         {% comment %} <li><a href="edit-student.html">Assignement Edit</a></li> {% endcomment %}
                     </ul>
                 </li>
+                <li class="submenu">
+                    <a href="#"><i class="fas fa-book"></i> <span> Attendance</span> <span
+                            class="menu-arrow"></span></a>
+                    <ul>
+                        <li><a href="{% url 'attendance' %}" class ="{% if active_tab == 'attendance_take' %}active{% endif %}"  >Attendance Take</a></li>
+                        {% comment %} <li><a href="student-details.html">Assignment View</a></li> {% endcomment %}
+                        {% comment %} <li><a href="{% url 'add_assignment' %}" class="{% if active_tab == 'add_assignment' %}active{% endif %}">Assignment Add</a></li> {% endcomment %}
+                        {% comment %} <li><a href="edit-student.html">Assignement Edit</a></li> {% endcomment %}
+                    </ul>
+                </li>
 
             </ul>
         </div>

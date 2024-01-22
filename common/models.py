@@ -12,6 +12,11 @@ dp_choices = (("Science", "Science"), ("Management", "Management"))
 g_choices = (("M", "Male"), ("F", "Female"), ("O", "Other"))
 l_choices = (("11", "11"), ("12", "12"))
 
+attendance_choice = [
+    ("present", "Present"),
+    ("absent", "Absent"),
+]
+
 
 class CommonInfo(models.Model):
     id = models.UUIDField(
