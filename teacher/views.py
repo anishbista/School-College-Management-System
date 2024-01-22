@@ -105,11 +105,17 @@ class ListAssignmentView(LoginRequiredMixin, BaseView, ListView):
 
 
 class DeleteAssignmentView(View):
-    template_name = "your_template_name.html"  # Replace with the actual template name
-
     def get(self, request, assignment_id):
         assignment = get_object_or_404(Assignment, id=assignment_id)
         assignment.delete()
         return redirect(
             "list_assignment"
         )  # Replace with the name of the view where you display the assignments
+
+
+class AttendanceCreateView(LoginRequiredMixin, CreateView):
+    model = Attendance
+    form_class = AttendanceForm
+    template_name = "attendance_form.html"
+    success_url = reverse_lazy("list_assignment")
+    active_tab = "attendance_take"

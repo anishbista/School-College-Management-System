@@ -75,6 +75,7 @@ class DepartmentAdmin(admin.ModelAdmin):
 class CourseAdmin(admin.ModelAdmin):
     list_display = [
         "course_name",
+        "grade",
         "teacher",
     ]
 
@@ -93,7 +94,6 @@ class TeacherAdmin(admin.ModelAdmin):
     list_display = [
         "teacher_userName",
         "teacher_name",
-        "course",
     ]
 
 

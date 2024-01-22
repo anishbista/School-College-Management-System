@@ -15,4 +15,5 @@ urlpatterns = [
         DeleteAssignmentView.as_view(),
         name="delete_assignment",
     ),
+    path("attendance/", AttendanceCreateView.as_view(), name="attendance"),
 ]
