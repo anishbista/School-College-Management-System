@@ -30,6 +30,8 @@ class Student(CommonInfo):
     phone_no = models.CharField(max_length=15)
     grade = models.ForeignKey(Grade, on_delete=models.CASCADE, related_name="student")
     dob = models.DateField()
+    def __str__(self) -> str:
+        return self.student_name
 
 
 class Teacher(CommonInfo):

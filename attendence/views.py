@@ -15,7 +15,7 @@ class AbsentStudentView(View):
         user_abs=AbsentStudentForm(request.POST)
         if user_abs.is_valid():
             user_abs.save()
-            user_abs.save_m2m()
+            # user_abs.save_m2m()
             return redirect('attendence:list')
         return render(request,'attendence/absentform.html',{'form':user_abs})
         
