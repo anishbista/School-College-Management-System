@@ -203,10 +203,10 @@
                     <a href="#"><i class="fas fa-book"></i> <span> Assignment</span> <span
                             class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="{% url 'list_assignment' %}">Assignment List</a></li>
-                        <li><a href="student-details.html">Assignment View</a></li>
-                        <li><a href="{% url 'add_assignment' %}">Assignment Add</a></li>
-                        <li><a href="edit-student.html">Assignement Edit</a></li>
+                        <li><a href="{% url 'list_assignment' %}" class ="{% if active_tab == 'list_assignment' %}active{% endif %}"  >Assignment List</a></li>
+                        {% comment %} <li><a href="student-details.html">Assignment View</a></li> {% endcomment %}
+                        <li><a href="{% url 'add_assignment' %}" class="{% if active_tab == 'add_assignment' %}active{% endif %}">Assignment Add</a></li>
+                        {% comment %} <li><a href="edit-student.html">Assignement Edit</a></li> {% endcomment %}
                     </ul>
                 </li>
 

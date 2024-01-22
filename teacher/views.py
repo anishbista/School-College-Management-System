@@ -7,6 +7,7 @@ from .models import *
 from .forms import *
 from django.urls import reverse_lazy
 from django.utils.timezone import now
+from common.base_view import BaseView
 
 
 class TeacherDashboardView(LoginRequiredMixin, View):
@@ -21,11 +22,12 @@ class TeacherDashboardView(LoginRequiredMixin, View):
         return render(request, self.template_name)
 
 
-class AddAssignmentView(LoginRequiredMixin, CreateView):
+class AddAssignmentView(LoginRequiredMixin, BaseView, CreateView):
     model = Assignment
     form_class = AssignmentForm
     template_name = "teachers/assignment/add_assignment.html"
     success_url = reverse_lazy("list_assignment")
+    active_tab = "add_assignment"
 
     def form_valid(self, form):
         print("Hello")
@@ -46,11 +48,12 @@ class AddAssignmentView(LoginRequiredMixin, CreateView):
         return super().form_invalid(form)
 
 
-class EditAssignmentView(LoginRequiredMixin, UpdateView):
+class EditAssignmentView(LoginRequiredMixin, BaseView, UpdateView):
     model = Assignment
     form_class = AssignmentForm
     template_name = "teachers/assignment/edit_assignment.html"
     success_url = reverse_lazy("list_assignment")
+    active_tab = "list_assignment"
 
     # def get_form_kwargs(self):
     #     kwargs = super().get_form_kwargs()
@@ -83,8 +86,9 @@ class EditAssignmentView(LoginRequiredMixin, UpdateView):
         return super().form_invalid(form)
 
 
-class ListAssignmentView(LoginRequiredMixin, ListView):
+class ListAssignmentView(LoginRequiredMixin, BaseView, ListView):
     model = Assignment
+    active_tab = "list_assignment"
 
     template_name = "teachers/assignment/list_assignment.html"
     context_object_name = "assignments"

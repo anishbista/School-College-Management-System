@@ -1,0 +1,8 @@
+ <h2>Confirm Deletion</h2>
+    <p>Are you sure you want to delete this assignment?</p>
+    <form method="post" action="">
+        {% csrf_token %}
+        <p>Are you sure you want to delete?</p>
+    <button class="btn btn-danger ml-2" type="submit">Confirm</button>
+    </form>
+
