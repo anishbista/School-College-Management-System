@@ -1,8 +1,4 @@
 import datetime
-from typing import Any
-import uuid
-from django.db.models.query import QuerySet
-from django.http import Http404
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views.generic import View, CreateView, ListView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -11,7 +7,7 @@ from accounts.models import *
 from .models import *
 from .forms import *
 from django.urls import reverse, reverse_lazy
-from django.utils.timezone import now
+
 from common.base_view import BaseView
 
 
@@ -113,23 +109,12 @@ class DeleteAssignmentView(View):
     def get(self, request, assignment_id):
         assignment = get_object_or_404(Assignment, id=assignment_id)
         assignment.delete()
-        return redirect(
-            "list_assignment"
-        )  # Replace with the name of the view where you display the assignments
-
-
-from django.shortcuts import render, redirect
-from django.views import View
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
-from .models import Attendance, Teacher, Course
-import datetime
+        return redirect("list_assignment")
 
 
 class AttendanceCreateView(LoginRequiredMixin, View):
     template_name = "teachers/attendance/attendance_form.html"
     success_url = reverse_lazy("list_assignment")
-    active_tab = "attendance_take"
 
     def get_context_data(self, **kwargs):
         context = {}
@@ -137,12 +122,12 @@ class AttendanceCreateView(LoginRequiredMixin, View):
         course = Course.objects.filter(teacher=teacher)
         request = self.request
         course_id = request.GET.get("course_id")
-        print(course_id)
         if course_id:
             course_object = Course.objects.get(pk=course_id)
             students = course_object.grade.student.all()
             context["students"] = students
         context["courses"] = course
+        context["active_tab"] = "attendance_take"
         return context
 
     def get(self, request, *args, **kwargs):
@@ -154,9 +139,9 @@ class AttendanceCreateView(LoginRequiredMixin, View):
         if not course_id:
             return redirect(reverse("attendance"))
         course_object = Course.objects.get(pk=course_id)
-        print(course_object)
+
         teacher = Teacher.objects.get(teacher_userName=self.request.user)
-        print(teacher)
+
         date = datetime.date.today()
 
         present_student_ids = request.POST.getlist("present")
