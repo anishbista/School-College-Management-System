@@ -1,3 +1,5 @@
+from typing import Any
+from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views.generic import View, CreateView, ListView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -116,6 +118,20 @@ class DeleteAssignmentView(View):
 class AttendanceCreateView(LoginRequiredMixin, CreateView):
     model = Attendance
     form_class = AttendanceForm
-    template_name = "attendance_form.html"
+    template_name = "teachers/attendance/attendance_form.html"
     success_url = reverse_lazy("list_assignment")
     active_tab = "attendance_take"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        teacher = Teacher.objects.get(teacher_userName=self.request.user)
+        course = Course.objects.filter(teacher=teacher)
+        request = self.request
+        course_id = request.GET.get("course_id")
+        if course_id:
+            course_object = Course.objects.get(pk=course_id)
+            students = course_object.grade.student.all()
+            context["students"] = students
+        context["courses"] = course
+
+        return context
