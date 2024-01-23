@@ -60,6 +60,7 @@
                                     </div>
                                     <form method="post" enctype="multipart/form-data">
                                         {% csrf_token %}
+                                        <input type="hidden" name="course_class" value="{{ request.GET.course_id }}">
                                     <div class="col-12">
                                         <div class="table-responsive">
                                             <table class="table table-bordered">
@@ -74,10 +75,11 @@
                                                         <tr>
                                                             <td>{{ student }}</td>
                                                             <td>
-                                                                <select name="status_{{ student.id }}">
-                                                                    <option value="present">Present</option>
-                                                                    <option value="absent">Absent</option>
-                                                                </select>
+                                                                <input type="checkbox" name="status" value="present" id="present_{{ student.id }}">
+                                                                <label for="present_{{ student.id }}">Present</label>
+                                                                
+                                                                <input type="checkbox" name="status" value="absent" id="absent_{{ student.id }}">
+                                                                <label for="absent_{{ student.id }}">Absent</label>
                                                             </td>
                                                         </tr>
                                                     {% endfor %}
@@ -109,4 +111,6 @@
     <script src="{% static 'plugins/moment/moment.min.js'%}"></script>
     <script src="{% static 'js/bootstrap-datetimepicker.min.js'%}"></script>
     <script src="{% static 'js/script.js'%}"></script>
+
+    
 {% endblock script %}

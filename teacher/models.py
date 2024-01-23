@@ -27,7 +27,7 @@ class Attendance(CommonInfo):
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
     course_class = models.ForeignKey(Course, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    date = models.DateField()
+    date = models.DateField(auto_now=True)
     status = models.CharField(max_length=10, choices=attendance_choice)
 
     class Meta:

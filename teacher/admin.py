@@ -9,4 +9,8 @@ class AssignmentAdmin(admin.ModelAdmin):
 
 @admin.register(Attendance)
 class AttendanceAdmin(admin.ModelAdmin):
-    list_display = ["date", "course_class", "student", "status"]
+    list_display = [
+        "date",
+        "course_class",
+        "student",
+    ]

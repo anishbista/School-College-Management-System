@@ -135,3 +135,29 @@ class AttendanceCreateView(LoginRequiredMixin, CreateView):
         context["courses"] = course
 
         return context
+
+    # def form_valid(self, form):
+    #     # Get the selected students from the form
+    #     selected_students_ids = self.request.POST.getlist("status")
+    #     print(selected_students_ids)
+
+    #     # Loop through selected students and save attendance for each
+    #     for student_id in selected_students_ids:
+    #         student = Student.objects.get(pk=student_id)
+    #         attendance = form.save(commit=False)
+    #         attendance.student = student
+    #         attendance.save()
+
+    #     return super().form_valid(form)
+
+    def form_invalid(self, form):
+        selected_students_ids = self.request.POST.getlist("status")
+        print(selected_students_ids)
+        messages.error(
+            self.request, "Error creating assignment. Please correct the form."
+        )
+        print("invalid")
+        print("Form data:", form.data)
+        print(form.errors)
+
+        return super().form_invalid(form)
