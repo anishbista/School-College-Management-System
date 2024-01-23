@@ -23,10 +23,10 @@
                 <div class="row align-items-center">
                     <div class="col-sm-12">
                         <div class="page-sub-header">
-                            <h3 class="page-title">Add Attendance</h3>
+                            <h3 class="page-title">Mark Attendance</h3>
                             <ul class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#">Attendance</a></li>
-                                <li class="breadcrumb-item active">Add Attendance</li>
+                                <li class="breadcrumb-item active">Mark Attendance</li>
                             </ul>
                         </div>
                     </div>
@@ -37,31 +37,51 @@
                 <div class="col-sm-12">
                     <div class="card comman-shadow">
                         <div class="card-body">
-                            <form method="post" enctype="multipart/form-data">
-                                {% csrf_token %}
+                            
                                 <div class="row">
-                                    <div class="col-12">
+                                    <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
-                                            <label>Course Class <span class="login-danger">*</span></label>
-                                            {{ form.course_class }}
+                                            <label>Class <span class="login-danger">*</span></label>
+                                            <form method='GET' action="">
+
+                                                <select class="form-control select" name='course_id' onchange="this.form.submit()">
+                                                    <option value ="">Please Select Class and Course  </option>
+                                                    {% for course in courses %}
+                                                    <option value="{{course.id}}" {% if request.GET.course_id|default:''|stringformat:"s" == course.id|stringformat:"s" %}selected{% endif %}>{{course}}</option>
+                                                    {% endfor %}
+                                                    
+                                                    {% comment %} request.GET.course_id|default:'' is used to handle cases where request.GET.course_id might be None.
+                                                    stringformat:"s" is used to ensure that both request.GET.course_id and course.id are treated as strings for comparison. {% endcomment %}
+
+                                                    
+                                                </select>
+                                            </form>
                                         </div>
                                     </div>
-                                    <div class="col-12">
-                                        <div class="form-group local-forms">
-                                            <label>Student <span class="login-danger">*</span></label>
-                                            {{ form.student }}
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-6">
-                                        <div class="form-group local-forms calendar-icon">
-                                            <label>Date <span class="login-danger">*</span></label>
-                                            {{ form.date }}
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="form-group local-forms">
-                                            <label>Status <span class="login-danger">*</span></label>
-                                            {{ form.status }}
+                                    <form method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="course_id" value= "{{request.GET.course_id}}">
+                                        <div class="col-12">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Student</th>
+                                                            <th>Present</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for student in students %}
+                                                        <tr>
+                                                            <td>{{ student }}</td>
+                                                            <td>
+                                                                <input type="checkbox" name="present" value="{{student.id}}">
+                                        
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                     <div class="col-12">
@@ -88,4 +108,6 @@
     <script src="{% static 'plugins/moment/moment.min.js'%}"></script>
     <script src="{% static 'js/bootstrap-datetimepicker.min.js'%}"></script>
     <script src="{% static 'js/script.js'%}"></script>
+
+    
 {% endblock script %}

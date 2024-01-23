@@ -1,5 +1,6 @@
 from django import forms
 from .models import Assignment, Attendance
+from common.models import attendance_choice
 
 
 class AssignmentForm(forms.ModelForm):
@@ -9,6 +10,11 @@ class AssignmentForm(forms.ModelForm):
 
 
 class AttendanceForm(forms.ModelForm):
+    status = forms.MultipleChoiceField(
+        widget=forms.CheckboxSelectMultiple,
+        required=False,
+    )
+
     class Meta:
         model = Attendance
-        fields = ["course_class", "student", "date", "status"]
+        fields = "__all__"
