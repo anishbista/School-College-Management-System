@@ -76,6 +76,7 @@
                                                             <td>{{ student }}</td>
                                                             <td>
                                                                 <input type="checkbox" name="present" value="{{student.id}}">
+                                        
                                                             </td>
                                                         </tr>
                                                     {% endfor %}
@@ -107,4 +108,6 @@
     <script src="{% static 'plugins/moment/moment.min.js'%}"></script>
     <script src="{% static 'js/bootstrap-datetimepicker.min.js'%}"></script>
     <script src="{% static 'js/script.js'%}"></script>
+
+    
 {% endblock script %}
