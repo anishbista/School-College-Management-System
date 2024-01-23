@@ -18,7 +18,7 @@ class TeacherDashboardView(LoginRequiredMixin, View):
             teacher = request.user.teacher
         except Teacher.DoesNotExist:
             messages.error(request, "You don't have permission to access this page")
-            return redirect("login")
+            return redirect("accounts:login")
         return render(request, self.template_name)
 
 

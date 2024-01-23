@@ -30,7 +30,7 @@ class SubmissionView(View):
     def get(self,request,a_id):
         work = get_object_or_404(Assignment, id=a_id)
         student = request.user.student
-        initial_data = {'work': work, 'student': student}
+        initial_data = {'work': work.name, 'student': student.student_name}
         form = SubmissionForm(initial=initial_data)
         return render(request, 'student/submissionform.html', {'form': form})
     def post(self,request,a_id):
