@@ -11,4 +11,4 @@ class AssignmentForm(forms.ModelForm):
 class AttendanceForm(forms.ModelForm):
     class Meta:
         model = Attendance
-        fields = ["course_class", "student", "date", "status"]
+        fields = "__all__"

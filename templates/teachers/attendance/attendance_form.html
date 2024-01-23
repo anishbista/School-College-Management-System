@@ -45,7 +45,7 @@
                                             <form method='GET' action="">
 
                                                 <select class="form-control select" name='course_id' onchange="this.form.submit()">
-                                                    <option value ="">Please Select Class and Course </option>
+                                                    <option value ="">Please Select Class and Course  </option>
                                                     {% for course in courses %}
                                                     <option value="{{course.id}}" {% if request.GET.course_id|default:''|stringformat:"s" == course.id|stringformat:"s" %}selected{% endif %}>{{course}}</option>
                                                     {% endfor %}
@@ -60,24 +60,22 @@
                                     </div>
                                     <form method="post" enctype="multipart/form-data">
                                         {% csrf_token %}
-                                    <div class="col-12">
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Student</th>
-                                                        <th>Status</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {% for student in students %}
+                                        <input type="hidden" name="course_id" value= "{{request.GET.course_id}}">
+                                        <div class="col-12">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Student</th>
+                                                            <th>Present</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for student in students %}
                                                         <tr>
                                                             <td>{{ student }}</td>
                                                             <td>
-                                                                <select name="status_{{ student.id }}">
-                                                                    <option value="present">Present</option>
-                                                                    <option value="absent">Absent</option>
-                                                                </select>
+                                                                <input type="checkbox" name="present" value="{{student.id}}">
                                                             </td>
                                                         </tr>
                                                     {% endfor %}
