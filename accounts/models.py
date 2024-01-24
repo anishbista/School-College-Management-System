@@ -29,15 +29,6 @@ class Grade(CommonInfo):
         return f"level: {self.level} department: {self.department.type}"
 
 
-class Course(CommonInfo):
-    course_name = models.CharField(max_length=100)
-    descriptions = models.TextField(max_length=500)
-    grade = models.ForeignKey(Grade, on_delete=models.CASCADE, related_name="course")
-
-    def __str__(self):
-        return f"Course: {self.course_name}"
-
-
 class Student(CommonInfo):
     student_userName = models.OneToOneField(
         User, on_delete=models.CASCADE, related_name="student"
@@ -67,12 +58,21 @@ class Teacher(CommonInfo):
     teacher_name = models.CharField(max_length=100)
     email = models.EmailField()
     phone_no = models.CharField(max_length=15)
-    course = models.OneToOneField(
-        Course, on_delete=models.CASCADE, related_name="teacher"
-    )
 
     def __str__(self):
         return self.teacher_name
+
+
+class Course(CommonInfo):
+    course_name = models.CharField(max_length=100)
+    descriptions = models.TextField(max_length=500)
+    grade = models.ForeignKey(Grade, on_delete=models.CASCADE, related_name="course")
+    teacher = models.ForeignKey(
+        Teacher, on_delete=models.CASCADE, related_name="course"
+    )
+
+    def __str__(self):
+        return f"Course: {self.course_name} Grade: {self.grade}"
 
 
 class Parent(CommonInfo):

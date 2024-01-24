@@ -19,6 +19,7 @@ class LoginView(View):
     template_name = "registration/login.html"
 
     def get(self, request, *args, **kwargs):
+        print("Here iam")
         return render(request, self.template_name)
 
     def post(self, request, *args, **kwargs):
@@ -35,20 +36,20 @@ class LoginView(View):
                 try:
                     student = Student.objects.get(student_userName=user)
                     login(request, user)
-                    return redirect(reverse("student_dashboard"))
+                    return redirect(reverse("student:student_dashboard"))
                 except Student.DoesNotExist:
                     pass
 
                 try:
                     teacher = Teacher.objects.get(teacher_userName=user)
                     login(request, user)
-                    return redirect(reverse("teacher_dashboard"))
+                    return redirect(reverse("teacher:teacher_dashboard"))
                 except Teacher.DoesNotExist:
                     pass
                 try:
                     parent = Parent.objects.get(parent_userName=user)
                     login(request, user)
-                    return redirect(reverse("parent_dashboard"))
+                    return redirect(reverse("parent:parent_dashboard"))
                 except Parent.DoesNotExist:
                     pass
 
@@ -66,4 +67,4 @@ class LogoutView(View):
     def get(self, request, *args, **kwargs):
         logout(request)
         # return render(request, self.template_name)
-        return redirect(reverse("login"))
+        return redirect(reverse("accounts:login"))
