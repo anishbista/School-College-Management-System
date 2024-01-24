@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     "teacher",
     "parent",
     'assignment',
-    'school_news',
 ]
 
 MIDDLEWARE = [

@@ -41,6 +41,20 @@
                     <div class="card-body">
                         <form method="post" enctype="multipart/form-data">
                             {% csrf_token %}
+                            <div class="col-12 col-sm-4">
+                                <div class="form-group local-forms">
+                                    <label>Course <span class="login-danger">*</span></label>
+                                        <select class="form-control select" name='course'>
+                                            <option value ="">Please Select Class and Course  </option>
+                                             {% for course in courses %}
+                                            <option value="{{course.id}}">{{course}}</option>
+                                            {% endfor %} 
+                                            {% comment %} request.GET.course_id|default:'' is used to handle cases where request.GET.course_id might be None.
+                                            stringformat:"s" is used to ensure that both request.GET.course_id and course.id are treated as strings for comparison. {% endcomment %}
+                                        </select>
+                                   
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group local-forms">

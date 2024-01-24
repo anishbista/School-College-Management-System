@@ -1,3 +1,5 @@
+import datetime
+from django.http import HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views.generic import View, CreateView, ListView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -5,8 +7,8 @@ from django.contrib import messages
 from accounts.models import *
 from .models import *
 from .forms import *
-from django.urls import reverse_lazy
-from django.utils.timezone import now
+from django.urls import reverse, reverse_lazy
+
 from common.base_view import BaseView
 
 
@@ -26,14 +28,19 @@ class AddAssignmentView(LoginRequiredMixin, BaseView, CreateView):
     model = Assignment
     form_class = AssignmentForm
     template_name = "teachers/assignment/add_assignment.html"
-    success_url = reverse_lazy("list_assignment")
+    success_url = reverse_lazy("teacher:list_assignment")
     active_tab = "add_assignment"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        teacher = Teacher.objects.get(teacher_userName=self.request.user)
+        course = Course.objects.filter(teacher=teacher)
+        context["courses"] = course
+        return context
 
     def form_valid(self, form):
         print("Hello")
         form.instance.teacher = self.request.user.teacher
-
-        # print(form.cleaned_data)
         print("Form data:", form.data)
         return super().form_valid(form)
 
@@ -52,7 +59,7 @@ class EditAssignmentView(LoginRequiredMixin, BaseView, UpdateView):
     model = Assignment
     form_class = AssignmentForm
     template_name = "teachers/assignment/edit_assignment.html"
-    success_url = reverse_lazy("list_assignment")
+    success_url = reverse_lazy("teacher:list_assignment")
     active_tab = "list_assignment"
 
     # def get_form_kwargs(self):
@@ -108,14 +115,54 @@ class DeleteAssignmentView(View):
     def get(self, request, assignment_id):
         assignment = get_object_or_404(Assignment, id=assignment_id)
         assignment.delete()
-        return redirect(
-            "list_assignment"
-        )  # Replace with the name of the view where you display the assignments
+        return redirect("teacher:list_assignment")
 
 
-class AttendanceCreateView(LoginRequiredMixin, CreateView):
-    model = Attendance
-    form_class = AttendanceForm
-    template_name = "attendance_form.html"
-    success_url = reverse_lazy("list_assignment")
-    active_tab = "attendance_take"
+class AttendanceCreateView(LoginRequiredMixin, View):
+    template_name = "teachers/attendance/attendance_form.html"
+    success_url = reverse_lazy("teacher:list_assignment")
+
+    def get_context_data(self, **kwargs):
+        context = {}
+        teacher = Teacher.objects.get(teacher_userName=self.request.user)
+        course = Course.objects.filter(teacher=teacher)
+        request = self.request
+        course_id = request.GET.get("course_id")
+        if course_id:
+            course_object = Course.objects.get(pk=course_id)
+            students = course_object.grade.student.all()
+            context["students"] = students
+        context["courses"] = course
+        context["active_tab"] = "attendance_take"
+        return context
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data()
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        course_id = request.POST.get("course_id")
+        if not course_id:
+            return redirect(reverse("teacher:attendance"))
+        course_object = Course.objects.get(pk=course_id)
+
+        teacher = Teacher.objects.get(teacher_userName=self.request.user)
+
+        date = datetime.date.today()
+
+        present_student_ids = request.POST.getlist("present")
+
+        attendance, created = Attendance.objects.get_or_create(
+            teacher=teacher, course_class=course_object, date=date
+        )
+
+        if not created:
+            messages.error(
+                request,
+                "Attendance already taken for the day!!",
+            )
+            return redirect(reverse("teacher:attendance"))
+
+        attendance.present_student.set(present_student_ids)
+
+        return redirect(self.success_url)

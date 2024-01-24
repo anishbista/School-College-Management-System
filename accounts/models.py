@@ -71,6 +71,9 @@ class Course(CommonInfo):
         Teacher, on_delete=models.CASCADE, related_name="course"
     )
 
+    class Meta:
+        unique_together = ("course_name", "grade", "teacher")
+
     def __str__(self):
         return f"Course: {self.course_name} Grade: {self.grade}"
 

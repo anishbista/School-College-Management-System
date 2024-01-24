@@ -1,6 +1,6 @@
 from django.db import models
 from common.models import CommonInfo, attendance_choice
-from accounts.models import Teacher, Student, Course
+from accounts.models import Teacher, Student, Course, Grade
 from django.core.validators import FileExtensionValidator
 
 
@@ -18,20 +18,24 @@ class Assignment(CommonInfo):
         blank=True,
     )
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
 
 
 class Attendance(CommonInfo):
-    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
-    course_class = models.ForeignKey(Course, on_delete=models.CASCADE)
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    date = models.DateField()
-    status = models.CharField(max_length=10, choices=attendance_choice)
+    teacher = models.ForeignKey(
+        Teacher, on_delete=models.CASCADE, related_name="attendance"
+    )
+    course_class = models.ForeignKey(
+        Course, on_delete=models.CASCADE, related_name="attendance"
+    )
+    present_student = models.ManyToManyField(Student, related_name="attendance")
+    date = models.DateField(auto_now=True)
 
     class Meta:
-        unique_together = ("teacher", "course_class", "student", "date")
+        unique_together = ("teacher", "course_class", "date")
 
     def __str__(self):
-        return f"{self.student} - {self.date} - {self.status}"
+        return f"{self.date} - {self.teacher} -  {self.course_class}"

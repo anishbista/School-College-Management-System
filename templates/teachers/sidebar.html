@@ -213,7 +213,8 @@
                     <a href="#"><i class="fas fa-book"></i> <span> Attendance</span> <span
                             class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="{% url 'teacher:attendance' %}" class ="{% if active_tab == 'attendance_take' %}active{% endif %}"  >Attendance Take</a></li>
+                        <li><a href="{% url 'teacher:attendance' %}" class ="{% if active_tab == 'attendance_take' %}active{% endif %}"  > Record Attendance</a></li>
+                        
                         {% comment %} <li><a href="student-details.html">Assignment View</a></li> {% endcomment %}
                         {% comment %} <li><a href="{% url 'add_assignment' %}" class="{% if active_tab == 'add_assignment' %}active{% endif %}">Assignment Add</a></li> {% endcomment %}
                         {% comment %} <li><a href="edit-student.html">Assignement Edit</a></li> {% endcomment %}
