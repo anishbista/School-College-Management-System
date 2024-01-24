@@ -20,7 +20,7 @@ class TeacherDashboardView(LoginRequiredMixin, View):
             teacher = request.user.teacher
         except Teacher.DoesNotExist:
             messages.error(request, "You don't have permission to access this page")
-            return redirect("login")
+            return redirect("accounts:login")
         return render(request, self.template_name)
 
 
@@ -28,14 +28,19 @@ class AddAssignmentView(LoginRequiredMixin, BaseView, CreateView):
     model = Assignment
     form_class = AssignmentForm
     template_name = "teachers/assignment/add_assignment.html"
-    success_url = reverse_lazy("list_assignment")
+    success_url = reverse_lazy("teacher:list_assignment")
     active_tab = "add_assignment"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        teacher = Teacher.objects.get(teacher_userName=self.request.user)
+        course = Course.objects.filter(teacher=teacher)
+        context["courses"] = course
+        return context
 
     def form_valid(self, form):
         print("Hello")
         form.instance.teacher = self.request.user.teacher
-
-        # print(form.cleaned_data)
         print("Form data:", form.data)
         return super().form_valid(form)
 
@@ -54,7 +59,7 @@ class EditAssignmentView(LoginRequiredMixin, BaseView, UpdateView):
     model = Assignment
     form_class = AssignmentForm
     template_name = "teachers/assignment/edit_assignment.html"
-    success_url = reverse_lazy("list_assignment")
+    success_url = reverse_lazy("teacher:list_assignment")
     active_tab = "list_assignment"
 
     # def get_form_kwargs(self):
@@ -110,12 +115,12 @@ class DeleteAssignmentView(View):
     def get(self, request, assignment_id):
         assignment = get_object_or_404(Assignment, id=assignment_id)
         assignment.delete()
-        return redirect("list_assignment")
+        return redirect("teacher:list_assignment")
 
 
 class AttendanceCreateView(LoginRequiredMixin, View):
     template_name = "teachers/attendance/attendance_form.html"
-    success_url = reverse_lazy("list_assignment")
+    success_url = reverse_lazy("teacher:list_assignment")
 
     def get_context_data(self, **kwargs):
         context = {}
@@ -138,7 +143,7 @@ class AttendanceCreateView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         course_id = request.POST.get("course_id")
         if not course_id:
-            return redirect(reverse("attendance"))
+            return redirect(reverse("teacher:attendance"))
         course_object = Course.objects.get(pk=course_id)
 
         teacher = Teacher.objects.get(teacher_userName=self.request.user)
@@ -156,7 +161,7 @@ class AttendanceCreateView(LoginRequiredMixin, View):
                 request,
                 "Attendance already taken for the day!!",
             )
-            return redirect(reverse("attendance"))
+            return redirect(reverse("teacher:attendance"))
 
         attendance.present_student.set(present_student_ids)
 

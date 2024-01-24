@@ -13,5 +13,5 @@ class ParentDashboardView(LoginRequiredMixin, View):
             parent = request.self.parent
         except Parent.DoesNotExist:
             messages.error(request, "You don't have permission to access this page")
-            return redirect("login")
+            return redirect("accounts:login")
         return render(request, self.template_name)

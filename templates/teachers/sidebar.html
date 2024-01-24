@@ -179,7 +179,7 @@
                 </div>
                 <a class="dropdown-item" href="profile.html">My Profile</a>
                 <a class="dropdown-item" href="inbox.html">Inbox</a>
-                <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                <a class="dropdown-item" href="{% url 'accounts:logout' %}">Logout</a>
             </div>
         </li>
 
@@ -203,9 +203,9 @@
                     <a href="#"><i class="fas fa-book"></i> <span> Assignment</span> <span
                             class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="{% url 'list_assignment' %}" class ="{% if active_tab == 'list_assignment' %}active{% endif %}"  >Assignment List</a></li>
+                        <li><a href="{% url 'teacher:list_assignment' %}" class ="{% if active_tab == 'list_assignment' %}active{% endif %}"  >Assignment List</a></li>
                         {% comment %} <li><a href="student-details.html">Assignment View</a></li> {% endcomment %}
-                        <li><a href="{% url 'add_assignment' %}" class="{% if active_tab == 'add_assignment' %}active{% endif %}">Assignment Add</a></li>
+                        <li><a href="{% url 'teacher:add_assignment' %}" class="{% if active_tab == 'add_assignment' %}active{% endif %}">Assignment Add</a></li>
                         {% comment %} <li><a href="edit-student.html">Assignement Edit</a></li> {% endcomment %}
                     </ul>
                 </li>
@@ -213,7 +213,7 @@
                     <a href="#"><i class="fas fa-book"></i> <span> Attendance</span> <span
                             class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="{% url 'attendance' %}" class ="{% if active_tab == 'attendance_take' %}active{% endif %}"  > Record Attendance</a></li>
+                        <li><a href="{% url 'teacher:attendance' %}" class ="{% if active_tab == 'attendance_take' %}active{% endif %}"  > Record Attendance</a></li>
                         
                         {% comment %} <li><a href="student-details.html">Assignment View</a></li> {% endcomment %}
                         {% comment %} <li><a href="{% url 'add_assignment' %}" class="{% if active_tab == 'add_assignment' %}active{% endif %}">Assignment Add</a></li> {% endcomment %}
