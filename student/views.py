@@ -3,7 +3,8 @@ from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from accounts.models import *
-from assignment.models import Assignment, Feedback, Submit
+from assignment.models import Feedback, Submit
+from teacher.models import Assignment
 from .forms import SubmissionForm
 
 
@@ -15,7 +16,7 @@ class StudentDashboardView(LoginRequiredMixin, View):
             student = request.user.student
         except Student.DoesNotExist:
             messages.error(request, "You don't have permission to access this page")
-            return redirect("login")
+            return redirect("accounts:login")
         return render(request, self.template_name)
 
 
