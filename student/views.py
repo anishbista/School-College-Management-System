@@ -26,7 +26,7 @@ class AssignmentView(LoginRequiredMixin,View):
             messages.error(request, "You don't have permission to access this page")
             return redirect("accounts:login")
         return render(request,self.template_name,{'assignments':assigments})
-class SubmissionView(View):
+class SubmissionView(LoginRequiredMixin,View):
     def get(self,request,a_id):
         work = get_object_or_404(Assignment, id=a_id)
         student = request.user.student
