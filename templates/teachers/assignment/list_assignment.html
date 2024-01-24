@@ -119,10 +119,10 @@
                                         <td class="text-end">
                                             <div class="actions ">
                                                 
-                                                <a href="{% url 'teacher:edit_assignment' assignment.id %}" class="btn btn-sm bg-danger-light">
+                                                <a href="{% url 'edit_assignment' assignment.id %}" class="btn btn-sm bg-danger-light">
                                                     <i class="feather-edit"></i>
                                                 </a>
-                                                <a href = "{% url 'teacher:delete_assignment' assignment.id %}" class="btn btn-sm bg-danger-light delete-btn">
+                                                <a href = "{% url 'delete_assignment' assignment.id %}" class="btn btn-sm bg-danger-light delete-btn">
                                                     <i class="feather-trash" ></i>
                                                 </a>
                                             </div>
