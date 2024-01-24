@@ -1,6 +1,6 @@
 from django.db import models
 from common.models import CommonInfo, attendance_choice
-from accounts.models import Teacher, Student, Course
+from accounts.models import Teacher, Student, Course, Grade
 from django.core.validators import FileExtensionValidator
 
 
@@ -18,6 +18,7 @@ class Assignment(CommonInfo):
         blank=True,
     )
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name

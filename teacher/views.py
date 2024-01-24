@@ -28,14 +28,19 @@ class AddAssignmentView(LoginRequiredMixin, BaseView, CreateView):
     model = Assignment
     form_class = AssignmentForm
     template_name = "teachers/assignment/add_assignment.html"
-    success_url = reverse_lazy("list_assignment")
+    success_url = reverse_lazy("teacher:list_assignment")
     active_tab = "add_assignment"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        teacher = Teacher.objects.get(teacher_userName=self.request.user)
+        course = Course.objects.filter(teacher=teacher)
+        context["courses"] = course
+        return context
 
     def form_valid(self, form):
         print("Hello")
         form.instance.teacher = self.request.user.teacher
-
-        # print(form.cleaned_data)
         print("Form data:", form.data)
         return super().form_valid(form)
 
