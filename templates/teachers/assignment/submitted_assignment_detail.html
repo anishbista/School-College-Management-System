@@ -1,0 +1,103 @@
+{% extends "teachers/sidebar.html" %}
+{% load static %}
+{% block link %}
+<link rel="shortcut icon" href="{% static 'media/img/favicon.png' %}">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/feather/feather.css'%}">
+    <link rel="stylesheet" href="{% static 'plugins/icons/flags/flags.css'%}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-datetimepicker.min.css'%}">
+    <link rel="stylesheet" href="{% static 'plugins/fontawesome/css/fontawesome.min.css'%}">
+    <link rel="stylesheet" href="{% static 'plugins/fontawesome/css/all.min.css'%}">
+    <link rel="stylesheet" href="{% static 'plugins/datatables/datatables.min.css'%}">
+    
+    <link rel="stylesheet" href="{% static 'css/style.css'%}">
+{% endblock link %}
+
+{% block content %}
+
+<div class="page-wrapper">
+    <div class="content container-fluid">
+
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="page-sub-header">
+                        <h3 class="page-title">Submitted Assignment Details</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card comman-shadow">
+                    <div class="card-body">
+
+                        <div class="assignment-details">
+                            <h4>Assignment Details</h4>
+                            <p><strong>Student:</strong> {{ assignment.student }}</p>
+                            <p><strong>Grade:</strong> {{ assignment.student.grade }}</p>
+                            <p><strong>Course:</strong> {{ assignment.work.course.course_name }}</p>
+                            <p><strong>Title:</strong> {{ assignment.work.name }}</p>
+                            <p><strong>Submitted Date:</strong> {{ assignment.created_on }}</p>
+                        </div>
+
+                        <div class="file-details mt-4">
+                            <h4>File Details</h4>
+                            {% if assignment.image %}
+                                <p><strong>Image:</strong> <img src="{{ assignment.image.url }}"  alt="Student Image" style="max-width: 100%; height:auto;"></p>
+                            {% endif %}
+                            {% if assignment.sb_file %}
+                                <p><strong>File:</strong> {{ assignment.sb_file.name }}  <a href="{{ assignment.sb_file.url }}" target="_blank">Download File</a></p>
+                            {% endif %}
+                        </div>
+
+                        <div class="text-end mt-4">
+                            <!-- Add any additional buttons or actions as needed -->
+                            <a href="" class="btn btn-primary">Edit Assignment</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card comman-shadow">
+                    <div class="card-body">
+
+                        <div class="feedback-section">
+                            <h4>Feedback</h4>
+                            <form method="post" action="{% url 'teacher:submitted_assignment_detail' assignment.id %}">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                    <label for="feedback" class="form-label">Feedback or Comment:</label>
+                                    <textarea class="form-control" id="feedback" name="feedback" rows="6">{{assignment.feedback}}</textarea>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="checkAssignment" name="checkAssignment" {% if assignment.checked %} checked{% endif %}>
+                                    <label class="form-check-label" for="checkAssignment">Check Assignment</label>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit Feedback</button>
+                            </form>
+                        </div>
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock content %}
+{% block script %}
+<script src="{% static 'js/jquery-3.6.0.min.js'%}"></script>
+    <script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+    <script src="{% static 'js/feather.min.js'%}"></script>
+    <script src="{% static 'plugins/slimscroll/jquery.slimscroll.min.js'%}"></script>
+    <script src="{% static 'plugins/datatables/datatables.min.js'%}"></script>
+    <script src="{% static 'js/script.js'%}"></script>
+    
+{% endblock script %}

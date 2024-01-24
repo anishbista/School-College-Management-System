@@ -1,14 +1,16 @@
 import datetime
+from typing import Any
+from django.db.models.query import QuerySet
 from django.http import HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, render, redirect
-from django.views.generic import View, CreateView, ListView, UpdateView, DeleteView
+from django.views.generic import View, CreateView, ListView, UpdateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from accounts.models import *
 from .models import *
 from .forms import *
 from django.urls import reverse, reverse_lazy
-
+from student.models import Submit
 from common.base_view import BaseView
 
 
@@ -166,3 +168,51 @@ class AttendanceCreateView(LoginRequiredMixin, View):
         attendance.present_student.set(present_student_ids)
 
         return redirect(self.success_url)
+
+
+class SubmittedAssignment(LoginRequiredMixin, BaseView, ListView):
+    template_name = "teachers/assignment/submitted_assignment.html"
+    context_object_name = "assignments"
+    active_tab = "submitted_assignment"
+
+    def get_queryset(self):
+        return Submit.objects.filter(work__teacher=self.request.user.teacher)
+
+    # def get(self, request, *args, **kwargs):
+    #     try:
+    #         teacher = request.user.teacher
+    #         submitted_assignments = Submit.objects.filter(work__teacher=teacher)
+    #     except Teacher.DoesNotExist:
+    #         messages.error(request, "You don't have permission to access this page")
+    #         return redirect("accounts:login")
+    #     context = {"active_tab": self.active_tab, "assignments": submitted_assignments}
+    #     return render(
+    #         request,
+    #         self.template_name,
+    #         context,
+    #     )
+
+
+class SubmittedAssignmentDetailView(LoginRequiredMixin, DetailView):
+    model = Submit
+    active_tab = "submitted_assignment"
+    template_name = "teachers/assignment/submitted_assignment_detail.html"
+
+    def get(self, request, *args, **kwargs):
+        assignment = self.get_object()
+        context = {
+            "active_tab": self.active_tab,
+            "assignment": assignment,
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        assignment = self.get_object()
+
+        feedback = request.POST.get("feedback", "")
+        checked = "checkAssignment" in request.POST
+
+        assignment.feedback = feedback
+        assignment.checked = checked
+        assignment.save()
+        return redirect("teacher:submitted_assignment")

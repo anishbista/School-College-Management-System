@@ -4,7 +4,7 @@ from .models import *
 
 @admin.register(Submit)
 class SubmitAdmin(admin.ModelAdmin):
-    list_display = ["work", "student", "teacher", "course"]
+    list_display = ["work", "student", "teacher", "course", "checked"]
 
     def teacher(self, obj):
         return obj.work.teacher
