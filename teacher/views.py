@@ -1,4 +1,5 @@
 import datetime
+from django.http import HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views.generic import View, CreateView, ListView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -149,6 +150,13 @@ class AttendanceCreateView(LoginRequiredMixin, View):
         attendance, created = Attendance.objects.get_or_create(
             teacher=teacher, course_class=course_object, date=date
         )
+
+        if not created:
+            messages.error(
+                request,
+                "Attendance already taken for the day!!",
+            )
+            return redirect(reverse("attendance"))
 
         attendance.present_student.set(present_student_ids)
 

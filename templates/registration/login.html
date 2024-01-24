@@ -17,6 +17,7 @@
 
 {% block login %}
 
+
 <div class="main-wrapper login-body">
     <div class="login-wrapper">
         <div class="container">
@@ -24,6 +25,7 @@
                 <div class="login-left">
                     <img class="img-fluid" src="{% static 'media/img/login.png' %}" alt="Logo">
                 </div>
+              
                 <div class="login-right">
                     <div class="login-right-wrap">
                         <h1>Welcome to Preskool</h1>
@@ -65,7 +67,13 @@
                         
                         <div class="login-or">
                             <span class="or-line"></span>
-                            <span class="span-or">or</span>
+                            {% if messages %}
+                            {% for message in messages %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ message }}
+                            </div>
+                            {% endfor %}
+                            {% endif %}
                         </div>
                         
                         {% comment %} <div class="social-login">
