@@ -1,3 +1,4 @@
+from datetime import date
 from django.db import models
 from common.models import CommonInfo, attendance_choice
 from accounts.models import Teacher, Student, Course, Grade
@@ -19,6 +20,10 @@ class Assignment(CommonInfo):
     )
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
+
+    @property
+    def is_past_done(self):
+        return date.today() > self.end
 
     def __str__(self):
         return self.name
