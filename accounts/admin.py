@@ -66,9 +66,9 @@ class DepartmentAdmin(admin.ModelAdmin):
 # admin.site.register(Department)
 
 
-# @admin.register(Grade)
-# class GradeAdmin(admin.ModelAdmin):
-#     list_display = ["level"]
+@admin.register(Grade)
+class GradeAdmin(admin.ModelAdmin):
+    list_display = ["level","department"]
 
 
 @admin.register(Course)
