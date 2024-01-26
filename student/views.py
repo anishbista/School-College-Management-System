@@ -1,7 +1,8 @@
+from datetime import date
 from typing import Any
 from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import View, ListView
+from django.views.generic import View, ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.contrib import messages
@@ -28,6 +29,7 @@ class StudentDashboardView(LoginRequiredMixin, View):
 class AssignmentView(LoginRequiredMixin, BaseView, View):
     template_name = "students/assignment/assignment_view.html"
     active_tab = "assignment_view"
+    today_date = date.today()
 
     def get(self, request, *args, **kwargs):
         try:
@@ -39,6 +41,7 @@ class AssignmentView(LoginRequiredMixin, BaseView, View):
         context = {
             "active_tab": self.active_tab,
             "assignments": assignments,
+            "today_date": self.today_date,
         }
         return render(request, self.template_name, context)
 
@@ -100,3 +103,17 @@ class SubmissionListView(LoginRequiredMixin, BaseView, ListView):
             print("Queryset:", queryset)
             return queryset
         return Submit.objects.none()
+
+
+class CheckSubmittedAssignment(LoginRequiredMixin, DetailView):
+    model = Submit
+    active_tab = "list_submission"
+    template_name = "students/assignment/checked_assignment.html"
+
+    def get(self, request, *args, **kwargs):
+        assignment = self.get_object()
+        context = {
+            "active_tab": self.active_tab,
+            "assignment": assignment,
+        }
+        return render(request, self.template_name, context)

@@ -206,6 +206,7 @@
                         <li><a href="{% url 'teacher:list_assignment' %}" class ="{% if active_tab == 'list_assignment' %}active{% endif %}"  >Assignment List</a></li>
                         {% comment %} <li><a href="student-details.html">Assignment View</a></li> {% endcomment %}
                         <li><a href="{% url 'teacher:add_assignment' %}" class="{% if active_tab == 'add_assignment' %}active{% endif %}">Assignment Add</a></li>
+                        <li><a href="{% url 'teacher:submitted_assignment' %}" class="{% if active_tab == 'submitted_assignment' %}active{% endif %}">Submitted Assignment</a></li>
                         {% comment %} <li><a href="edit-student.html">Assignement Edit</a></li> {% endcomment %}
                     </ul>
                 </li>

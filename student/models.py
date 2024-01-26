@@ -13,6 +13,8 @@ class Submit(CommonInfo):
         null=True,
         blank=True,
     )
+    feedback = models.TextField(blank=True)
+    checked = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = "Submission"

@@ -91,11 +91,15 @@
                                                     value="something">
                                             </div>
                                         </th>
-                                        <th>ID</th>
+                                    
                                         <th>Title</th>
                                         <th>Course</th>
                                         <th>Teacher</th>
                                         <th>Submitted Date</th>
+                                        
+                                        <th>Checked</th>
+
+                                        <th class="text-end">View</th>
                                      
                                     </tr>
                                 </thead>
@@ -109,13 +113,28 @@
                                                     value="something">
                                             </div>
                                         </td>
-                                        <td>{{submit.id.hex|slice:":5" }}</td>
+                                        {% comment %} <td>{{submit.id.hex|slice:":5" }}</td> {% endcomment %}
+
                                         <td>
                                             {{submit.work}}
                                         </td>
                                         <td>{{submit.work.course.course_name}}</td>
                                         <td>{{submit.work.teacher}}</td>
                                         <td>{{submit.created_on}}</td>
+                                        <td> {% if submit.checked %}
+                                            <i class="feather-check-circle text-success"></i>
+                                        {% else %}
+                                            <i class="feather-x-circle text-danger"></i>
+                                        {% endif %}</td>
+                                        <td class="text-end">
+                                            <div class="actions ">
+                                                
+                                                <a href="{% url 'student:checked_assignment' submit.id %}" class="btn btn-sm bg-danger-light">
+                                                    <i class="feather-eye"></i>
+                                                </a>
+                                               
+                                            </div>
+                                        </td>
                                     
                                     
                                     </tr>

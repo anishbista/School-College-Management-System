@@ -67,9 +67,12 @@
                                             <td>{{assignment.course}}</td>
                                             <td class="text-end">
                                                 <div class="actions">
+                                                    {% if assignment.is_past_done%}<i class="feather-alert-triangle"></i>
+                                                    {% else %}
                                                     <a href="{% url 'student:submission' assignment.id %}" class="btn btn-sm bg-success-light me-2">
-                                                        <i class="feather feather-file"></i>
+                                                        <i class="feather-edit"></i>
                                                     </a>
+                                                    {% endif %}
                                                 </div> 
                                             </td>
                                         </tr>
