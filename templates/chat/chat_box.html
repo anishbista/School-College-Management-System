@@ -1,0 +1,22 @@
+<!-- chat_box.html -->
+
+{% extends "chat/sidebar.html" %}
+{% load static %}
+
+{% block content %}
+<div class="chat-box">
+    <div class="chat-header">
+        <span class="avatar avatar-lg">
+            <img src="{% static 'media/img/profiles/avatar-01.jpg' %}" alt="Student Profile Pic">
+        </span>
+        <div class="student-info">
+            <h3>{{ student}}</h3>
+            <!-- Add any other student information you want to display in the header -->
+        </div>
+    </div>
+    <!-- Add the chat content here -->
+    <div class="chat-content">
+        <!-- Your chat messages or any other content goes here -->
+    </div>
+</div>
+{% endblock content %}
