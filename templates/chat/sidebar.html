@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% block sidebar %}
 {% load static %}
 {% block link %}
 <link rel="shortcut icon" href="{% static 'media/img/favicon.png' %}">
@@ -14,8 +13,12 @@
     <link rel="stylesheet" href="{% static 'plugins/fontawesome/css/all.min.css'%}">
     <link rel="stylesheet" href="{% static 'plugins/select2/css/select2.min.css'%}">
     <link rel="stylesheet" href="{% static 'css/style.css'%}">
-    
 {% endblock link %}
+
+
+
+{% block sidebar %}
+
 <div class="header">
 
     <div class="header-left">
@@ -38,36 +41,18 @@
             <button class="btn" type="submit"><i class="fas fa-search"></i></button>
         </form>
     </div>
-   
     <a class="mobile_btn" id="mobile_btn">
         <i class="fas fa-bars"></i>
     </a>
-   
 
     <ul class="nav user-menu">
-        {% comment %} <li class="nav-item dropdown noti-dropdown language-drop me-2">
-            <a href="#" class="dropdown-toggle nav-link header-nav-list" data-bs-toggle="dropdown">
-                <img src="assets/img/icons/header-icon-01.svg" alt="">
-            </a>
-            <div class="dropdown-menu ">
-                <div class="noti-content">
-                    <div>
-                        <a class="dropdown-item" href="javascript:;"><i
-                                class="flag flag-lr me-2"></i>English</a>
-                        <a class="dropdown-item" href="javascript:;"><i
-                                class="flag flag-bl me-2"></i>Francais</a>
-                        <a class="dropdown-item" href="javascript:;"><i class="flag flag-cn me-2"></i>Turkce</a>
-                    </div>
-                </div>
-            </div>
-        </li> {% endcomment %}
+
         <li class="nav-item chat-icon me-2">
-            <a href="#" class="nav-link header-nav-list">
+            <a href="{% url 'chat:chat_box' %}" class="nav-link header-nav-list">
                 <i class="fas fa-comment"></i>
             </a>
         </li>
-        
-        
+
         <li class="nav-item dropdown noti-dropdown me-2">
             <a href="#" class="dropdown-toggle nav-link header-nav-list" data-bs-toggle="dropdown">
                 <img src="{% static 'media/img/icons/header-icon-05.svg'%}" alt="">
@@ -104,7 +89,6 @@
             </div>
         </li>
 
-        
 
         <li class="nav-item zoom-screen me-2">
             <a href="#" class="nav-link header-nav-list win-maximize">
@@ -119,7 +103,7 @@
                         alt="Soeng Souy">
                     <div class="user-text">
                         <h6>Soeng Souy</h6>
-                        <p class="text-muted mb-0">Student</p>
+                        <p class="text-muted mb-0">Teacher</p>
                     </div>
                 </span>
             </a>
@@ -149,34 +133,31 @@
         <div id="sidebar-menu" class="sidebar-menu">
             <ul>
                 <li class="menu-title">
-                    <span>Main Menu</span>
+                    <span>Students List</span>
                 </li>
-                <li class="submenu active">
-                    <a href="#"><i class="feather-grid"></i> <span>
-                            Student Dashboard</span> </a>
-                    <!-- <ul>
-                        <li><a href="index.html" class="active">Admin Dashboard</a></li>
-                        <li><a href="teacher-dashboard.html">Teacher Dashboard</a></li>
-                        <li><a href="student-dashboard.html">Student Dashboard</a></li>
-                    </ul> -->
-                </li>
-                <li class="submenu">
-                    <a href="#"><i class="fas fa-graduation-cap"></i> <span> Work</span> <span
-                            class="menu-arrow"></span></a>
-                    <ul>
-                        <li><a href="{% url 'student:student_assignment' %}" class = "{% if active_tab == "assignment_view" %}active {% endif %}">Assignment</a></li>
-                        <li><a href="{% url 'student:submission_list' %}" class = "{% if active_tab == 'list_submission' %}active {% endif %}">Submitted Assignments</a></li>
-                    </ul>
-                </li>
+                {% for student in students %}
+            <li>
+              <a href="{% url 'chat:chat_message' student.id %}">
+                <div class="student-info">
+                <span class="avatar avatar-sm">
+                  <img src="{% static 'media/img/profiles/avatar-01.jpg'%}"alt="Profile Pic">
+                </span>
+                <span class="student-name" style = "color:#373c41">{{ student}}</span>
+            </div>
+              </a>
+            </li>
+          {% endfor %}
             </ul>
         </div>
     </div>
 </div>
 
 {% block content %}
-{% endblock %}
+
+{% endblock content %}
 
 {% endblock sidebar %}
+
 {% block script %}
 <script src="{% static 'js/jquery-3.6.0.min.js'%}"></script>
     <script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
