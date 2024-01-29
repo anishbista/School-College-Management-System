@@ -207,9 +207,9 @@
                         <li><a href="{% url 'student:submission_list' %}" class = "{% if active_tab == 'list_submission' %}active {% endif %}">Submitted Assignments</a></li>
                     </ul>
                 </li>
-                <li class ="{% if active_tab == 'announcement' %}active{% endif %}"><a href="{% url 'school_news:announcement' %}"><i class="fas fa-bullhorn"></i><span> Announcement</span></a></li>
-                <li class ="{% if active_tab == 'event' %}active {% endif %}"><a href="{% url 'school_news:event' %}" ><i class="fas fa-calendar"></i><span> Events</span></a></li>
-                <li class ="{% if active_tab == 'holiday' %}active {% endif %}"><a href="{% url 'school_news:holiday' %}" ><i class="fas fa-suitcase"></i></i><span> Holiday</span></a></li>
+                <li class ="{% if active_tab == 'announcement' %}active{% endif %}"><a href="{% url 'student:announcement' %}"><i class="fas fa-bullhorn"></i><span> Announcement</span></a></li>
+                <li class ="{% if active_tab == 'event' %}active {% endif %}"><a href="{% url 'student:event' %}" ><i class="fas fa-calendar"></i><span> Events</span></a></li>
+                <li class ="{% if active_tab == 'holiday' %}active {% endif %}"><a href="{% url 'student:holiday' %}" ><i class="fas fa-suitcase"></i></i><span> Holiday</span></a></li>
             </ul>
         </div>
     </div>

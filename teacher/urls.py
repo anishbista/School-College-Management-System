@@ -2,7 +2,6 @@ from django.urls import path
 from .views import *
 
 app_name = "teacher"
-
 urlpatterns = [
     path("", TeacherDashboardView.as_view(), name="teacher_dashboard"),
     path("add_assignment/", AddAssignmentView.as_view(), name="add_assignment"),
@@ -28,4 +27,7 @@ urlpatterns = [
         SubmittedAssignmentDetailView.as_view(),
         name="submitted_assignment_detail",
     ),
+    path('announcement/',AnnouncementView.as_view(),name='announcement'),
+    path('event/',EventView.as_view(),name='event'),
+    path('holiday/',HolidayView.as_view(),name='holiday'),
 ]

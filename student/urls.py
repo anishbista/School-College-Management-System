@@ -13,4 +13,7 @@ urlpatterns = [
         CheckSubmittedAssignment.as_view(),
         name="checked_assignment",
     ),
+    path('announcement/',AnnouncementView.as_view(),name='announcement'),
+    path('event/',EventView.as_view(),name='event'),
+    path('holiday/',HolidayView.as_view(),name='holiday'),
 ]
