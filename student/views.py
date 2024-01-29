@@ -1,7 +1,7 @@
 from datetime import date
 from typing import Any
 from django.db.models.query import QuerySet
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404,HttpResponse
 from django.views.generic import View, ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -146,5 +146,32 @@ class HolidayView(LoginRequiredMixin,View):
         context={
             'active_tab':self.active_tab,
             'holidays':holidays
+        }
+        return render(request,self.template_name,context)
+
+class CourseView(LoginRequiredMixin,View):
+    active_tab = "courses"
+    template_name = "students/courses/course.html"
+    def get(self,request):
+        try:
+            courses=Course.objects.filter(grade=request.user.student.grade)
+        except:
+            courses=None
+        context={
+            'active_tab':self.active_tab,
+            'courses':courses
+        }
+        return render(request,self.template_name,context)
+class CourseDetailView(LoginRequiredMixin,View):
+    active_tab = "courses"
+    template_name = "students/courses/detail.html"
+    def get(self,request,c_id):
+        try:
+            courses=Course.objects.get(id=c_id)
+        except:
+            courses=None
+        context={
+            'active_tab':self.active_tab,
+            'courses':courses
         }
         return render(request,self.template_name,context)

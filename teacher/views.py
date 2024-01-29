@@ -2,7 +2,7 @@ import datetime
 from typing import Any
 from django.db.models.query import QuerySet
 from django.http import HttpResponseBadRequest
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import get_object_or_404, render, redirect,HttpResponse
 from django.views.generic import View, CreateView, ListView, UpdateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
@@ -245,5 +245,32 @@ class HolidayView(LoginRequiredMixin,View):
         context={
             'active_tab':self.active_tab,
             'holidays':holidays
+        }
+        return render(request,self.template_name,context)
+
+class CourseView(LoginRequiredMixin,View):
+    active_tab = "courses"
+    template_name = "teachers/courses/course.html"
+    def get(self,request):
+        try:
+            courses=Course.objects.filter(teacher=request.user.teacher)
+        except:
+            courses=None
+        context={
+            'active_tab':self.active_tab,
+            'courses':courses
+        }
+        return render(request,self.template_name,context)
+class CourseDetailView(LoginRequiredMixin,View):
+    active_tab = "courses"
+    template_name = "teachers/courses/detail.html"
+    def get(self,request,c_id):
+        try:
+            courses=Course.objects.get(id=c_id)
+        except:
+            courses=None
+        context={
+            'active_tab':self.active_tab,
+            'courses':courses
         }
         return render(request,self.template_name,context)
