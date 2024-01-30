@@ -32,4 +32,5 @@ urlpatterns = [
     path('holiday/',HolidayView.as_view(),name='holiday'),
     path('courses/',CourseView.as_view(),name='courses'),
     path('courses/<str:c_id>',CourseDetailView.as_view(),name='coursedetail'),
+    path('gallery/',GalleryView.as_view(),name="gallery"),
 ]

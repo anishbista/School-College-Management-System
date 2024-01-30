@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-46-d@jqb(%^f!=g8(*$(qu9qo62s3m^&)q3(!z+9fj4)8a!y(6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "parent",
     'assignment',
     'school_news',
+    'gallery',
 ]
 
 MIDDLEWARE = [
