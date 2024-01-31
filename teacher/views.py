@@ -13,6 +13,7 @@ from django.urls import reverse, reverse_lazy
 from student.models import Submit
 from common.base_view import BaseView
 from school_news.models import *
+from gallery.models import *
 
 class TeacherDashboardView(LoginRequiredMixin, View):
     template_name = "teachers/dashboard.html"
@@ -272,5 +273,16 @@ class CourseDetailView(LoginRequiredMixin,View):
         context={
             'active_tab':self.active_tab,
             'courses':courses
+        }
+        return render(request,self.template_name,context)
+
+class GalleryView(LoginRequiredMixin,View):
+    active_tab = "gallery"
+    template_name = "teachers/gallery/gallery.html"
+    def get(self,request):
+        gallerys=Gallery.objects.all()
+        context={
+            'active_tab':self.active_tab,
+            'gallerys':gallerys
         }
         return render(request,self.template_name,context)

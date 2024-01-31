@@ -13,6 +13,7 @@ from teacher.models import *
 from .models import *
 from .forms import SubmissionForm
 from school_news.models import *
+from gallery.models import *
 
 class StudentDashboardView(LoginRequiredMixin, View):
     template_name = "students/dashboard.html"
@@ -173,5 +174,16 @@ class CourseDetailView(LoginRequiredMixin,View):
         context={
             'active_tab':self.active_tab,
             'courses':courses
+        }
+        return render(request,self.template_name,context)
+
+class GalleryView(LoginRequiredMixin,View):
+    active_tab = "gallery"
+    template_name = "students/gallery/gallery.html"
+    def get(self,request):
+        gallerys=Gallery.objects.all()
+        context={
+            'active_tab':self.active_tab,
+            'gallerys':gallerys
         }
         return render(request,self.template_name,context)
