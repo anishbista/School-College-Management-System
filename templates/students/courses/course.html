@@ -1,4 +1,4 @@
-{% comment %} {% extends "students/sidebar.html" %}
+{% extends "students/sidebar.html" %}
 {% load static %}
 {% block link %}
 <link rel="shortcut icon" href="{% static 'media/img/favicon.png' %}">
@@ -21,56 +21,61 @@
 
         <div class="page-header">
             <div class="row align-items-center">
-                <div class="col-sm-12">
-                    <div class="page-sub-header">
-                        <h3 class="page-title">Assignment</h3>
-                        <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">Assignments</a></li>
-                            <li class="breadcrumb-item active">List Assignment</li>
-                        </ul>
-                    </div>
+                <div class="col">
+                    <h3 class="page-title">Courses</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Courses</li>
+                    </ul>
                 </div>
             </div>
         </div>
 
         <div class="row">
             <div class="col-sm-12">
-                <div class="card comman-shadow">
+                <div class="card card-table">
                     <div class="card-body">
+
                         <div class="page-header">
                             <div class="row align-items-center">
                                 <div class="col">
-                                    <h3 class="page-title">Assignment List:</h3>
+                                    <h3 class="page-title">Courses</h3>
                                 </div>
                             </div>
                         </div>
+
                         <div class="table-responsive">
                             <table
                                 class="table border-0 star-student table-hover table-center mb-0 datatable table-striped">
                                 <thead class="student-thread">
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Description</th>
-                                        <th>Start Time</th>
-                                        <th>End Time</th>
-                                        <th>Course</th>
+                                        <th>Course Name</th>
+                                        <th>Teacher</th>
                                         <th class="text-end">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for assignment in assignments %}
+                                    {% if not courses %}
                                         <tr>
-                                            <td>{{assignment.name}}</td>
-                                            <td>{{assignment.description}}</td>
-                                            <td>{{assignment.start}}</td>
-                                            <td>{{assignment.end}}</td>
-                                            <td>{{assignment.course}}</td>
+                                            <td><h2>None</h2></td>
+                                            <td>None</td>
+                                            <td>>None</td>
+                                        </tr>
+                                    {% endif %}
+                                    {% for course in courses %}
+                                        <tr>
+                                            <td>
+                                                <h2>
+                                                    {{course.course_name}}
+                                                </h2>
+                                            </td>
+                                            <td>{{course.teacher}}</td>
                                             <td class="text-end">
                                                 <div class="actions">
-                                                    <a href="{% url 'student:submission' assignment.id %}" class="btn btn-sm bg-success-light me-2">
-                                                        <i class="feather feather-file"></i>
+                                                    <a href="{% url 'student:coursedetail' course.id %}" class="btn btn-sm bg-success-light">
+                                                        <i class="far fa-eye"></i>
                                                     </a>
-                                                </div>
+                                                </div> 
                                             </td>
                                         </tr>
                                     {% endfor %}
@@ -93,4 +98,4 @@
 <script src="{% static 'plugins/apexchart/apexcharts.min.js'%}"></script>
 <script src="{% static 'plugins/apexchart/chart-data.js'%}"></script>
 <script src="{% static 'js/script.js'%}"></script>
-{% endblock script %} {% endcomment %}
+{% endblock script %}

@@ -2,7 +2,7 @@ import datetime
 from typing import Any
 from django.db.models.query import QuerySet
 from django.http import HttpResponseBadRequest
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import get_object_or_404, render, redirect,HttpResponse
 from django.views.generic import View, CreateView, ListView, UpdateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
@@ -12,7 +12,7 @@ from .forms import *
 from django.urls import reverse, reverse_lazy
 from student.models import Submit
 from common.base_view import BaseView
-
+from school_news.models import *
 
 class TeacherDashboardView(LoginRequiredMixin, View):
     template_name = "teachers/dashboard.html"
@@ -216,3 +216,61 @@ class SubmittedAssignmentDetailView(LoginRequiredMixin, DetailView):
         assignment.checked = checked
         assignment.save()
         return redirect("teacher:submitted_assignment")
+
+class AnnouncementView(LoginRequiredMixin, View):
+    active_tab = "announcement"
+    template_name = "teachers/news/announcement.html"
+    def get(self,request ,*args, **kwargs):
+        announcements=Announcement.objects.all()
+        context={
+            'active_tab':self.active_tab,
+            'announcements':announcements
+        }
+        return render(request,self.template_name,context)
+class EventView(LoginRequiredMixin,View):
+    active_tab = "event"
+    template_name="teachers/news/events.html"
+    def get(self,request ,*args, **kwargs):
+        events=Event.objects.all()
+        context={
+            'active_tab':self.active_tab,
+            'events':events
+        }
+        return render(request,self.template_name,context)
+class HolidayView(LoginRequiredMixin,View):
+    active_tab = "holiday"
+    template_name = "teachers/news/holiday.html"
+    def get(self,request ,*args, **kwargs):
+        holidays=Holiday.objects.all()
+        context={
+            'active_tab':self.active_tab,
+            'holidays':holidays
+        }
+        return render(request,self.template_name,context)
+
+class CourseView(LoginRequiredMixin,View):
+    active_tab = "courses"
+    template_name = "teachers/courses/course.html"
+    def get(self,request):
+        try:
+            courses=Course.objects.filter(teacher=request.user.teacher)
+        except:
+            courses=None
+        context={
+            'active_tab':self.active_tab,
+            'courses':courses
+        }
+        return render(request,self.template_name,context)
+class CourseDetailView(LoginRequiredMixin,View):
+    active_tab = "courses"
+    template_name = "teachers/courses/detail.html"
+    def get(self,request,c_id):
+        try:
+            courses=Course.objects.get(id=c_id)
+        except:
+            courses=None
+        context={
+            'active_tab':self.active_tab,
+            'courses':courses
+        }
+        return render(request,self.template_name,context)

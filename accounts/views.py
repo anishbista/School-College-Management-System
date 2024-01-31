@@ -33,6 +33,10 @@ class LoginView(View):
 
         if user is not None:
             if user.is_active:
+                if request.user.is_staff:
+                    login(request, user)
+                    print("to superuser")
+                    return redirect('http://127.0.0.1:8000/admin')
                 try:
                     student = Student.objects.get(student_userName=user)
                     login(request, user)

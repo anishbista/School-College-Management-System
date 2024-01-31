@@ -1,4 +1,4 @@
-{% comment %} {% extends "students/sidebar.html" %}
+{% extends "teachers/sidebar.html" %}
 {% load static %}
 {% block link %}
 <link rel="shortcut icon" href="{% static 'media/img/favicon.png' %}">
@@ -23,10 +23,10 @@
             <div class="row align-items-center">
                 <div class="col-sm-12">
                     <div class="page-sub-header">
-                        <h3 class="page-title">Assignment</h3>
+                        <h3 class="page-title">Event</h3>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">Assignments</a></li>
-                            <li class="breadcrumb-item active">List Assignment</li>
+                            <li class="breadcrumb-item"><a href="#">Event</a></li>
+                            <li class="breadcrumb-item active">List Event</li>
                         </ul>
                     </div>
                 </div>
@@ -37,11 +37,29 @@
             <div class="col-sm-12">
                 <div class="card comman-shadow">
                     <div class="card-body">
-                        <form action="#" method="post" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            {{form.as_p}}
-                            <input type="submit" value="submit" class="form-control">
-                        </form>
+                        <div class="page-header">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h3 class="page-title">Event List:</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                        {% if not events %}
+                            <p>No Events</p>
+                        {% else %}
+                            {% for event in events %}
+                            <div class="card mb-3 bg-primary">
+                                <img src="{{event.image.url}}" class="img-fluid" alt="{{event.name}}" style="max-width: 300px; max-height: 300px;">
+                                <div class="card-body">
+                                  <h5 class="card-title">{{event.name}}</h5>
+                                  <p class="card-text">{{event.descriptions}}</p>
+                                  <p class="card-text"><b>Starts:{{event.start}}</b></p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -58,4 +76,4 @@
 <script src="{% static 'plugins/apexchart/apexcharts.min.js'%}"></script>
 <script src="{% static 'plugins/apexchart/chart-data.js'%}"></script>
 <script src="{% static 'js/script.js'%}"></script>
-{% endblock script %} {% endcomment %}
+{% endblock script %}

@@ -1,7 +1,7 @@
 from datetime import date
 from typing import Any
 from django.db.models.query import QuerySet
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404,HttpResponse
 from django.views.generic import View, ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -12,7 +12,7 @@ from common.base_view import BaseView
 from teacher.models import *
 from .models import *
 from .forms import SubmissionForm
-
+from school_news.models import *
 
 class StudentDashboardView(LoginRequiredMixin, View):
     template_name = "students/dashboard.html"
@@ -117,3 +117,61 @@ class CheckSubmittedAssignment(LoginRequiredMixin, DetailView):
             "assignment": assignment,
         }
         return render(request, self.template_name, context)
+
+class AnnouncementView(LoginRequiredMixin, View):
+    active_tab = "announcement"
+    template_name = "students/news/announcement.html"
+    def get(self,request ,*args, **kwargs):
+        announcements=Announcement.objects.all()
+        context={
+            'active_tab':self.active_tab,
+            'announcements':announcements
+        }
+        return render(request,self.template_name,context)
+class EventView(LoginRequiredMixin,View):
+    active_tab = "event"
+    template_name = "students/news/events.html"
+    def get(self,request ,*args, **kwargs):
+        events=Event.objects.all()
+        context={
+            'active_tab':self.active_tab,
+            'events':events
+        }
+        return render(request,self.template_name,context)
+class HolidayView(LoginRequiredMixin,View):
+    active_tab = "holiday"
+    template_name = "students/news/holiday.html"
+    def get(self,request ,*args, **kwargs):
+        holidays=Holiday.objects.all()
+        context={
+            'active_tab':self.active_tab,
+            'holidays':holidays
+        }
+        return render(request,self.template_name,context)
+
+class CourseView(LoginRequiredMixin,View):
+    active_tab = "courses"
+    template_name = "students/courses/course.html"
+    def get(self,request):
+        try:
+            courses=Course.objects.filter(grade=request.user.student.grade)
+        except:
+            courses=None
+        context={
+            'active_tab':self.active_tab,
+            'courses':courses
+        }
+        return render(request,self.template_name,context)
+class CourseDetailView(LoginRequiredMixin,View):
+    active_tab = "courses"
+    template_name = "students/courses/detail.html"
+    def get(self,request,c_id):
+        try:
+            courses=Course.objects.get(id=c_id)
+        except:
+            courses=None
+        context={
+            'active_tab':self.active_tab,
+            'courses':courses
+        }
+        return render(request,self.template_name,context)
