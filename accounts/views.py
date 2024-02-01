@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, views
 from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.contrib import messages
+
 
 from .models import *
 
@@ -24,12 +25,10 @@ class LoginView(View):
         if user.is_authenticated:
             if user.is_staff:
                 return redirect("http://127.0.0.1:8000/admin")
-            elif hasattr(user, "student"):
-                return redirect(reverse("student:student_dashboard"))
-            elif hasattr(user, "teacher"):
-                return redirect(reverse("teacher:teacher_dashboard"))
-            elif hasattr(user, "parent"):
-                return redirect(reverse("parent:parent_dashboard"))
+            user_attributes = ["student", "teacher", "parent"]
+            for attribute in user_attributes:
+                if hasattr(user, attribute):
+                    return redirect(reverse(f"{attribute}:{attribute}_dashboard"))
 
         return render(request, self.template_name)
 
@@ -67,4 +66,10 @@ class LogoutView(View):
     def get(self, request, *args, **kwargs):
         logout(request)
         # return render(request, self.template_name)
-        return redirect(reverse("accounts:login"))
+        return redirect(reverse("login"))
+
+
+class CustomPasswordResetView(views.PasswordResetView):
+    template_name = "registration/forgot_password.html"
+    email_template_name = "registration/password_reset_email.html"
+    success_url = reverse_lazy("password_reset_done")
