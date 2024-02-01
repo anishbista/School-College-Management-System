@@ -3,7 +3,7 @@ from .views import *
 
 app_name = "teacher"
 urlpatterns = [
-    path("", TeacherDashboardView.as_view(), name="teacher_dashboard"),
+    path("dashboard/", TeacherDashboardView.as_view(), name="teacher_dashboard"),
     path("add_assignment/", AddAssignmentView.as_view(), name="add_assignment"),
     path(
         "edit_assignment/<uuid:pk>",

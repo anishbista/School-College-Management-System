@@ -19,7 +19,18 @@ class LoginView(View):
     template_name = "registration/login.html"
 
     def get(self, request, *args, **kwargs):
-        print("Here iam")
+        user = request.user
+
+        if user.is_authenticated:
+            if user.is_staff:
+                return redirect("http://127.0.0.1:8000/admin")
+            elif hasattr(user, "student"):
+                return redirect(reverse("student:student_dashboard"))
+            elif hasattr(user, "teacher"):
+                return redirect(reverse("teacher:teacher_dashboard"))
+            elif hasattr(user, "parent"):
+                return redirect(reverse("parent:parent_dashboard"))
+
         return render(request, self.template_name)
 
     def post(self, request, *args, **kwargs):
@@ -33,30 +44,15 @@ class LoginView(View):
 
         if user is not None:
             if user.is_active:
-                if request.user.is_staff:
+                if user.is_staff:
                     login(request, user)
                     print("to superuser")
-                    return redirect('http://127.0.0.1:8000/admin')
-                try:
-                    student = Student.objects.get(student_userName=user)
-                    login(request, user)
-                    return redirect(reverse("student:student_dashboard"))
-                except Student.DoesNotExist:
-                    pass
-
-                try:
-                    teacher = Teacher.objects.get(teacher_userName=user)
-                    login(request, user)
-                    return redirect(reverse("teacher:teacher_dashboard"))
-                except Teacher.DoesNotExist:
-                    pass
-                try:
-                    parent = Parent.objects.get(parent_userName=user)
-                    login(request, user)
-                    return redirect(reverse("parent:parent_dashboard"))
-                except Parent.DoesNotExist:
-                    pass
-
+                    return redirect("http://127.0.0.1:8000/admin")
+                user_attributes = ["student", "teacher", "parent"]
+                for attribute in user_attributes:
+                    if hasattr(user, attribute):
+                        login(request, user)
+                        return redirect(reverse(f"{attribute}:{attribute}_dashboard"))
             else:
                 messages.error(request, "Your account is disabled.")
         else:
