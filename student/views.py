@@ -25,7 +25,13 @@ class StudentDashboardView(LoginRequiredMixin, View):
         except Student.DoesNotExist:
             messages.error(request, "You don't have permission to access this page")
             return redirect("login")
-        return render(request, self.template_name)
+        return render(
+            request,
+            self.template_name,
+            {
+                "student": request.user,
+            },
+        )
 
 
 class AssignmentView(LoginRequiredMixin, BaseView, View):
