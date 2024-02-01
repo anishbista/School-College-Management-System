@@ -44,6 +44,11 @@ class Student(CommonInfo):
     grade = models.ForeignKey(Grade, on_delete=models.CASCADE, related_name="student")
     dob = models.DateField()
 
+    def save(self, *args, **kwargs):
+        self.student_userName.email = self.email
+        self.student_userName.save()
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.student_name
 

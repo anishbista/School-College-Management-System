@@ -6,6 +6,7 @@ from accounts.models import *
 from school_news.models import *
 from gallery.models import *
 
+
 class ParentDashboardView(LoginRequiredMixin, View):
     template_name = "parents/dashboard.html"
 
@@ -14,39 +15,39 @@ class ParentDashboardView(LoginRequiredMixin, View):
             parent = request.user.parent
         except Parent.DoesNotExist:
             messages.error(request, "You don't have permission to access this page")
-            return redirect("accounts:login")
+            return redirect("login")
         return render(request, self.template_name)
+
 
 class AnnouncementView(LoginRequiredMixin, View):
     active_tab = "announcement"
     template_name = "parents/news/announcement.html"
-    def get(self,request ,*args, **kwargs):
-        announcements=Announcement.objects.all()
-        context={
-            'active_tab':self.active_tab,
-            'announcements':announcements
-        }
-        return render(request,self.template_name,context)
-class EventView(LoginRequiredMixin,View):
+
+    def get(self, request, *args, **kwargs):
+        announcements = Announcement.objects.all()
+        context = {"active_tab": self.active_tab, "announcements": announcements}
+        return render(request, self.template_name, context)
+
+
+class EventView(LoginRequiredMixin, View):
     active_tab = "event"
-    template_name="parents/news/events.html"
-    def get(self,request ,*args, **kwargs):
-        events=Event.objects.all()
-        context={
-            'active_tab':self.active_tab,
-            'events':events
-        }
-        return render(request,self.template_name,context)
-class HolidayView(LoginRequiredMixin,View):
+    template_name = "parents/news/events.html"
+
+    def get(self, request, *args, **kwargs):
+        events = Event.objects.all()
+        context = {"active_tab": self.active_tab, "events": events}
+        return render(request, self.template_name, context)
+
+
+class HolidayView(LoginRequiredMixin, View):
     active_tab = "holiday"
     template_name = "parents/news/holiday.html"
-    def get(self,request ,*args, **kwargs):
-        holidays=Holiday.objects.all()
-        context={
-            'active_tab':self.active_tab,
-            'holidays':holidays
-        }
-        return render(request,self.template_name,context)
+
+    def get(self, request, *args, **kwargs):
+        holidays = Holiday.objects.all()
+        context = {"active_tab": self.active_tab, "holidays": holidays}
+        return render(request, self.template_name, context)
+
 
 # class CourseView(LoginRequiredMixin,View):
 #     active_tab = "courses"
@@ -75,13 +76,12 @@ class HolidayView(LoginRequiredMixin,View):
 #         }
 #         return render(request,self.template_name,context)
 
-class GalleryView(LoginRequiredMixin,View):
+
+class GalleryView(LoginRequiredMixin, View):
     active_tab = "gallery"
     template_name = "parents/gallery/gallery.html"
-    def get(self,request):
-        gallerys=Gallery.objects.all()
-        context={
-            'active_tab':self.active_tab,
-            'gallerys':gallerys
-        }
-        return render(request,self.template_name,context)
+
+    def get(self, request):
+        gallerys = Gallery.objects.all()
+        context = {"active_tab": self.active_tab, "gallerys": gallerys}
+        return render(request, self.template_name, context)
