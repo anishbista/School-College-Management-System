@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "assignment",
     "school_news",
     "gallery",
+    "user_profile",
 ]
 
 MIDDLEWARE = [

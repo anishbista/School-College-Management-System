@@ -63,6 +63,8 @@ class Teacher(CommonInfo):
     teacher_name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     phone_no = models.CharField(max_length=15)
+    address = models.CharField(max_length=100)
+    dob = models.DateField()
 
     def save(self, *args, **kwargs):
         self.teacher_userName.email = self.email
