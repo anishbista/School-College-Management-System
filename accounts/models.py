@@ -36,7 +36,7 @@ class Student(CommonInfo):
     user_role = models.ForeignKey(
         Role, on_delete=models.CASCADE, related_name="student"
     )
-    student_name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     address = models.CharField(max_length=100)
     gender = models.CharField(choices=g_choices, max_length=20)
@@ -50,7 +50,7 @@ class Student(CommonInfo):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.student_name
+        return self.name
 
 
 class Teacher(CommonInfo):
@@ -60,7 +60,7 @@ class Teacher(CommonInfo):
     user_role = models.ForeignKey(
         Role, on_delete=models.CASCADE, related_name="teacher"
     )
-    teacher_name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     phone_no = models.CharField(max_length=15)
     address = models.CharField(max_length=100)
@@ -72,7 +72,7 @@ class Teacher(CommonInfo):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.teacher_name
+        return self.name
 
 
 class Course(CommonInfo):
@@ -95,7 +95,7 @@ class Parent(CommonInfo):
         User, on_delete=models.CASCADE, related_name="parent"
     )
     user_role = models.ForeignKey(Role, on_delete=models.CASCADE, related_name="parent")
-    parent_name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     phone_no = models.CharField(max_length=15)
     student = models.OneToOneField(
@@ -108,4 +108,4 @@ class Parent(CommonInfo):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.parent_name
+        return self.name
