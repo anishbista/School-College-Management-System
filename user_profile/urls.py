@@ -7,7 +7,7 @@ app_name = "user_profile"
 urlpatterns = [
     path(
         "",
-        TemplateView.as_view(template_name="user_profile/profile.html"),
+        StudentDetailView.as_view(),
         name="profile",
     ),
 ]
