@@ -68,7 +68,7 @@ class DepartmentAdmin(admin.ModelAdmin):
 
 @admin.register(Grade)
 class GradeAdmin(admin.ModelAdmin):
-    list_display = ["level","department"]
+    list_display = ["level", "department"]
 
 
 @admin.register(Course)
@@ -84,7 +84,7 @@ class CourseAdmin(admin.ModelAdmin):
 class StudentAdmin(admin.ModelAdmin):
     list_display = [
         "student_userName",
-        "student_name",
+        "name",
         "grade",
     ]
 
@@ -93,7 +93,7 @@ class StudentAdmin(admin.ModelAdmin):
 class TeacherAdmin(admin.ModelAdmin):
     list_display = [
         "teacher_userName",
-        "teacher_name",
+        "name",
     ]
 
 
@@ -101,6 +101,6 @@ class TeacherAdmin(admin.ModelAdmin):
 class ParentAdmin(admin.ModelAdmin):
     list_display = [
         "parent_userName",
-        "parent_name",
+        "name",
         "student",
     ]
