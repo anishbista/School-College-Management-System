@@ -4,22 +4,49 @@
 {% block content %}
 
 
-
+<style>
+    .password-container {
+        position: relative;
+        display: flex;
+    }
+    
+    .toggle-passwords {
+        position: absolute;
+        top:16px;
+        right: 5px;
+        cursor: pointer;
+    }
+    
+    .pass-input {
+        padding-right: 30px; /* Adjust as needed */
+    }
+    
+</style>
 <div class="page-wrapper">
     <div class="content container-fluid">
 
         <div class="page-header">
             <div class="row">
                 
-                    
+{% comment %}                     
                     {% if messages %}
                     {% for message in messages %}
                     <div class="alert alert-danger" role="alert">
                         {{ message }}
                     </div>
                     {% endfor %}
+                    {% endif %} {% endcomment %}
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                    </div>
+                    {% endfor %}
                     {% endif %}
-               
                 <div class="col">
                     <h3 class="page-title">Profile</h3>
                     <ul class="breadcrumb">
@@ -147,23 +174,30 @@
                                 <h5 class="card-title">Change Password</h5>
                                 <div class="row">
                                     <div class="col-md-10 col-lg-6">
-                                        <form method="post" action ="{% url 'user_profile:profile' %}">
+                                        <form method="post">
                                             {% csrf_token %}
                                             <div class="form-group">
                                                 <label>Old Password</label>
-                                                <input type="password" name="old_password" class="form-control" required>
+                                                <div class="password-container">
+                                                    <input type="password" name="old_password" class="form-control pass-input" required>
+                                                    <span class="feather-eye-off toggle-passwords" data-target="old_password"></span>
+                                                </div>
                                             </div>
                                             <div class="form-group">
                                                 <label>New Password</label>
-                                                <input type="password" name="new_password" class="form-control" required>
+                                                <div class="password-container">
+                                                    <input type="password" name="new_password" class="form-control pass-input" required>
+                                                    <span class="feather-eye-off toggle-passwords" data-target="new_password"></span>
+                                                </div>
                                             </div>
                                             <div class="form-group">
                                                 <label>Confirm Password</label>
-                                                <input type="password" name="confirm_password" class="form-control" required>
+                                                <div class="password-container">
+                                                    <input type="password" name="confirm_password" class="form-control pass-input" required>
+                                                    <span class="feather-eye-off toggle-passwords" data-target="confirm_password"></span>
+                                                </div>
                                             </div>
                                             <button class="btn btn-primary" type="submit">Save Changes</button>
-
-                                            
                                         </form>
                                     </div>
                                 </div>

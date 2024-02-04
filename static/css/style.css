@@ -37,6 +37,7 @@ input:-webkit-autofill:focus {
     box-shadow: 0 0 0 1000px #fff inset !important
 }
 
+
 .form-control {
     border: 1px solid #ddd;
     box-shadow: none;
@@ -3323,6 +3324,8 @@ footer p {
     top: 50%;
     transform: translateY(-50%)
 }
+
+
 
 .notifications {
     padding: 0

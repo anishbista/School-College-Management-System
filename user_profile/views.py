@@ -3,6 +3,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import update_session_auth_hash, logout
 from django.contrib import messages
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
+
 
 # from django.views.generic import UpdateView
 
@@ -57,13 +60,21 @@ class StudentDetailView(LoginRequiredMixin, View):
             new_password = change_password_form.cleaned_data["new_password"]
             confirm_password = change_password_form.cleaned_data["confirm_password"]
             print(old_password)
+
+            try:
+                validate_password(new_password, user=request.user)
+            except ValidationError as e:
+                messages.error(request, "\n".join(e.messages))
+                return render(request, self.template_name)
             result = request.user.check_password(old_password)
             print(result)
-            if request.user.check_password(old_password):
+            if request:
                 if new_password == confirm_password:
                     request.user.set_password(new_password)
                     request.user.save()
-                    update_session_auth_hash(request, request.user)
+                    update_session_auth_hash(
+                        request, request.user
+                    )  # update_session_auth_hash: This function takes two arguments – the request object and the user object. It is responsible for updating the session with the user's current authentication hash.This is typically done after changing sensitive information related to user authentication, such as updating the password.
                     messages.success(request, "Password changed successfully")
                     logout(request)
                     return redirect("login")
