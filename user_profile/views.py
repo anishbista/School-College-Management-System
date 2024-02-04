@@ -61,15 +61,15 @@ class StudentDetailView(LoginRequiredMixin, View):
             confirm_password = change_password_form.cleaned_data["confirm_password"]
             print(old_password)
 
-            try:
-                validate_password(new_password, user=request.user)
-            except ValidationError as e:
-                messages.error(request, "\n".join(e.messages))
-                return render(request, self.template_name)
             result = request.user.check_password(old_password)
             print(result)
-            if request:
+            if result:
                 if new_password == confirm_password:
+                    try:
+                        validate_password(new_password, user=request.user)
+                    except ValidationError as e:
+                        messages.error(request, "\n".join(e.messages))
+                        return render(request, self.template_name)
                     request.user.set_password(new_password)
                     request.user.save()
                     update_session_auth_hash(

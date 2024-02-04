@@ -100,5 +100,9 @@
         targetInput.attr("type", type);
         $(this).toggleClass("feather-eye-off feather-eye");
     });
+
+    $(".close").click(function () {
+        $(this).closest(".alert").fadeOut();
+    })
 })(jQuery);
 
