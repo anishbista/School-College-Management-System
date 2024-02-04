@@ -83,4 +83,4 @@ class StudentDetailView(LoginRequiredMixin, View):
             else:
                 messages.error(request, "Old Password is incorrect")
 
-            return render(request, self.template_name)
+        return redirect("user_profile:profile")
