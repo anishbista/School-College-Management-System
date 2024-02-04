@@ -1,6 +1,8 @@
 # from django.shortcuts import render
 # from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import update_session_auth_hash, logout
+from django.contrib import messages
 
 # from django.views.generic import UpdateView
 
@@ -17,20 +19,23 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 # views.py
 from django.shortcuts import render, redirect
 from django.views import View
-from .forms import PersonalDetailsForm
+from .forms import PersonalDetailsForm, ChangePasswordForm
 
 
 class StudentDetailView(LoginRequiredMixin, View):
     template_name = "user_profile/profile.html"
 
     def get(self, request, *args, **kwargs):
-        form = PersonalDetailsForm()
+
+        change_password_form = ChangePasswordForm()
         # profile = request.user.teacher
         # print(profile)
-        return render(request, self.template_name, {"form": form})
+
+        return render(request, self.template_name)
 
     def post(self, request, *args, **kwargs):
         form = PersonalDetailsForm(request.POST)
+        change_password_form = ChangePasswordForm(request.POST)
         if form.is_valid():
             print("Hello")
             user_type = form.cleaned_data["user_type"]
@@ -46,4 +51,25 @@ class StudentDetailView(LoginRequiredMixin, View):
             profile.address = form.cleaned_data["address"]
             profile.save()
             return redirect("user_profile:profile")
-        return render(request, self.template_name, {"form": form})
+
+        if change_password_form.is_valid():
+            old_password = change_password_form.cleaned_data["old_password"]
+            new_password = change_password_form.cleaned_data["new_password"]
+            confirm_password = change_password_form.cleaned_data["confirm_password"]
+            print(old_password)
+            result = request.user.check_password(old_password)
+            print(result)
+            if request.user.check_password(old_password):
+                if new_password == confirm_password:
+                    request.user.set_password(new_password)
+                    request.user.save()
+                    update_session_auth_hash(request, request.user)
+                    messages.success(request, "Password changed successfully")
+                    logout(request)
+                    return redirect("login")
+                else:
+                    messages.error(request, "Password didn't match.")
+            else:
+                messages.error(request, "Old Password is incorrect")
+
+            return render(request, self.template_name)

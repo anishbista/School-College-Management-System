@@ -30,3 +30,9 @@ class PersonalDetailsForm(forms.Form):
     phone_no = forms.CharField(label="Mobile")
     address = forms.CharField(label="Address")
     user_type = forms.CharField(label="User Type")
+
+
+class ChangePasswordForm(forms.Form):
+    old_password = forms.CharField()
+    new_password = forms.CharField()
+    confirm_password = forms.CharField()
