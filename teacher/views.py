@@ -71,12 +71,18 @@ class EditAssignmentView(LoginRequiredMixin, BaseView, UpdateView):
     #     kwargs["initial"]["start"] = self.object.start.strftime("%Y-%m-%d")
     #     kwargs["initial"]["end"] = self.object.end.strftime("%Y-%m-%d")
     #     return kwargs
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        teacher = Teacher.objects.get(teacher_userName=self.request.user)
+        course = Course.objects.filter(teacher=teacher)
+        context["courses"] = course
+        return context
 
     def get_initial(self):
         initial = super().get_initial()
         assignment = self.get_object()
-        initial["start"] = assignment.start.strftime("%Y-%m-%d")
-        initial["end"] = assignment.end.strftime("%Y-%m-%d")
+        # initial["start"] = assignment.start.strftime("%Y-%m-%d")
+        # initial["end"] = assignment.end.strftime("%Y-%m-%d")
         initial["image"] = assignment.image
         initial["hw_file"] = assignment.hw_file
         return initial

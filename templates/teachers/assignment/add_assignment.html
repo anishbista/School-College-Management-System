@@ -68,17 +68,22 @@
                                         <textarea class="form-control" name="description" placeholder="Enter Assignment Description"></textarea>
                                     </div>
                                 </div>
-                                <div class="col-12 col-sm-6">
-                                    <div class="form-group local-forms calendar-icon">
+                                <div class="col-12 col-sm-3">
+                                    {% comment %} <div class="form-group local-forms calendar-icon">
                                         <label>Start Date <span class="login-danger">*</span></label>
-                                        <input class="" type="date" name="start" placeholder="YYYY-MM-DD">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-6">
-                                    <div class="form-group local-forms calendar-icon">
+                                        <input class="form-control" type="date" name="start" placeholder="YYYY-MM-DD">
+                                    </div> {% endcomment %}
+                                    <label for="editStart" class="form-label">Start Date <span class="login-danger">*</span> </label>
+                                    <input type="date" name="start"  class="form-control" id="editStart" placeholder="YYYY-MM-DD" required>
+                </div>
+                                
+                                <div class="col-12 col-sm-3">
+                                    {% comment %} <div class="form-group local-forms calendar-icon">
                                         <label>End Date <span class="login-danger">*</span></label>
                                         <input class="" type="date" name="end" placeholder="YYYY-MM-DD">
-                                    </div>
+                                    </div> {% endcomment %}
+                                    <label for="editEnd" class="form-label">End Date <span class="login-danger">*</span> </label>
+                                    <input type="date" name="end"  class="form-control" id="editEnd" placeholder="YYYY-MM-DD"  required>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group students-up-files">
