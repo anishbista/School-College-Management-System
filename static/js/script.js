@@ -93,6 +93,16 @@
             '</td>' +
             '</tr>'; $(".add-table-items").append(experiencecontent); return false;
     }); feather.replace();
+    $(".toggle-passwords").click(function () {
+        var targetInput = $("[name='" + $(this).data("target") + "']");
 
+        var type = targetInput.attr("type") === "password" ? "text" : "password";
+        targetInput.attr("type", type);
+        $(this).toggleClass("feather-eye-off feather-eye");
+    });
+
+    $(".close").click(function () {
+        $(this).closest(".alert").fadeOut();
+    })
 })(jQuery);
 
