@@ -5,21 +5,18 @@ from django.contrib import messages
 from accounts.models import *
 from school_news.models import *
 from gallery.models import *
+from .mixins import ParentRequiredMixin
 
 
-class ParentDashboardView(LoginRequiredMixin, View):
+class ParentDashboardView(ParentRequiredMixin, View):
     template_name = "parents/dashboard.html"
 
     def get(self, request, *args, **kwargs):
-        try:
-            parent = request.user.parent
-        except Parent.DoesNotExist:
-            messages.error(request, "You don't have permission to access this page")
-            return redirect("login")
+
         return render(request, self.template_name)
 
 
-class AnnouncementView(LoginRequiredMixin, View):
+class AnnouncementView(ParentRequiredMixin, View):
     active_tab = "announcement"
     template_name = "parents/news/announcement.html"
 
@@ -29,7 +26,7 @@ class AnnouncementView(LoginRequiredMixin, View):
         return render(request, self.template_name, context)
 
 
-class EventView(LoginRequiredMixin, View):
+class EventView(ParentRequiredMixin, View):
     active_tab = "event"
     template_name = "parents/news/events.html"
 
@@ -39,7 +36,7 @@ class EventView(LoginRequiredMixin, View):
         return render(request, self.template_name, context)
 
 
-class HolidayView(LoginRequiredMixin, View):
+class HolidayView(ParentRequiredMixin, View):
     active_tab = "holiday"
     template_name = "parents/news/holiday.html"
 
@@ -77,7 +74,7 @@ class HolidayView(LoginRequiredMixin, View):
 #         return render(request,self.template_name,context)
 
 
-class GalleryView(LoginRequiredMixin, View):
+class GalleryView(ParentRequiredMixin, View):
     active_tab = "gallery"
     template_name = "parents/gallery/gallery.html"
 
