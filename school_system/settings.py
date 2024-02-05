@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+from datetime import timedelta
+from celery.schedules import crontab
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -138,6 +140,24 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 TIME_ZONE = "Asia/Kathmandu"
+
+CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_RESULT_BACKEND = "redis://localhost:6379"
+
+
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
+
+CELERY_BEAT_SCHEDULE = {
+    "send-immediate-notification": {
+        "task": "teacher.tasks.send_absence_notification_email",
+        "schedule": crontab(day_of_week="monday", hour=18, minute=00),
+    },
+}
+"""crontab is a utility in Unix-based operating systems used to schedule recurring tasks. In the context of Celery, crontab is a scheduling component used to define recurring task schedules within the Celery configuration.
+
+In Celery, crontab is a class provided by the celery.schedules module that allows you to define schedules for periodic tasks using a syntax similar to the Unix crontab utility."""
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
