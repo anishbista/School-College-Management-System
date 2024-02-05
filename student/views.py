@@ -14,27 +14,20 @@ from .models import *
 from .forms import SubmissionForm
 from school_news.models import *
 from gallery.models import *
-from staff.models import libraryBook,Borrowing
+from .mixins import StudentRequiredMixin
 
-class StudentDashboardView(LoginRequiredMixin, View):
+
+class StudentDashboardView(StudentRequiredMixin, View):
     template_name = "students/dashboard.html"
 
     def get(self, request, *args, **kwargs):
-        try:
-            student = request.user.student
-        except Student.DoesNotExist:
-            messages.error(request, "You don't have permission to access this page")
-            return redirect("login")
         return render(
             request,
             self.template_name,
-            {
-                "student": request.user,
-            },
         )
 
 
-class AssignmentView(LoginRequiredMixin, BaseView, View):
+class AssignmentView(StudentRequiredMixin, BaseView, View):
     template_name = "students/assignment/assignment_view.html"
     active_tab = "assignment_view"
     today_date = date.today()
@@ -54,7 +47,7 @@ class AssignmentView(LoginRequiredMixin, BaseView, View):
         return render(request, self.template_name, context)
 
 
-class SubmissionView(View):
+class SubmissionView(StudentRequiredMixin, View):
     template_name = "students/assignment/assignment_submission.html"
     redirect_url = "student:student_assignment"
 
@@ -95,7 +88,7 @@ class SubmissionView(View):
         return redirect("student:student_assignment")
 
 
-class SubmissionListView(LoginRequiredMixin, BaseView, ListView):
+class SubmissionListView(StudentRequiredMixin, BaseView, ListView):
     model = Submit
     active_tab = "list_submission"
 
@@ -113,7 +106,7 @@ class SubmissionListView(LoginRequiredMixin, BaseView, ListView):
         return Submit.objects.none()
 
 
-class CheckSubmittedAssignment(LoginRequiredMixin, DetailView):
+class CheckSubmittedAssignment(StudentRequiredMixin, DetailView):
     model = Submit
     active_tab = "list_submission"
     template_name = "students/assignment/checked_assignment.html"
@@ -127,7 +120,7 @@ class CheckSubmittedAssignment(LoginRequiredMixin, DetailView):
         return render(request, self.template_name, context)
 
 
-class AnnouncementView(LoginRequiredMixin, View):
+class AnnouncementView(StudentRequiredMixin, View):
     active_tab = "announcement"
     template_name = "students/news/announcement.html"
 
@@ -137,7 +130,7 @@ class AnnouncementView(LoginRequiredMixin, View):
         return render(request, self.template_name, context)
 
 
-class EventView(LoginRequiredMixin, View):
+class EventView(StudentRequiredMixin, View):
     active_tab = "event"
     template_name = "students/news/events.html"
 
@@ -147,7 +140,7 @@ class EventView(LoginRequiredMixin, View):
         return render(request, self.template_name, context)
 
 
-class HolidayView(LoginRequiredMixin, View):
+class HolidayView(StudentRequiredMixin, View):
     active_tab = "holiday"
     template_name = "students/news/holiday.html"
 
@@ -157,7 +150,7 @@ class HolidayView(LoginRequiredMixin, View):
         return render(request, self.template_name, context)
 
 
-class CourseView(LoginRequiredMixin, View):
+class CourseView(StudentRequiredMixin, View):
     active_tab = "courses"
     template_name = "students/courses/course.html"
 
@@ -170,7 +163,7 @@ class CourseView(LoginRequiredMixin, View):
         return render(request, self.template_name, context)
 
 
-class CourseDetailView(LoginRequiredMixin, View):
+class CourseDetailView(StudentRequiredMixin, View):
     active_tab = "courses"
     template_name = "students/courses/detail.html"
 
@@ -183,7 +176,7 @@ class CourseDetailView(LoginRequiredMixin, View):
         return render(request, self.template_name, context)
 
 
-class GalleryView(LoginRequiredMixin, View):
+class GalleryView(StudentRequiredMixin, View):
     active_tab = "gallery"
     template_name = "students/gallery/gallery.html"
 
