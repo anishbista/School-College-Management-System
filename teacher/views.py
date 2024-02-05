@@ -134,10 +134,66 @@ class AttendanceCreateView(LoginRequiredMixin, View):
 
     def get_context_data(self, **kwargs):
         context = {}
+        # To
+        # display
+        # student and parent detail of absent student
+
+        courseName = Course.objects.get(pk="70cde64ee0f942d28cf516cee467b086")
+        print(courseName)
+        studentList = courseName.grade.student.all()
+        print(studentList)
+        student_list = Student.objects.filter(
+            grade_id="4de24a916f0445eea90c426ef67d9ad1"
+        )
+        print(student_list)
+
+        # query for present student list
+        attendanceList = Attendance.objects.get(
+            id="874b8ea2bc93410688cd36efd3df35c5"
+        ).present_student.all()
+        for i in attendanceList:
+            print(i)
+        print(f"Attendance: {attendanceList}")
+
+        # Query for absent student
+        # using set to find absent student
+        absent_student = list(set(student_list) - set(attendanceList))
+
+        # using list comprehension to find absent student
+        # absent_student = [
+        #     student for student in student_list if student not in attendanceList
+        # ]
+        print(f"absent student: {absent_student}")
+
+        # query to get parent email
+        for i in absent_student:
+            print(i.parent.email)
+            print(i.parent)
+
+        # To
+        # display
+        # student and parent detail of absent student
+        english_class_attendance = Attendance.objects.filter(
+            course_class_id="70cde64ee0f942d28cf516cee467b086"
+        )
+        print(f" Total days: {len(english_class_attendance)}")
+        student_count = 0
+        for i in english_class_attendance:
+            if i.present_student.filter(name="Anish Bista").exists():
+                student_count += 1
+                print("Present")
+            print(i.present_student.all())
+        print(f"Anish is present for {student_count}")
+
+        # To
+        # display
+        # how many days student presents in class
+
         teacher = Teacher.objects.get(teacher_userName=self.request.user)
         course = Course.objects.filter(teacher=teacher)
         request = self.request
         course_id = request.GET.get("course_id")
+        print(f"Course_id:{course_id}")
         if course_id:
             course_object = Course.objects.get(pk=course_id)
             students = course_object.grade.student.all()
