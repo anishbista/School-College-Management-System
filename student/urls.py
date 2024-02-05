@@ -19,4 +19,6 @@ urlpatterns = [
     path("courses/", CourseView.as_view(), name="courses"),
     path("courses/<str:c_id>", CourseDetailView.as_view(), name="coursedetail"),
     path("gallery/", GalleryView.as_view(), name="gallery"),
+    path("library/books/",libraryBookView.as_view(),name="librarybook"),
+    path("library/borrowed/",BorrowedView.as_view(),name="borrowed"),
 ]

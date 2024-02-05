@@ -37,13 +37,26 @@ rel="stylesheet">
                         <li><a href="{% url 'student:submission_list' %}" class = "{% if active_tab == 'list_submission' %}active {% endif %}">Submitted Assignments</a></li>
                     </ul>
                 </li>
-                <li class ="{% if active_tab == 'courses' %}active{% endif %}"><a href="{% url 'student:courses' %}"><i class="fas fa-book"></i>
+                <li class ="{% if active_tab == 'courses' %}active{% endif %}"><a href="{% url 'student:courses' %}"><i class="fas fa-book-reader"></i>
                     <span> Courses</span></a></li>
                 <li class ="{% if active_tab == 'announcement' %}active{% endif %}"><a href="{% url 'student:announcement' %}"><i class="fas fa-bullhorn"></i><span> Announcement</span></a></li>
                 <li class ="{% if active_tab == 'event' %}active {% endif %}"><a href="{% url 'student:event' %}" ><i class="fas fa-calendar"></i><span> Events</span></a></li>
                 <li class ="{% if active_tab == 'holiday' %}active {% endif %}"><a href="{% url 'student:holiday' %}" ><i class="fas fa-suitcase"></i></i><span> Holiday</span></a></li>
                 <li class ="{% if active_tab == 'gallery' %}active{% endif %}"><a href="{% url 'student:gallery' %}"><i class="fas fa-images"></i>
                     <span> Gallery</span></a></li>
+            </ul>
+            <ul>
+                <li class="menu-title">
+                    <span>Management</span>
+                </li>
+                <li class="submenu">
+                    <a href="#"><i class="fas fa-book"></i><span> Library</span> <span
+                                class="menu-arrow"></span></a>
+                    <ul>
+                        <li><a href="{% url 'student:librarybook' %}" class = "{% if active_tab == 'librarybook' %}active {% endif %}">Book List</a></li>
+                        <li><a href="{% url 'student:borrowed' %}" class = "{% if active_tab == 'borrowed' %}active {% endif %}">Borrowed Book</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
