@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static %}
+{% block link %}
+<link rel="shortcut icon" href="{% static 'media/img/favicon.png' %}">
+<link
+href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap"
+rel="stylesheet">
+<link rel="stylesheet" href="{% static 'plugins/bootstrap/css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'plugins/feather/feather.css'%}">
+<link rel="stylesheet" href="{% static 'plugins/icons/flags/flags.css'%}">
+<link rel="stylesheet" href="{% static 'css/bootstrap-datetimepicker.min.css'%}">
+<link rel="stylesheet" href="{% static 'plugins/fontawesome/css/fontawesome.min.css'%}">
+<link rel="stylesheet" href="{% static 'plugins/fontawesome/css/all.min.css'%}">
+<link rel="stylesheet" href="{% static 'plugins/select2/css/select2.min.css'%}">
+<link rel="stylesheet" href="{% static 'css/style.css'%}">
+
+{% endblock link %}
+{% block sidebar %}
+
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-inner slimscroll">
+        <div id="sidebar-menu" class="sidebar-menu">
+            <ul>
+                <li class="menu-title">
+                    <span>Main Menu</span>
+                </li>
+                <li class="submenu">
+                    <li><a href="{% url 'staff:staff_dashboard' %}"><i class="feather-grid"></i> <span>
+                            Staff Dashboard</span> </a></li>
+                </li>
+                <li class ="{% if active_tab == 'announcement' %}active{% endif %}"><a href="{% url 'staff:announcement' %}"><i class="fas fa-bullhorn"></i><span> Announcement</span></a></li>
+                <li class ="{% if active_tab == 'event' %}active {% endif %}"><a href="{% url 'staff:event' %}" ><i class="fas fa-calendar"></i><span> Events</span></a></li>
+                <li class ="{% if active_tab == 'holiday' %}active {% endif %}"><a href="{% url 'staff:holiday' %}" ><i class="fas fa-suitcase"></i></i><span> Holiday</span></a></li>
+                <li class ="{% if active_tab == 'gallery' %}active{% endif %}"><a href="{% url 'staff:gallery' %}"><i class="fas fa-images"></i>
+                    <span> Gallery</span></a></li>
+            </ul>
+            <ul>
+                <li class="menu-title">
+                    <span>Management</span>
+                </li>
+                <li class="submenu">
+                    <a href="#"><i class="fas fa-book"></i><span> Library</span> <span
+                                class="menu-arrow"></span></a>
+                    <ul>
+                        <li><a href="{% url 'staff:addbook' %}" class = "{% if active_tab == 'addbook' %}active {% endif %}">Add Book</a></li>
+                        <li><a href="{% url 'staff:librarybook' %}" class = "{% if active_tab == 'librarybook' %}active {% endif %}">Book List</a></li>
+                        <li><a href="{% url 'staff:borrowed' %}" class = "{% if active_tab == 'borrowed' %}active {% endif %}">Borrowed Book</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% block content %}
+{% endblock %}
+
+{% endblock sidebar %}
+{% block script %}
+<script src="{% static 'js/jquery-3.6.0.min.js'%}"></script>
+    <script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+    <script src="{% static 'js/feather.min.js'%}"></script>
+    <script src="{% static 'plugins/slimscroll/jquery.slimscroll.min.js'%}"></script>
+    <script src="{% static 'plugins/apexchart/apexcharts.min.js'%}"></script>
+    <script src="{% static 'plugins/apexchart/chart-data.js'%}"></script>
+    <script src="{% static 'js/script.js'%}"></script>
+{% endblock script %}
