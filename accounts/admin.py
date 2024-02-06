@@ -104,3 +104,9 @@ class ParentAdmin(admin.ModelAdmin):
         "name",
         "student",
     ]
+@admin.register(Staff)
+class StaffAdmin(admin.ModelAdmin):
+    list_display = [
+        "staff_userName",
+        "name",
+    ]

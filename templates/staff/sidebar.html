@@ -11,7 +11,6 @@ rel="stylesheet">
 <link rel="stylesheet" href="{% static 'css/bootstrap-datetimepicker.min.css'%}">
 <link rel="stylesheet" href="{% static 'plugins/fontawesome/css/fontawesome.min.css'%}">
 <link rel="stylesheet" href="{% static 'plugins/fontawesome/css/all.min.css'%}">
-<link rel="stylesheet" href="{% static 'plugins/simple-calendar/simple-calendar.css'%}">
 <link rel="stylesheet" href="{% static 'plugins/select2/css/select2.min.css'%}">
 <link rel="stylesheet" href="{% static 'css/style.css'%}">
 
@@ -26,24 +25,13 @@ rel="stylesheet">
                     <span>Main Menu</span>
                 </li>
                 <li class="submenu">
-                    <li><a href="{% url 'student:student_dashboard' %}"><i class="feather-grid"></i> <span>
-                            Student Dashboard</span> </a></li>
-                    
+                    <li><a href="{% url 'staff:staff_dashboard' %}"><i class="feather-grid"></i> <span>
+                            Staff Dashboard</span> </a></li>
                 </li>
-                <li class="submenu">
-                    <a href="#"><i class="fas fa-graduation-cap"></i> <span> Work</span> <span
-                            class="menu-arrow"></span></a>
-                    <ul>
-                        <li><a href="{% url 'student:student_assignment' %}" class = "{% if active_tab == "assignment_view" %}active {% endif %}">Assignment</a></li>
-                        <li><a href="{% url 'student:submission_list' %}" class = "{% if active_tab == 'list_submission' %}active {% endif %}">Submitted Assignments</a></li>
-                    </ul>
-                </li>
-                <li class ="{% if active_tab == 'courses' %}active{% endif %}"><a href="{% url 'student:courses' %}"><i class="fas fa-book-reader"></i>
-                    <span> Courses</span></a></li>
-                <li class ="{% if active_tab == 'announcement' %}active{% endif %}"><a href="{% url 'student:announcement' %}"><i class="fas fa-bullhorn"></i><span> Announcement</span></a></li>
-                <li class ="{% if active_tab == 'event' %}active {% endif %}"><a href="{% url 'student:event' %}" ><i class="fas fa-calendar"></i><span> Events</span></a></li>
-                <li class ="{% if active_tab == 'holiday' %}active {% endif %}"><a href="{% url 'student:holiday' %}" ><i class="fas fa-suitcase"></i></i><span> Holiday</span></a></li>
-                <li class ="{% if active_tab == 'gallery' %}active{% endif %}"><a href="{% url 'student:gallery' %}"><i class="fas fa-images"></i>
+                <li class ="{% if active_tab == 'announcement' %}active{% endif %}"><a href="{% url 'staff:announcement' %}"><i class="fas fa-bullhorn"></i><span> Announcement</span></a></li>
+                <li class ="{% if active_tab == 'event' %}active {% endif %}"><a href="{% url 'staff:event' %}" ><i class="fas fa-calendar"></i><span> Events</span></a></li>
+                <li class ="{% if active_tab == 'holiday' %}active {% endif %}"><a href="{% url 'staff:holiday' %}" ><i class="fas fa-suitcase"></i></i><span> Holiday</span></a></li>
+                <li class ="{% if active_tab == 'gallery' %}active{% endif %}"><a href="{% url 'staff:gallery' %}"><i class="fas fa-images"></i>
                     <span> Gallery</span></a></li>
             </ul>
             <ul>
@@ -54,8 +42,9 @@ rel="stylesheet">
                     <a href="#"><i class="fas fa-book"></i><span> Library</span> <span
                                 class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="{% url 'student:librarybook' %}" class = "{% if active_tab == 'librarybook' %}active {% endif %}">Book List</a></li>
-                        <li><a href="{% url 'student:borrowed' %}" class = "{% if active_tab == 'borrowed' %}active {% endif %}">Borrowed Book</a></li>
+                        <li><a href="{% url 'staff:addbook' %}" class = "{% if active_tab == 'addbook' %}active {% endif %}">Add Book</a></li>
+                        <li><a href="{% url 'staff:librarybook' %}" class = "{% if active_tab == 'librarybook' %}active {% endif %}">Book List</a></li>
+                        <li><a href="{% url 'staff:borrowed' %}" class = "{% if active_tab == 'borrowed' %}active {% endif %}">Borrowed Book</a></li>
                     </ul>
                 </li>
             </ul>
@@ -73,9 +62,6 @@ rel="stylesheet">
     <script src="{% static 'js/feather.min.js'%}"></script>
     <script src="{% static 'plugins/slimscroll/jquery.slimscroll.min.js'%}"></script>
     <script src="{% static 'plugins/apexchart/apexcharts.min.js'%}"></script>
-    <script src="{% static 'plugins/simple-calendar/jquery.simple-calendar.js'%}"></script>
-<script src="{% static 'js/calander.js'%}"></script>
-<script src="{% static 'js/circle-progress.min.js'%}"></script>
     <script src="{% static 'plugins/apexchart/chart-data.js'%}"></script>
     <script src="{% static 'js/script.js'%}"></script>
 {% endblock script %}

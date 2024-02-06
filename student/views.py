@@ -15,7 +15,7 @@ from .forms import SubmissionForm
 from school_news.models import *
 from gallery.models import *
 from .mixins import StudentRequiredMixin
-
+from staff.models import *
 
 class StudentDashboardView(StudentRequiredMixin, View):
     template_name = "students/dashboard.html"
@@ -183,4 +183,28 @@ class GalleryView(StudentRequiredMixin, View):
     def get(self, request):
         gallerys = Gallery.objects.all()
         context = {"active_tab": self.active_tab, "gallerys": gallerys}
+        return render(request, self.template_name, context)
+
+class libraryBookView(LoginRequiredMixin, View):
+    active_tab = "librarybook"
+    template_name = "students/library/booklist.html"
+
+    def get(self, request):
+        books=libraryBook.objects.all()
+        context = {"active_tab": self.active_tab, "books": books}
+        return render(request, self.template_name, context)
+    def post(self,request):
+        query = request.POST.get('bookquery')
+        print(query) 
+        books=libraryBook.objects.filter(name__icontains=query)
+        context = {"active_tab": self.active_tab, "books": books}
+        return render(request, self.template_name, context)
+
+class BorrowedView(LoginRequiredMixin, View):
+    active_tab = "borrowed"
+    template_name = "students/library/borrowedlist.html"
+
+    def get(self, request):
+        borrowlist=Borrowing.objects.filter(borrowed_person=request.user.student)
+        context = {"active_tab": self.active_tab, "borrowlist": borrowlist}
         return render(request, self.template_name, context)

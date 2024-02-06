@@ -25,7 +25,7 @@ class LoginView(View):
         if user.is_authenticated:
             if user.is_staff:
                 return redirect("http://127.0.0.1:8000/admin")
-            user_attributes = ["student", "teacher", "parent"]
+            user_attributes = ["student", "teacher", "parent","staff"]
             for attribute in user_attributes:
                 if hasattr(user, attribute):
                     return redirect(reverse(f"{attribute}:{attribute}_dashboard"))
@@ -47,7 +47,7 @@ class LoginView(View):
                     login(request, user)
                     print("to superuser")
                     return redirect("http://127.0.0.1:8000/admin")
-                user_attributes = ["student", "teacher", "parent"]
+                user_attributes = ["student", "teacher", "parent","staff"]
                 for attribute in user_attributes:
                     if hasattr(user, attribute):
                         login(request, user)

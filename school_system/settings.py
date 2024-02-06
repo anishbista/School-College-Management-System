@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "school_news",
     "gallery",
     "user_profile",
+    "staff",
 ]
 
 MIDDLEWARE = [
