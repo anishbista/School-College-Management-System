@@ -1,4 +1,6 @@
 from datetime import date
+from django.utils import timezone
+
 from django.db import models
 from common.models import CommonInfo, attendance_choice
 from accounts.models import Teacher, Student, Course, Grade
@@ -37,7 +39,12 @@ class Attendance(CommonInfo):
         Course, on_delete=models.CASCADE, related_name="attendance"
     )
     present_student = models.ManyToManyField(Student, related_name="attendance")
-    date = models.DateField(auto_now=True)
+    date = models.DateField(default=timezone.now)
+
+    def save(self, *args, **kwargs):
+        if not self.date:
+            self.date = timezone.now().date()
+        super().save(*args, **kwargs)
 
     class Meta:
         unique_together = ("teacher", "course_class", "date")
