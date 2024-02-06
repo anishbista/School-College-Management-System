@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from school_news.models import *
 from gallery.models import *
 from .models import libraryBook,Borrowing
-from .forms import BorrowingForm
+from .forms import BorrowingForm,LibraryBookForm
 
 class StaffDashboardView(LoginRequiredMixin, View):
     template_name = "staff/dashboard.html"
@@ -80,7 +80,6 @@ class BorrowedView(LoginRequiredMixin, View):
         return render(request, self.template_name, context)
     
 class LendBookView(LoginRequiredMixin,View):
-    active_tab = "borrowed"
     template_name="staff/library/lendbook.html"
     def get(self,request,b_id):
         form = BorrowingForm(book_id=b_id)
@@ -89,7 +88,7 @@ class LendBookView(LoginRequiredMixin,View):
     def post(self,request,b_id):
         form = BorrowingForm(request.POST, book_id=b_id)
         if form.is_valid():
-            borrowing = form.save()
+            form.save()
             return redirect("staff:librarybook")
         context = {'form': form}
         return render(request, self.template_name,context)
@@ -101,3 +100,17 @@ class ReturnBook(LoginRequiredMixin,View):
             return redirect("staff:librarybook")
         except:
             return redirect("staff:dashboard")
+class AddBook(LoginRequiredMixin,View):
+    active_tab = "addbook"
+    template_name="staff/library/addbook.html"
+    def get(self,request):
+        form=LibraryBookForm()
+        context = {"active_tab": self.active_tab,'form': form}
+        return render(request, self.template_name,context)
+    def post(self,request):
+        form=LibraryBookForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("staff:librarybook")
+        context = {"active_tab": self.active_tab,'form': form}
+        return render(request, self.template_name,context)

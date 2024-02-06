@@ -1,5 +1,5 @@
 from django import forms
-from .models import Borrowing
+from .models import Borrowing,libraryBook
 
 class BorrowingForm(forms.ModelForm):
     class Meta:
@@ -24,3 +24,15 @@ class BorrowingForm(forms.ModelForm):
     def clean_book(self):
         book_id = self.cleaned_data['book']
         return book_id
+class LibraryBookForm(forms.ModelForm):
+    class Meta:
+        model = libraryBook
+        fields = ['name', 'author']
+        labels = {
+            'name': 'Name',
+            'author': 'Author',
+        }
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'author': forms.TextInput(attrs={'class': 'form-control'}),
+        }

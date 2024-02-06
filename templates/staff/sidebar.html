@@ -42,6 +42,7 @@ rel="stylesheet">
                     <a href="#"><i class="fas fa-book"></i><span> Library</span> <span
                                 class="menu-arrow"></span></a>
                     <ul>
+                        <li><a href="{% url 'staff:addbook' %}" class = "{% if active_tab == 'addbook' %}active {% endif %}">Add Book</a></li>
                         <li><a href="{% url 'staff:librarybook' %}" class = "{% if active_tab == 'librarybook' %}active {% endif %}">Book List</a></li>
                         <li><a href="{% url 'staff:borrowed' %}" class = "{% if active_tab == 'borrowed' %}active {% endif %}">Borrowed Book</a></li>
                     </ul>
