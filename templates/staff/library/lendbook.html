@@ -1,4 +1,4 @@
-{% extends "teachers/sidebar.html" %}
+{% extends "staff/sidebar.html" %}
 {% load static %}
 {% block link %}
 <link rel="shortcut icon" href="{% static 'media/img/favicon.png' %}">
@@ -22,15 +22,14 @@
         <div class="page-header">
             <div class="row align-items-center">
                 <div class="col">
-                    <h3 class="page-title">Holiday</h3>
+                    <h3 class="page-title">Lend Book</h3>
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                        <li class="breadcrumb-item active">Holiday</li>
+                        <li class="breadcrumb-item active">Lend Book</li>
                     </ul>
                 </div>
             </div>
         </div>
-
         <div class="row">
             <div class="col-sm-12">
                 <div class="card card-table">
@@ -39,46 +38,15 @@
                         <div class="page-header">
                             <div class="row align-items-center">
                                 <div class="col">
-                                    <h3 class="page-title">Holiday</h3>
+                                    <h3 class="page-title">Lend Book</h3>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="table-responsive">
-                            <table
-                                class="table border-0 star-student table-hover table-center mb-0 table-striped">
-                                <thead class="student-thread">
-                                    <tr>
-                                        <th>Holiday Name</th>
-                                        <th>Type</th>
-                                        <th>Start Date</th>
-                                        <th>End Date</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% if not holidays %}
-                                        <tr>
-                                            <td><h2>None</h2></td>
-                                            <td>None</td>
-                                            <td>None</td>
-                                            <td>None</td>
-                                        </tr>
-                                    {% endif %}
-                                    {% for holiday in holidays %}
-                                        <tr>
-                                            <td>
-                                                <h2>
-                                                    {{holiday.name}}
-                                                </h2>
-                                            </td>
-                                            <td>{{holiday.type}}</td>
-                                            <td>{{holiday.start}}</td>
-                                            <td>{{holiday.end}}</td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
+                        <form action="#" method="post">
+                            {% csrf_token %}
+                            {{form.as_p}}
+                            <input type="submit" value="Lend" class="btn btn-primary">
+                        </form>
                     </div>
                 </div>
             </div>

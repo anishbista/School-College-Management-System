@@ -109,3 +109,25 @@ class Parent(CommonInfo):
 
     def __str__(self):
         return self.name
+
+class Staff(CommonInfo):
+    staff_userName = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name="staff"
+    )
+    user_role = models.ForeignKey(
+        Role, on_delete=models.CASCADE, related_name="staff"
+    )
+    name = models.CharField(max_length=100)
+    email = models.EmailField(unique=True)
+    address = models.CharField(max_length=100)
+    gender = models.CharField(choices=g_choices, max_length=20)
+    phone_no = models.CharField(max_length=15)
+    dob = models.DateField()
+
+    def save(self, *args, **kwargs):
+        self.staff_userName.email = self.email
+        self.staff_userName.save()
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
