@@ -11,4 +11,6 @@ urlpatterns = [
     path("gallery/", GalleryView.as_view(), name="gallery"),
     path("library/books/",libraryBookView.as_view(),name="librarybook"),
     path("library/borrowed/",BorrowedView.as_view(),name="borrowed"),
+    path("library/lendbook/<str:b_id>/",LendBookView.as_view(),name="lendbook"),
+    path("library/returnbook/<str:borrow_id>/",ReturnBook.as_view(),name="return"),
 ]

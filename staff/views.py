@@ -7,6 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from school_news.models import *
 from gallery.models import *
 from .models import libraryBook,Borrowing
+from .forms import BorrowingForm
 
 class StaffDashboardView(LoginRequiredMixin, View):
     template_name = "staff/dashboard.html"
@@ -77,3 +78,26 @@ class BorrowedView(LoginRequiredMixin, View):
         borrowlist=Borrowing.objects.all()
         context = {"active_tab": self.active_tab, "borrowlist": borrowlist}
         return render(request, self.template_name, context)
+    
+class LendBookView(LoginRequiredMixin,View):
+    active_tab = "borrowed"
+    template_name="staff/library/lendbook.html"
+    def get(self,request,b_id):
+        form = BorrowingForm(book_id=b_id)
+        context = {'form': form}
+        return render(request, self.template_name,context)
+    def post(self,request,b_id):
+        form = BorrowingForm(request.POST, book_id=b_id)
+        if form.is_valid():
+            borrowing = form.save()
+            return redirect("staff:librarybook")
+        context = {'form': form}
+        return render(request, self.template_name,context)
+class ReturnBook(LoginRequiredMixin,View):
+    def get(self,request,borrow_id):
+        try:
+            Borrow=Borrowing.objects.get(id=borrow_id)
+            Borrow.delete()
+            return redirect("staff:librarybook")
+        except:
+            return redirect("staff:dashboard")
