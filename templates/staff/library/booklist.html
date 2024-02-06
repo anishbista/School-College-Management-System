@@ -1,4 +1,4 @@
-{% extends "students/sidebar.html" %}
+{% extends "staff/sidebar.html" %}
 {% load static %}
 {% block link %}
 <link rel="shortcut icon" href="{% static 'media/img/favicon.png' %}">
@@ -32,7 +32,7 @@
         </div>
         <div class="student-group-form">
             <div class="row">
-                <form action="{% url 'student:librarybook' %}" method="post">
+                <form action="{% url 'staff:librarybook' %}" method="post">
                     {% csrf_token %}
                     <div class="col-lg-3 col-md-6">
                         <div class="form-group d-flex">
@@ -67,6 +67,7 @@
                                         <th>Name</th>
                                         <th>Author</th>
                                         <th>Status</th>
+                                        <th class="text-end">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -84,6 +85,15 @@
                                             {% else %}
                                             <span class="badge badge-danger">Out of Stock</span>
                                             {% endif %}
+                                        </td>
+                                        <td class="text-end">
+                                            <div class="actions ">
+                                                
+                                                <a href="#" class="btn btn-sm bg-danger-light">
+                                                    <i class="fas fa-arrow-alt-circle-right"></i>
+                                                </a>
+                                               
+                                            </div>
                                         </td>
                                     </tr>
                                     {% endfor %}

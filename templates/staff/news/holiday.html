@@ -1,4 +1,4 @@
-{% extends "students/sidebar.html" %}
+{% extends "staff/sidebar.html" %}
 {% load static %}
 {% block link %}
 <link rel="shortcut icon" href="{% static 'media/img/favicon.png' %}">
@@ -22,27 +22,15 @@
         <div class="page-header">
             <div class="row align-items-center">
                 <div class="col">
-                    <h3 class="page-title">Library</h3>
+                    <h3 class="page-title">Holiday</h3>
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                        <li class="breadcrumb-item active">Library</li>
+                        <li class="breadcrumb-item active">Holiday</li>
                     </ul>
                 </div>
             </div>
         </div>
-        <div class="student-group-form">
-            <div class="row">
-                <form action="{% url 'student:librarybook' %}" method="post">
-                    {% csrf_token %}
-                    <div class="col-lg-3 col-md-6">
-                        <div class="form-group d-flex">
-                            <input type="text" pattern="[A-Za-z0-9\s]+" class="form-control" placeholder="Search by Book Name ..." name="bookquery">
-                            <input type="submit" class="btn btn-primary mx-2" value="Search">
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
+
         <div class="row">
             <div class="col-sm-12">
                 <div class="card card-table">
@@ -51,46 +39,46 @@
                         <div class="page-header">
                             <div class="row align-items-center">
                                 <div class="col">
-                                    <h3 class="page-title">Library</h3>
+                                    <h3 class="page-title">Holiday</h3>
                                 </div>
                             </div>
                         </div>
 
-                        {% if not books %}
-                        <p>Books Not Found</p>
-                        {% else %}
                         <div class="table-responsive">
                             <table
                                 class="table border-0 star-student table-hover table-center mb-0 table-striped">
                                 <thead class="student-thread">
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Author</th>
-                                        <th>Status</th>
+                                        <th>Holiday Name</th>
+                                        <th>Type</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for book in books %}
-                                    <tr>
-                                        <td>
-                                            <h2>
-                                                <a>{{book.name}}</a>
-                                            </h2>
-                                        </td>
-                                        <td>{{book.author}}</td>
-                                        <td>
-                                            {% if book.availability_status %}
-                                            <span class="badge badge-success">In Stock</span>
-                                            {% else %}
-                                            <span class="badge badge-danger">Out of Stock</span>
-                                            {% endif %}
-                                        </td>
-                                    </tr>
+                                    {% if not holidays %}
+                                        <tr>
+                                            <td><h2>None</h2></td>
+                                            <td>None</td>
+                                            <td>None</td>
+                                            <td>None</td>
+                                        </tr>
+                                    {% endif %}
+                                    {% for holiday in holidays %}
+                                        <tr>
+                                            <td>
+                                                <h2>
+                                                    {{holiday.name}}
+                                                </h2>
+                                            </td>
+                                            <td>{{holiday.type}}</td>
+                                            <td>{{holiday.start}}</td>
+                                            <td>{{holiday.end}}</td>
+                                        </tr>
                                     {% endfor %}
                                 </tbody>
                             </table>
                         </div>
-                        {% endif %}
                     </div>
                 </div>
             </div>

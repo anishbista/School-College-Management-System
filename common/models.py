@@ -7,6 +7,7 @@ r_choices = (
     ("Student", "Student"),
     ("Teacher", "Teacher"),
     ("Parent", "Parent"),
+    ("Staff","Staff"),
 )
 dp_choices = (("Science", "Science"), ("Management", "Management"))
 g_choices = (("M", "Male"), ("F", "Female"), ("O", "Other"))

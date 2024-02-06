@@ -15,7 +15,7 @@ from .forms import SubmissionForm
 from school_news.models import *
 from gallery.models import *
 from .mixins import StudentRequiredMixin
-
+from staff.models import *
 
 class StudentDashboardView(StudentRequiredMixin, View):
     template_name = "students/dashboard.html"

@@ -1,4 +1,4 @@
-{% extends "students/sidebar.html" %}
+{% extends "staff/sidebar.html" %}
 {% load static %}
 {% block link %}
 <link rel="shortcut icon" href="{% static 'media/img/favicon.png' %}">
@@ -21,59 +21,51 @@
 
         <div class="page-header">
             <div class="row align-items-center">
-                <div class="col">
-                    <h3 class="page-title">Library</h3>
-                    <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                        <li class="breadcrumb-item active">Library</li>
-                    </ul>
+                <div class="col-sm-12">
+                    <div class="page-sub-header">
+                        <h3 class="page-title">Announcement</h3>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Announcement</a></li>
+                            <li class="breadcrumb-item active">List Announcement</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
+
         <div class="row">
             <div class="col-sm-12">
-                <div class="card card-table">
+                <div class="card comman-shadow">
                     <div class="card-body">
-
                         <div class="page-header">
                             <div class="row align-items-center">
                                 <div class="col">
-                                    <h3 class="page-title">Borrowed Book</h3>
+                                    <h3 class="page-title">Announcement List:</h3>
                                 </div>
                             </div>
                         </div>
-
-                        {% if not borrowlist %}
-                        <p>No books borrowed</p>
+                        <div class="col">
+                        {% if not announcements %}
+                            <p>Empty Announcement</p>
                         {% else %}
-                        <div class="table-responsive">
-                            <table
-                                class="table border-0 star-student table-hover table-center mb-0 table-striped">
-                                <thead class="student-thread">
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Borrowed Date</th>
-                                        <th>Due Date</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for borrow in borrowlist %}
-                                    <tr>
-                                        <td>
-                                            <h2>
-                                                <a>{{borrow.book.name}}</a>
-                                            </h2>
-                                        </td>
-                                        <td>{{borrow.borrowing_date}}</td>
-                                        <td>
-                                            {{borrow.due_date}}
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
+                            {% for announcement in announcements %}
+                            <div class="card mb-3 bg-primary" style="max-width: 540px;">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="{{announcement.image.url}}" class="img-fluid h-100"
+                                            alt="{{announcement.name}}">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{announcement.name}}</h5>
+                                            <p class="card-text">{{announcement.descriptions}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
                         {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>

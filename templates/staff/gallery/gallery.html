@@ -1,4 +1,4 @@
-{% extends "teachers/sidebar.html" %}
+{% extends "staff/sidebar.html" %}
 {% load static %}
 {% block link %}
 <link rel="shortcut icon" href="{% static 'media/img/favicon.png' %}">
@@ -22,10 +22,10 @@
         <div class="page-header">
             <div class="row align-items-center">
                 <div class="col">
-                    <h3 class="page-title">Holiday</h3>
+                    <h3 class="page-title">Gallery</h3>
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                        <li class="breadcrumb-item active">Holiday</li>
+                        <li class="breadcrumb-item active">Gallery</li>
                     </ul>
                 </div>
             </div>
@@ -39,46 +39,35 @@
                         <div class="page-header">
                             <div class="row align-items-center">
                                 <div class="col">
-                                    <h3 class="page-title">Holiday</h3>
+                                    <h3 class="page-title">Gallery</h3>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="table-responsive">
-                            <table
-                                class="table border-0 star-student table-hover table-center mb-0 table-striped">
-                                <thead class="student-thread">
-                                    <tr>
-                                        <th>Holiday Name</th>
-                                        <th>Type</th>
-                                        <th>Start Date</th>
-                                        <th>End Date</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% if not holidays %}
-                                        <tr>
-                                            <td><h2>None</h2></td>
-                                            <td>None</td>
-                                            <td>None</td>
-                                            <td>None</td>
-                                        </tr>
-                                    {% endif %}
-                                    {% for holiday in holidays %}
-                                        <tr>
-                                            <td>
-                                                <h2>
-                                                    {{holiday.name}}
-                                                </h2>
-                                            </td>
-                                            <td>{{holiday.type}}</td>
-                                            <td>{{holiday.start}}</td>
-                                            <td>{{holiday.end}}</td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
+                        <!-- Gallery -->
+                        <div class="row">
+                            {% if not gallerys %}
+                            <p>Empty Gallery</p>
+                            {% else %}
+                            {% for gallery in gallerys %}
+                            <div class="position-relative col-lg-4 col-md-6 col-sm-6 mb-4 mb-lg-0">
+                                <div class="position-relative">
+                                    <img src="{{gallery.image.url}}" class="w-100 shadow-1-strong rounded mb-4" alt="{{gallery.name}}" onmouseover="showCard(this)" onmouseout="hideCard(this)" />
+                                    <div class="position-absolute top-50 start-0 translate-middle-y d-none">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{gallery.name}}</h5>
+                                                <p class="card-text">{{gallery.description}}</p>
+                                                <p class="card-text"><strong>Date:</strong>{{gallery.date}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
                         </div>
+                        <!-- Gallery -->
                     </div>
                 </div>
             </div>
@@ -88,6 +77,17 @@
 {% endblock %}
 
 {% block script %}
+<script>
+     function showCard(img) {
+        var cardOverlay = img.nextElementSibling;
+        cardOverlay.classList.remove("d-none");
+    }
+
+    function hideCard(img) {
+        var cardOverlay = img.nextElementSibling;
+        cardOverlay.classList.add("d-none");
+    }
+</script>
 <script src="{% static 'js/jquery-3.6.0.min.js'%}"></script>
 <script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
 <script src="{% static 'js/feather.min.js'%}"></script>

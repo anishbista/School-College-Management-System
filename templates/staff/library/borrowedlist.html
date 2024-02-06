@@ -1,4 +1,4 @@
-{% extends "students/sidebar.html" %}
+{% extends "staff/sidebar.html" %}
 {% load static %}
 {% block link %}
 <link rel="shortcut icon" href="{% static 'media/img/favicon.png' %}">
@@ -30,19 +30,6 @@
                 </div>
             </div>
         </div>
-        <div class="student-group-form">
-            <div class="row">
-                <form action="{% url 'student:librarybook' %}" method="post">
-                    {% csrf_token %}
-                    <div class="col-lg-3 col-md-6">
-                        <div class="form-group d-flex">
-                            <input type="text" pattern="[A-Za-z0-9\s]+" class="form-control" placeholder="Search by Book Name ..." name="bookquery">
-                            <input type="submit" class="btn btn-primary mx-2" value="Search">
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
         <div class="row">
             <div class="col-sm-12">
                 <div class="card card-table">
@@ -51,13 +38,13 @@
                         <div class="page-header">
                             <div class="row align-items-center">
                                 <div class="col">
-                                    <h3 class="page-title">Library</h3>
+                                    <h3 class="page-title">Borrowed Book</h3>
                                 </div>
                             </div>
                         </div>
 
-                        {% if not books %}
-                        <p>Books Not Found</p>
+                        {% if not borrowlist %}
+                        <p>No books borrowed</p>
                         {% else %}
                         <div class="table-responsive">
                             <table
@@ -65,25 +52,23 @@
                                 <thead class="student-thread">
                                     <tr>
                                         <th>Name</th>
-                                        <th>Author</th>
-                                        <th>Status</th>
+                                        <th>Borrowed By</th>
+                                        <th>Borrowed Date</th>
+                                        <th>Due Date</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for book in books %}
+                                    {% for borrow in borrowlist %}
                                     <tr>
                                         <td>
                                             <h2>
-                                                <a>{{book.name}}</a>
+                                                <a>{{borrow.book.name}}</a>
                                             </h2>
                                         </td>
-                                        <td>{{book.author}}</td>
+                                        <td>{{borrow.borrowed_person}}</td>
+                                        <td>{{borrow.borrowing_date}}</td>
                                         <td>
-                                            {% if book.availability_status %}
-                                            <span class="badge badge-success">In Stock</span>
-                                            {% else %}
-                                            <span class="badge badge-danger">Out of Stock</span>
-                                            {% endif %}
+                                            {{borrow.due_date}}
                                         </td>
                                     </tr>
                                     {% endfor %}
