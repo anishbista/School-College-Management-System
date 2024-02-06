@@ -11,7 +11,7 @@ class BaseView(View):
 
 
 def user_context(request):
-    user_attributes = ["student", "teacher", "parent"]
+    user_attributes = ["student", "teacher", "parent", "staff"]
     profile = None
     user_type = None
 
