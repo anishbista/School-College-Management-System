@@ -192,8 +192,12 @@ class GalleryView(StudentRequiredMixin, View):
         context = {"active_tab": self.active_tab, "gallerys": gallerys}
         return render(request, self.template_name, context)
 
+<<<<<<< HEAD
 
 class libraryBookView(LoginRequiredMixin, View):
+=======
+class libraryBookView(StudentRequiredMixin, View):
+>>>>>>> 8a23096892e29601db347d7645944fc939c53ade
     active_tab = "librarybook"
     template_name = "students/library/booklist.html"
 
@@ -201,6 +205,7 @@ class libraryBookView(LoginRequiredMixin, View):
         books = libraryBook.objects.all()
         context = {"active_tab": self.active_tab, "books": books}
         return render(request, self.template_name, context)
+<<<<<<< HEAD
 
     def post(self, request):
         query = request.POST.get("bookquery")
@@ -211,6 +216,15 @@ class libraryBookView(LoginRequiredMixin, View):
 
 
 class BorrowedView(LoginRequiredMixin, View):
+=======
+    def post(self,request):
+        query = request.POST.get('bookquery')
+        books=libraryBook.objects.filter(name__icontains=query)
+        context = {"active_tab": self.active_tab, "books": books}
+        return render(request, self.template_name, context)
+
+class BorrowedView(StudentRequiredMixin, View):
+>>>>>>> 8a23096892e29601db347d7645944fc939c53ade
     active_tab = "borrowed"
     template_name = "students/library/borrowedlist.html"
 
@@ -218,3 +232,65 @@ class BorrowedView(LoginRequiredMixin, View):
         borrowlist = Borrowing.objects.filter(borrowed_person=request.user.student)
         context = {"active_tab": self.active_tab, "borrowlist": borrowlist}
         return render(request, self.template_name, context)
+<<<<<<< HEAD
+=======
+
+class DriverView(StudentRequiredMixin,View):
+    active_tab = "driver"
+    template_name = "students/transportation/driver.html"
+
+    def get(self, request):
+        drivers=Driver.objects.all()
+        context={"active_tab": self.active_tab,"drivers":drivers}
+        return render(request, self.template_name, context)
+class BusView(StudentRequiredMixin,View):
+    active_tab = "bus"
+    template_name = "students/transportation/bus.html"
+
+    def get(self, request):
+        buses=Bus.objects.all()
+        context={"active_tab": self.active_tab,"buses":buses}
+        return render(request, self.template_name, context)
+class RouteView(StudentRequiredMixin,View):
+    active_tab = "route"
+    template_name = "students/transportation/route.html"
+
+    def get(self, request):
+        routes=Route.objects.all()
+        context={"active_tab": self.active_tab,"routes":routes}
+        return render(request, self.template_name, context)
+class StopView(StudentRequiredMixin,View):
+    active_tab = "stop"
+    template_name = "students/transportation/stop.html"
+
+    def get(self, request):
+        stops=Stop.objects.all()
+        context={"active_tab": self.active_tab,"stops":stops}
+        return render(request, self.template_name, context)
+    def post(self,request):
+        query = request.POST.get('stopquery')
+        stops=Stop.objects.filter(stop_name__icontains=query)
+        context = {"active_tab": self.active_tab, "stops": stops}
+        return render(request, self.template_name, context)
+class ScheduleView(StudentRequiredMixin,View):
+    active_tab = "schedule"
+    template_name = "students/transportation/schedule.html"
+
+    def get(self, request):
+        schedules=Schedule.objects.all()
+        context={"active_tab": self.active_tab,"schedules":schedules}
+        return render(request, self.template_name, context)
+    def post(self,request):
+        query = request.POST.get('schedulequery')
+        schedules=Schedule.objects.filter(route__route_name__icontains=query)
+        context = {"active_tab": self.active_tab, "schedules":schedules}
+        return render(request, self.template_name, context)
+class AlertView(StudentRequiredMixin,View):
+    active_tab = "alert"
+    template_name = "students/transportation/alert.html"
+
+    def get(self, request):
+        alerts = Alert.objects.all()
+        context={"active_tab": self.active_tab,"alerts":alerts}
+        return render(request, self.template_name, context)
+>>>>>>> 8a23096892e29601db347d7645944fc939c53ade

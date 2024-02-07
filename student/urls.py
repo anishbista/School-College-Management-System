@@ -21,4 +21,10 @@ urlpatterns = [
     path("gallery/", GalleryView.as_view(), name="gallery"),
     path("library/books/",libraryBookView.as_view(),name="librarybook"),
     path("library/borrowed/",BorrowedView.as_view(),name="borrowed"),
+    path("tansporation/driver/",DriverView.as_view(),name="driver"),
+    path("tansporation/bus/",BusView.as_view(),name="bus"),
+    path("tansporation/route/",RouteView.as_view(),name="route"),
+    path("tansporation/stop/",StopView.as_view(),name="stop"),
+    path("tansporation/schedule/",ScheduleView.as_view(),name="schedule"),
+    path("tansporation/alert/",AlertView.as_view(),name="alert"),
 ]
