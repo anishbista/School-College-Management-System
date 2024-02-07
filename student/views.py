@@ -1,7 +1,7 @@
 from datetime import date
 from typing import Any
-from django.db.models.query import QuerySet
-from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
+
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import View, ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -16,15 +16,22 @@ from school_news.models import *
 from gallery.models import *
 from .mixins import StudentRequiredMixin
 from staff.models import *
+from .services import *
+
 
 class StudentDashboardView(StudentRequiredMixin, View):
     template_name = "students/dashboard.html"
 
     def get(self, request, *args, **kwargs):
-        return render(
-            request,
-            self.template_name,
-        )
+        student = request.user.student
+        attendance_data = DashboardService.get_attendance_data(student)
+        assignment_data = DashboardService.get_assignment_data(student)
+
+        context = {
+            "attendance_data": attendance_data,
+            "assignment_data": assignment_data,
+        }
+        return render(request, self.template_name, context)
 
 
 class AssignmentView(StudentRequiredMixin, BaseView, View):
@@ -185,26 +192,29 @@ class GalleryView(StudentRequiredMixin, View):
         context = {"active_tab": self.active_tab, "gallerys": gallerys}
         return render(request, self.template_name, context)
 
+
 class libraryBookView(LoginRequiredMixin, View):
     active_tab = "librarybook"
     template_name = "students/library/booklist.html"
 
     def get(self, request):
-        books=libraryBook.objects.all()
+        books = libraryBook.objects.all()
         context = {"active_tab": self.active_tab, "books": books}
         return render(request, self.template_name, context)
-    def post(self,request):
-        query = request.POST.get('bookquery')
-        print(query) 
-        books=libraryBook.objects.filter(name__icontains=query)
+
+    def post(self, request):
+        query = request.POST.get("bookquery")
+        print(query)
+        books = libraryBook.objects.filter(name__icontains=query)
         context = {"active_tab": self.active_tab, "books": books}
         return render(request, self.template_name, context)
+
 
 class BorrowedView(LoginRequiredMixin, View):
     active_tab = "borrowed"
     template_name = "students/library/borrowedlist.html"
 
     def get(self, request):
-        borrowlist=Borrowing.objects.filter(borrowed_person=request.user.student)
+        borrowlist = Borrowing.objects.filter(borrowed_person=request.user.student)
         context = {"active_tab": self.active_tab, "borrowlist": borrowlist}
         return render(request, self.template_name, context)

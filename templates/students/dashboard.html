@@ -4,6 +4,18 @@
 {% block link %}
 <link rel="stylesheet" href="{% static 'plugins/simple-calendar/simple-calendar.css'%}">
 {{ block.super }} {# This block add all the css form students/sidebar.html #}
+<style>
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        filter: invert(100%);
+    }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+        color: black;
+    }
+</style>
+
 {% endblock link %}
 
 
@@ -29,358 +41,121 @@
 
 
         <div class="row">
-            <div class="col-xl-3 col-sm-6 col-12 d-flex">
+            <h3 class="page-title"><b>Attendance</b></h3>
+            {% for data in attendance_data %}
+            <div class="col-xl-2 col-sm-3 col-6 d-flex">
                 <div class="card bg-comman w-100">
-                    <div class="card-body">
-                        <div class="db-widgets d-flex justify-content-between align-items-center">
-                            <div class="db-info">
-                                <h6>All Courses</h6>
-                                <h3>04/06</h3>
-                            </div>
-                            <div class="db-icon">
-                                <img src="assets/img/icons/teacher-icon-01.svg" alt="Dashboard Icon">
+                    <div class="card-body d-flex flex-column align-items-center"> 
+                        <div class="db-info text-center mb-1"> 
+                            <h3>{{ data.course_name }}</h3>
+                            <h3>{{ data.total_present }}/{{ data.total_classes }}</h3>
+                        </div>
+                        <div class="col-lg-3 col-md-3 dash-widget1">
+                            <div class="circle-bar circle-bar2">
+                                <div class="circle-graph2" data-percent="{{ data.attendance_percentage }}">
+                                    <b>{{ data.attendance_percentage }}%</b>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-sm-6 col-12 d-flex">
-                <div class="card bg-comman w-100">
-                    <div class="card-body">
-                        <div class="db-widgets d-flex justify-content-between align-items-center">
-                            <div class="db-info">
-                                <h6>All Projects</h6>
-                                <h3>40/60</h3>
-                            </div>
-                            <div class="db-icon">
-                                <img src="assets/img/icons/teacher-icon-02.svg" alt="Dashboard Icon">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-sm-6 col-12 d-flex">
-                <div class="card bg-comman w-100">
-                    <div class="card-body">
-                        <div class="db-widgets d-flex justify-content-between align-items-center">
-                            <div class="db-info">
-                                <h6>Test Attended</h6>
-                                <h3>30/50</h3>
-                            </div>
-                            <div class="db-icon">
-                                <img src="assets/img/icons/student-icon-01.svg" alt="Dashboard Icon">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-sm-6 col-12 d-flex">
-                <div class="card bg-comman w-100">
-                    <div class="card-body">
-                        <div class="db-widgets d-flex justify-content-between align-items-center">
-                            <div class="db-info">
-                                <h6>Test Passed</h6>
-                                <h3>15/20</h3>
-                            </div>
-                            <div class="db-icon">
-                                <img src="assets/img/icons/student-icon-02.svg" alt="Dashboard Icon">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
+
+        
+
+        {% comment %} <div class="row">
+            <h3 class="page-title"><b>Assignments</b></h3>
+            {% for data in assignment_data %}
+            <div class="col-xl-4 col-sm-6 d-flex">
+                <div class="card bg-comman w-100">
+                    <div class="card-body"> 
+                        <div class="db-info"> 
+                            <h3>{{ data.course_name }}</h3>
+                            <h4>{{ data.assignment_name }}</h4>
+                            <p>{{ data.description }}</p>
+                            <p><b>Start Date:</b> {{ data.start_date }}</p>
+                            <p><b>End Date:</b> {{ data.end_date }}</p>
+                            {% if data.is_past_done %}
+                                <p><b>Status:</b> Completed</p>
+                            {% else %}
+                                <p><b>Status:</b> Pending</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+         {% endcomment %}
+      
+        
+        
+        
 
 
         <div class="row">
-            <div class="col-12 col-lg-12 col-xl-8">
-                <div class="card flex-fill comman-shadow">
-                    <div class="card-header">
-                        <div class="row align-items-center">
-                            <div class="col-6">
-                                <h5 class="card-title">Today’s Lesson</h5>
-                            </div>
-                            <div class="col-6">
-                                <ul class="chart-list-out">
-                                    <li><span class="circle-blue"></span><span class="circle-gray"></span><span
-                                            class="circle-gray"></span></li>
-                                    <li class="lesson-view-all"><a href="#">View All</a></li>
-                                    <li class="star-menus"><a href="javascript:;"><i
-                                                class="fas fa-ellipsis-v"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="dash-circle">
-                        <div class="row">
-                            <div class="col-lg-3 col-md-3 dash-widget1">
-                                <div class="circle-bar circle-bar2">
-                                    <div class="circle-graph2" data-percent="80">
-                                        <b>80%</b>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3">
-                                <div class="dash-details">
-                                    <div class="lesson-activity">
-                                        <div class="lesson-imgs">
-                                            <img src="assets/img/icons/lesson-icon-01.svg" alt="">
-                                        </div>
-                                        <div class="views-lesson">
-                                            <h5>Class</h5>
-                                            <h4>Electrical Engg</h4>
-                                        </div>
-                                    </div>
-                                    <div class="lesson-activity">
-                                        <div class="lesson-imgs">
-                                            <img src="assets/img/icons/lesson-icon-02.svg" alt="">
-                                        </div>
-                                        <div class="views-lesson">
-                                            <h5>Lessons</h5>
-                                            <h4>5 Lessons</h4>
-                                        </div>
-                                    </div>
-                                    <div class="lesson-activity">
-                                        <div class="lesson-imgs">
-                                            <img src="assets/img/icons/lesson-icon-03.svg" alt="">
-                                        </div>
-                                        <div class="views-lesson">
-                                            <h5>Time</h5>
-                                            <h4>Lessons</h4>
+            
+            
+
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title">Assignments </h4>
+    
+                        
+                        <div id="assignmentsCarousel" class="carousel slide " data-bs-ride="carousel">
+                            <ol class="carousel-indicators ">
+                                {% for data in assignment_data %}
+                                <li data-bs-target="#assignmentsCarousel" data-bs-slide-to="{{ forloop.counter0 }}"
+                                    {% if forloop.first %}class="active"{% endif %}></li>
+                                {% endfor %}
+                            </ol>
+                            <div class="carousel-inner" role="listbox">
+                                {% for data in assignment_data %}
+                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                    <div class="row">
+                                        <div class="col-xl-12 col-sm-12 d-flex">
+                                            <div class="card bg-comman w-100">
+                                                <div class="card-body d-flex flex-column align-items-center">
+                                                    <div class="db-info text-center mb-1">
+                                                        <h3>{{ data.course_name }}</h3>
+                                                        <h4>{{ data.assignment_name }}</h4>
+                                                        
+                                                        <p><b>Start Date:</b> {{ data.start_date }}</p>
+                                                        <p><b>End Date:</b> {{ data.end_date }}</p>
+                                                        {% if data.is_past_done %}
+                                                        <p><b>Status:</b> Completed</p>
+                                                        {% else %}
+                                                        <p><b>Status:</b> Pending</p>
+                                                        {% endif %} 
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                {% endfor %}
                             </div>
-                            <div class="col-lg-3 col-md-3">
-                                <div class="dash-details">
-                                    <div class="lesson-activity">
-                                        <div class="lesson-imgs">
-                                            <img src="assets/img/icons/lesson-icon-04.svg" alt="">
-                                        </div>
-                                        <div class="views-lesson">
-                                            <h5>Asignment</h5>
-                                            <h4>5 Asignment</h4>
-                                        </div>
-                                    </div>
-                                    <div class="lesson-activity">
-                                        <div class="lesson-imgs">
-                                            <img src="assets/img/icons/lesson-icon-05.svg" alt="">
-                                        </div>
-                                        <div class="views-lesson">
-                                            <h5>Staff</h5>
-                                            <h4>John Doe</h4>
-                                        </div>
-                                    </div>
-                                    <div class="lesson-activity">
-                                        <div class="lesson-imgs">
-                                            <img src="assets/img/icons/lesson-icon-06.svg" alt="">
-                                        </div>
-                                        <div class="views-lesson">
-                                            <h5>Lesson Learned</h5>
-                                            <h4>10/50</h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 d-flex align-items-center justify-content-center">
-                                <div class="skip-group">
-                                    <button type="submit" class="btn btn-info skip-btn">skip</button>
-                                    <button type="submit" class="btn btn-info continue-btn">Continue</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12 col-lg-12 col-xl-12 d-flex">
-                        <div class="card flex-fill comman-shadow">
-                            <div class="card-header">
-                                <div class="row align-items-center">
-                                    <div class="col-6">
-                                        <h5 class="card-title">Learning Activity</h5>
-                                    </div>
-                                    <div class="col-6">
-                                        <ul class="chart-list-out">
-                                            <li><span class="circle-blue"></span>Teacher</li>
-                                            <li><span class="circle-green"></span>Student</li>
-                                            <li class="star-menus"><a href="javascript:;"><i
-                                                        class="fas fa-ellipsis-v"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div id="apexcharts-area"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-lg-12 col-xl-12 d-flex">
-                        <div class="card flex-fill comman-shadow">
-                            <div class="card-header d-flex align-items-center">
-                                <h5 class="card-title">Teaching History</h5>
-                                <ul class="chart-list-out student-ellips">
-                                    <li class="star-menus"><a href="javascript:;"><i
-                                                class="fas fa-ellipsis-v"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="card-body">
-                                <div class="teaching-card">
-                                    <ul class="steps-history">
-                                        <li>Sep22</li>
-                                        <li>Sep23</li>
-                                        <li>Sep24</li>
-                                    </ul>
-                                    <ul class="activity-feed">
-                                        <li class="feed-item d-flex align-items-center">
-                                            <div class="dolor-activity">
-                                                <span class="feed-text1"><a>Mathematics</a></span>
-                                                <ul class="teacher-date-list">
-                                                    <li><i class="fas fa-calendar-alt me-2"></i>September 5,
-                                                        2022</li>
-                                                    <li>|</li>
-                                                    <li><i class="fas fa-clock me-2"></i>09:00 am - 10:00 am (60
-                                                        Minutes)</li>
-                                                </ul>
-                                            </div>
-                                            <div class="activity-btns ms-auto">
-                                                <button type="submit" class="btn btn-info">In Progress</button>
-                                            </div>
-                                        </li>
-                                        <li class="feed-item d-flex align-items-center">
-                                            <div class="dolor-activity">
-                                                <span class="feed-text1"><a>Geography </a></span>
-                                                <ul class="teacher-date-list">
-                                                    <li><i class="fas fa-calendar-alt me-2"></i>September 5,
-                                                        2022</li>
-                                                    <li>|</li>
-                                                    <li><i class="fas fa-clock me-2"></i>09:00 am - 10:00 am (60
-                                                        Minutes)</li>
-                                                </ul>
-                                            </div>
-                                            <div class="activity-btns complete ms-auto">
-                                                <button type="submit" class="btn btn-info">Completed</button>
-                                            </div>
-                                        </li>
-                                        <li class="feed-item d-flex align-items-center">
-                                            <div class="dolor-activity">
-                                                <span class="feed-text1"><a>Botony</a></span>
-                                                <ul class="teacher-date-list">
-                                                    <li><i class="fas fa-calendar-alt me-2"></i>September 5,
-                                                        2022</li>
-                                                    <li>|</li>
-                                                    <li><i class="fas fa-clock me-2"></i>09:00 am - 10:00 am (60
-                                                        Minutes)</li>
-                                                </ul>
-                                            </div>
-                                            <div class="activity-btns ms-auto">
-                                                <button type="submit" class="btn btn-info">In Progress</button>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+                            <a class="carousel-control-prev" href="#assignmentsCarousel" role="button" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#assignmentsCarousel" role="button" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-lg-12 col-xl-4 d-flex">
+            
+            <div class="col-12 col-lg-12 col-xl-6 d-flex">
                 <div class="card flex-fill comman-shadow">
                     <div class="card-body">
                         <div id="calendar-doctor" class="calendar-container"></div>
-                        <div class="calendar-info calendar-info1">
-                            <div class="up-come-header">
-                                <h2>Upcoming Events</h2>
-                                <span><a href="javascript:;"><i class="feather-plus"></i></a></span>
-                            </div>
-                            <div class="upcome-event-date">
-                                <h3>10 Jan</h3>
-                                <span><i class="fas fa-ellipsis-h"></i></span>
-                            </div>
-                            <div class="calendar-details">
-                                <p>08:00 am</p>
-                                <div class="calendar-box normal-bg">
-                                    <div class="calandar-event-name">
-                                        <h4>Botony</h4>
-                                        <h5>Lorem ipsum sit amet</h5>
-                                    </div>
-                                    <span>08:00 - 09:00 am</span>
-                                </div>
-                            </div>
-                            <div class="calendar-details">
-                                <p>09:00 am</p>
-                                <div class="calendar-box normal-bg">
-                                    <div class="calandar-event-name">
-                                        <h4>Botony</h4>
-                                        <h5>Lorem ipsum sit amet</h5>
-                                    </div>
-                                    <span>09:00 - 10:00 am</span>
-                                </div>
-                            </div>
-                            <div class="calendar-details">
-                                <p>10:00 am</p>
-                                <div class="calendar-box normal-bg">
-                                    <div class="calandar-event-name">
-                                        <h4>Botony</h4>
-                                        <h5>Lorem ipsum sit amet</h5>
-                                    </div>
-                                    <span>10:00 - 11:00 am</span>
-                                </div>
-                            </div>
-                            <div class="upcome-event-date">
-                                <h3>10 Jan</h3>
-                                <span><i class="fas fa-ellipsis-h"></i></span>
-                            </div>
-                            <div class="calendar-details">
-                                <p>08:00 am</p>
-                                <div class="calendar-box normal-bg">
-                                    <div class="calandar-event-name">
-                                        <h4>English</h4>
-                                        <h5>Lorem ipsum sit amet</h5>
-                                    </div>
-                                    <span>08:00 - 09:00 am</span>
-                                </div>
-                            </div>
-                            <div class="calendar-details">
-                                <p>09:00 am</p>
-                                <div class="calendar-box normal-bg">
-                                    <div class="calandar-event-name">
-                                        <h4>Mathematics </h4>
-                                        <h5>Lorem ipsum sit amet</h5>
-                                    </div>
-                                    <span>09:00 - 10:00 am</span>
-                                </div>
-                            </div>
-                            <div class="calendar-details">
-                                <p>10:00 am</p>
-                                <div class="calendar-box normal-bg">
-                                    <div class="calandar-event-name">
-                                        <h4>History</h4>
-                                        <h5>Lorem ipsum sit amet</h5>
-                                    </div>
-                                    <span>10:00 - 11:00 am</span>
-                                </div>
-                            </div>
-                            <div class="calendar-details">
-                                <p>11:00 am</p>
-                                <div class="calendar-box break-bg">
-                                    <div class="calandar-event-name">
-                                        <h4>Break</h4>
-                                        <h5>Lorem ipsum sit amet</h5>
-                                    </div>
-                                    <span>11:00 - 12:00 am</span>
-                                </div>
-                            </div>
-                            <div class="calendar-details">
-                                <p>11:30 am</p>
-                                <div class="calendar-box normal-bg">
-                                    <div class="calandar-event-name">
-                                        <h4>History</h4>
-                                        <h5>Lorem ipsum sit amet</h5>
-                                    </div>
-                                    <span>11:30 - 12:00 am</span>
-                                </div>
-                            </div>
-                        </div>
+                       
                     </div>
                 </div>
             </div>
@@ -388,9 +163,7 @@
 
     </div>
 
-    <footer>
-        <p>Copyright © 2022 Dreamguys.</p>
-    </footer>
+   
 
 </div>
 {% endblock content %}
