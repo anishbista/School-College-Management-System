@@ -1,13 +1,13 @@
 from datetime import date
 from typing import Any
 from django.db.models.query import QuerySet
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.views.generic import View
 from .mixins import StaffRequiredMixin
 from school_news.models import *
 from gallery.models import *
 from .models import libraryBook, Borrowing
-from .forms import BorrowingForm, LibraryBookForm
+from .forms import BorrowingForm, LibraryBookForm,AlertForm
 from .services import *
 
 
@@ -139,3 +139,65 @@ class AddBook(StaffRequiredMixin, View):
             return redirect("staff:librarybook")
         context = {"active_tab": self.active_tab, "form": form}
         return render(request, self.template_name, context)
+class AlertView(StaffRequiredMixin, View):
+    active_tab = "alert"
+    template_name = "staffs/transportation/alert.html"
+
+    def get(self, request):
+        alerts = Alert.objects.all()
+        context = {"active_tab": self.active_tab, "alerts": alerts}
+        return render(request, self.template_name, context)
+class DeleteAlert(StaffRequiredMixin,View):
+    def get(self,request,a_id):
+        try:
+            alert=Alert.objects.get(id=a_id)
+            alert.delete()
+            return redirect("staff:alert")
+        except:
+            return redirect("staff:alert")
+class EditAlertView(StaffRequiredMixin,View):
+    active_tab = "alert"
+    template_name = "staffs/transportation/edit_alert.html"
+    def get(self,request,a_id):
+        alert=get_object_or_404(Alert, id=a_id)
+        form=AlertForm(instance=alert)
+        context={
+            "active_tab": self.active_tab,
+            "form":form,
+            "a_id":a_id,
+        }
+        return render(request,self.template_name,context)
+    def post(self,request,a_id):
+        alert=get_object_or_404(Alert, id=a_id)
+        form=AlertForm(request.POST,instance=alert)
+        if form.is_valid():
+            form.save()
+            return redirect("staff:alert")
+        else:
+            context={
+            "active_tab": self.active_tab,
+            "form":form,
+            "a_id":a_id,
+            }
+            return render(request,self.template_name,context)
+class AddAlertView(StaffRequiredMixin,View):
+    active_tab = "alert"
+    template_name = "staffs/transportation/add_alert.html"
+    def get(self,request):
+        form=AlertForm()
+        context={
+            "active_tab": self.active_tab,
+            "form":form,
+        }
+        return render(request,self.template_name,context)
+    def post(self,request):
+        form=AlertForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("staff:alert")
+        else:
+            context={
+            "active_tab": self.active_tab,
+            "form":form,
+            }
+            return render(request,self.template_name,context)

@@ -47,6 +47,13 @@ rel="stylesheet">
                         <li><a href="{% url 'staff:borrowed' %}" class = "{% if active_tab == 'borrowed' %}active {% endif %}">Borrowed Book</a></li>
                     </ul>
                 </li>
+                <li class="submenu">
+                    <a href="#"><i class="fas fa-book"></i><span> Transporation</span> <span
+                                class="menu-arrow"></span></a>
+                    <ul>
+                        <li><a href="{% url 'staff:alert' %}" class = "{% if active_tab == 'alert' %}active {% endif %}">Alert</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>

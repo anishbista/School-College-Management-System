@@ -1,5 +1,5 @@
 from django import forms
-from .models import Borrowing, libraryBook
+from .models import Borrowing, libraryBook,Alert
 
 
 class BorrowingForm(forms.ModelForm):
@@ -39,4 +39,14 @@ class LibraryBookForm(forms.ModelForm):
         widgets = {
             "name": forms.TextInput(attrs={"class": "form-control"}),
             "author": forms.TextInput(attrs={"class": "form-control"}),
+        }
+class AlertForm(forms.ModelForm):
+    class Meta:
+        model = Alert
+        fields = '__all__'
+        widgets = {
+            'route': forms.Select(attrs={'class': 'form-control'}),
+            'alert_type': forms.Select(attrs={'class': 'form-control'}),
+            'alert_message': forms.Textarea(attrs={'class': 'form-control'}),
+            'alert_time': forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'}),
         }
