@@ -6,14 +6,22 @@ from accounts.models import *
 from school_news.models import *
 from gallery.models import *
 from .mixins import ParentRequiredMixin
+from teacher.models import Attendance
+from student.services import *
 
 
 class ParentDashboardView(ParentRequiredMixin, View):
     template_name = "parents/dashboard.html"
 
     def get(self, request, *args, **kwargs):
+        student = request.user.parent.student
+        attendance_data = DashboardService.get_attendance_data(student)
+        context = {
+            "student": student,
+            "attendance_data": attendance_data,
+        }
 
-        return render(request, self.template_name)
+        return render(request, self.template_name, context)
 
 
 class AnnouncementView(ParentRequiredMixin, View):

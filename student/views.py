@@ -1,7 +1,7 @@
 from datetime import date
 from typing import Any
-from django.db.models.query import QuerySet
-from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
+
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import View, ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -16,15 +16,22 @@ from school_news.models import *
 from gallery.models import *
 from .mixins import StudentRequiredMixin
 from staff.models import *
+from .services import *
+
 
 class StudentDashboardView(StudentRequiredMixin, View):
     template_name = "students/dashboard.html"
 
     def get(self, request, *args, **kwargs):
-        return render(
-            request,
-            self.template_name,
-        )
+        student = request.user.student
+        attendance_data = DashboardService.get_attendance_data(student)
+        assignment_data = DashboardService.get_assignment_data(student)
+
+        context = {
+            "attendance_data": attendance_data,
+            "assignment_data": assignment_data,
+        }
+        return render(request, self.template_name, context)
 
 
 class AssignmentView(StudentRequiredMixin, BaseView, View):
@@ -185,84 +192,100 @@ class GalleryView(StudentRequiredMixin, View):
         context = {"active_tab": self.active_tab, "gallerys": gallerys}
         return render(request, self.template_name, context)
 
+
 class libraryBookView(StudentRequiredMixin, View):
     active_tab = "librarybook"
     template_name = "students/library/booklist.html"
 
     def get(self, request):
-        books=libraryBook.objects.all()
+        books = libraryBook.objects.all()
         context = {"active_tab": self.active_tab, "books": books}
         return render(request, self.template_name, context)
-    def post(self,request):
-        query = request.POST.get('bookquery')
-        books=libraryBook.objects.filter(name__icontains=query)
+
+    def post(self, request):
+        query = request.POST.get("bookquery")
+        books = libraryBook.objects.filter(name__icontains=query)
         context = {"active_tab": self.active_tab, "books": books}
         return render(request, self.template_name, context)
+
 
 class BorrowedView(StudentRequiredMixin, View):
     active_tab = "borrowed"
     template_name = "students/library/borrowedlist.html"
 
     def get(self, request):
-        borrowlist=Borrowing.objects.filter(borrowed_person=request.user.student)
+        borrowlist = Borrowing.objects.filter(borrowed_person=request.user.student)
         context = {"active_tab": self.active_tab, "borrowlist": borrowlist}
         return render(request, self.template_name, context)
 
-class DriverView(StudentRequiredMixin,View):
+
+class DriverView(StudentRequiredMixin, View):
     active_tab = "driver"
     template_name = "students/transportation/driver.html"
 
     def get(self, request):
-        drivers=Driver.objects.all()
-        context={"active_tab": self.active_tab,"drivers":drivers}
+        drivers = Driver.objects.all()
+        context = {"active_tab": self.active_tab, "drivers": drivers}
         return render(request, self.template_name, context)
-class BusView(StudentRequiredMixin,View):
+
+
+class BusView(StudentRequiredMixin, View):
     active_tab = "bus"
     template_name = "students/transportation/bus.html"
 
     def get(self, request):
-        buses=Bus.objects.all()
-        context={"active_tab": self.active_tab,"buses":buses}
+        buses = Bus.objects.all()
+        context = {"active_tab": self.active_tab, "buses": buses}
         return render(request, self.template_name, context)
-class RouteView(StudentRequiredMixin,View):
+
+
+class RouteView(StudentRequiredMixin, View):
     active_tab = "route"
     template_name = "students/transportation/route.html"
 
     def get(self, request):
-        routes=Route.objects.all()
-        context={"active_tab": self.active_tab,"routes":routes}
+        routes = Route.objects.all()
+        context = {"active_tab": self.active_tab, "routes": routes}
         return render(request, self.template_name, context)
-class StopView(StudentRequiredMixin,View):
+
+
+class StopView(StudentRequiredMixin, View):
     active_tab = "stop"
     template_name = "students/transportation/stop.html"
 
     def get(self, request):
-        stops=Stop.objects.all()
-        context={"active_tab": self.active_tab,"stops":stops}
-        return render(request, self.template_name, context)
-    def post(self,request):
-        query = request.POST.get('stopquery')
-        stops=Stop.objects.filter(stop_name__icontains=query)
+        stops = Stop.objects.all()
         context = {"active_tab": self.active_tab, "stops": stops}
         return render(request, self.template_name, context)
-class ScheduleView(StudentRequiredMixin,View):
+
+    def post(self, request):
+        query = request.POST.get("stopquery")
+        stops = Stop.objects.filter(stop_name__icontains=query)
+        context = {"active_tab": self.active_tab, "stops": stops}
+        return render(request, self.template_name, context)
+
+
+class ScheduleView(StudentRequiredMixin, View):
     active_tab = "schedule"
     template_name = "students/transportation/schedule.html"
 
     def get(self, request):
-        schedules=Schedule.objects.all()
-        context={"active_tab": self.active_tab,"schedules":schedules}
+        schedules = Schedule.objects.all()
+        context = {"active_tab": self.active_tab, "schedules": schedules}
         return render(request, self.template_name, context)
-    def post(self,request):
-        query = request.POST.get('schedulequery')
-        schedules=Schedule.objects.filter(route__route_name__icontains=query)
-        context = {"active_tab": self.active_tab, "schedules":schedules}
+
+    def post(self, request):
+        query = request.POST.get("schedulequery")
+        schedules = Schedule.objects.filter(route__route_name__icontains=query)
+        context = {"active_tab": self.active_tab, "schedules": schedules}
         return render(request, self.template_name, context)
-class AlertView(StudentRequiredMixin,View):
+
+
+class AlertView(StudentRequiredMixin, View):
     active_tab = "alert"
     template_name = "students/transportation/alert.html"
 
     def get(self, request):
         alerts = Alert.objects.all()
-        context={"active_tab": self.active_tab,"alerts":alerts}
+        context = {"active_tab": self.active_tab, "alerts": alerts}
         return render(request, self.template_name, context)

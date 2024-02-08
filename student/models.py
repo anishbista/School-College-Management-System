@@ -4,7 +4,9 @@ from teacher.models import *
 
 
 class Submit(CommonInfo):
-    work = models.ForeignKey(Assignment, on_delete=models.CASCADE)
+    work = models.ForeignKey(
+        Assignment, on_delete=models.CASCADE, related_name="submission"
+    )
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     image = models.ImageField(null=True, blank=True)
     sb_file = models.FileField(

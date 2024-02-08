@@ -8,16 +8,25 @@ from school_news.models import *
 from gallery.models import *
 from .models import libraryBook, Borrowing
 from .forms import BorrowingForm, LibraryBookForm
+from .services import *
 
 
 class StaffDashboardView(StaffRequiredMixin, View):
     template_name = "staffs/dashboard.html"
 
     def get(self, request, *args, **kwargs):
-        return render(
-            request,
-            self.template_name,
-        )
+        available_books = LibraryService.get_total_available_books()
+        overdue_books = LibraryService.get_total_overdue_books()
+        added_books = LibraryService.get_recently_added_books()
+        for i in added_books:
+            print(i)
+        context = {
+            "available_books": available_books,
+            "overdue_books": overdue_books,
+            "added_books": added_books,
+        }
+
+        return render(request, self.template_name, context)
 
 
 class AnnouncementView(StaffRequiredMixin, View):
