@@ -16,6 +16,7 @@ from common.base_view import BaseView
 from school_news.models import *
 from gallery.models import *
 from .mixins import TeacherRequiredMixin
+from .services import *
 
 # from celery import shared_task
 
@@ -24,10 +25,19 @@ class TeacherDashboardView(TeacherRequiredMixin, View):
     template_name = "teachers/dashboard.html"
 
     def get(self, request, *args, **kwargs):
-        return render(
-            request,
-            self.template_name,
+        assignment = DashboardService.get_assignment_submission_status(
+            request.user.teacher
         )
+        present_students = DashboardService.get_total_present_students(
+            request.user.teacher
+        )
+        for i in present_students:
+            print(i)
+        context = {
+            "assignment": assignment,
+            "present": present_students,
+        }
+        return render(request, self.template_name, context)
 
 
 class AddAssignmentView(TeacherRequiredMixin, BaseView, CreateView):

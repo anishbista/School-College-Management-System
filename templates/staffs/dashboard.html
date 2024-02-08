@@ -1,5 +1,180 @@
 {% extends "staffs/sidebar.html" %}
+{% load static %}
+
+{% block link %}
+<link rel="stylesheet" href="{% static 'plugins/simple-calendar/simple-calendar.css'%}">
+{{ block.super }} {# This block add all the css form students/sidebar.html #}
+<style>
+    .carousel-indicators ,
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        filter: invert(100%);
+    }
+    .carousel-indicators ,
+    .carousel-control-prev,
+    .carousel-control-next {
+        color: black;
+    }
+</style>
+
+{% endblock link %}
+
+
+
 
 {% block content %}
-<h1>Staff</h1>
+<div class="page-wrapper">
+    <div class="content container-fluid">
+
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="page-sub-header">
+                        <h3 class="page-title">Welcome {{profile}} !</h3>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item active">Student</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xl-3 col-sm-6 col-12 d-flex">
+                <div class="card bg-comman w-100">
+                    <div class="card-body">
+                        <div class="db-widgets d-flex justify-content-between align-items-center">
+                            <div class="db-info">
+                                <h6>Available Books</h6>
+                                <h3>{{ available_books.available_books }}/{{ available_books.total_book }} Books</h3>
+                            </div>
+                            <i class="fa fa-book fa-3x" data-bs-toggle="tooltip" title="" data-bs-original-title="fa fa-book" aria-label="fa fa-book"></i>
+                           
+                        </div>  
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 col-12 d-flex">
+                <div class="card bg-comman w-100">
+                    <div class="card-body">
+                        <div class="db-widgets d-flex justify-content-between align-items-center">
+                            <div class="db-info">
+                                <h6>OverDue Books</h6>
+                                <h3>{{overdue_books.over_due }}/{{ overdue_books.borrowed_books }} Borrowed Books</h3>
+                            </div>
+                            
+                                <i class="fa fa-book fa-3x" data-bs-toggle="tooltip" title="" data-bs-original-title="fa fa-book" aria-label="fa fa-book"></i>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+
+
+
+        
+
+        {% comment %} <div class="row">
+            <h3 class="page-title"><b>Assignments</b></h3>
+            {% for data in assignment_data %}
+            <div class="col-xl-4 col-sm-6 d-flex">
+                <div class="card bg-comman w-100">
+                    <div class="card-body"> 
+                        <div class="db-info"> 
+                            <h3>{{ data.course_name }}</h3>
+                            <h4>{{ data.assignment_name }}</h4>
+                            <p>{{ data.description }}</p>
+                            <p><b>Start Date:</b> {{ data.start_date }}</p>
+                            <p><b>End Date:</b> {{ data.end_date }}</p>
+                            {% if data.is_past_done %}
+                                <p><b>Status:</b> Completed</p>
+                            {% else %}
+                                <p><b>Status:</b> Pending</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+         {% endcomment %}
+      
+        
+        
+        
+
+
+        <div class="row">
+            
+            
+
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title">Recently Added Book</h4>
+    
+                        
+                        <div id="assignmentsCarousel" class="carousel slide " data-bs-ride="carousel">
+                            <ol class="carousel-indicators ">
+                                {% for data in added_books %}
+                                <li data-bs-target="#assignmentsCarousel" data-bs-slide-to="{{ forloop.counter0 }}"
+                                    {% if forloop.first %}class="active"{% endif %}></li>
+                                {% endfor %}
+                            </ol>
+                            <div class="carousel-inner" role="listbox">
+                                {% for data in added_books %}
+                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                    <div class="row">
+                                        <div class="col-xl-12 col-sm-12 d-flex">
+                                            <div class="card bg-comman w-100">
+                                                <div class="card-body d-flex flex-column align-items-center">
+                                                    <div class="db-info text-center mb-1">
+                                                        <h3>{{ data.name }}</h3>
+                                                        <h4>{{ data.author }}</h4>
+                                                        
+                                                        
+                                                        {% if data.availability_status %}
+                                                        <p><b>Status:</b> In Stock</p>
+                                                        {% else %}
+                                                        <p><b>Status:</b> Out of Stock</p>
+                                                        {% endif %} 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <a class="carousel-control-prev" href="#assignmentsCarousel" role="button" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#assignmentsCarousel" role="button" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-12 col-lg-12 col-xl-6 d-flex">
+                <div class="card flex-fill comman-shadow">
+                    <div class="card-body">
+                        <div id="calendar-doctor" class="calendar-container"></div>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+   
+
+</div>
 {% endblock content %}
