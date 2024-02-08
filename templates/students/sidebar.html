@@ -59,7 +59,7 @@ rel="stylesheet">
                     </ul>
                 </li>
                 <li class="submenu">
-                    <a href="#"><i class="fas fa-book"></i><span> Transporation</span> <span
+                    <a href="#"><i class="fa fa-bus"></i><span> Transporation</span> <span
                                 class="menu-arrow"></span></a>
                     <ul>
                         <li><a href="{% url 'student:driver' %}" class = "{% if active_tab == 'driver' %}active {% endif %}">Driver</a></li>
@@ -68,6 +68,14 @@ rel="stylesheet">
                         <li><a href="{% url 'student:stop' %}" class = "{% if active_tab == 'stop' %}active {% endif %}">Stop</a></li>
                         <li><a href="{% url 'student:schedule' %}" class = "{% if active_tab == 'schedule' %}active {% endif %}">Schedule</a></li>
                         <li><a href="{% url 'student:alert' %}" class = "{% if active_tab == 'alert' %}active {% endif %}">Alert</a></li>
+                    </ul>
+                </li>
+                <li class="submenu">
+                    <a href="#"><i class="fas fa-comment-dollar"></i><span>College Fee</span> <span
+                                class="menu-arrow"></span></a>
+                    <ul>
+                        <li><a href="{% url 'student:feelist' %}" class = "{% if active_tab == 'fee' %}active {% endif %}">Fee</a></li>
+                        <li><a href="{% url 'student:payment' %}" class = "{% if active_tab == 'payment' %}active {% endif %}">Payment</a></li>
                     </ul>
                 </li>
             </ul>

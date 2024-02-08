@@ -289,3 +289,25 @@ class AlertView(StudentRequiredMixin, View):
         alerts = Alert.objects.all()
         context = {"active_tab": self.active_tab, "alerts": alerts}
         return render(request, self.template_name, context)
+
+#college fee
+class FeeView(StudentRequiredMixin,View):
+    active_tab = "fee"
+    template_name = "students/college_fee/fee.html"
+    def get(self,request):
+        fees=Fee.objects.all()
+        context={
+            "active_tab": self.active_tab,
+            "fees":fees
+        }
+        return render(request,self.template_name,context)
+class PaymentView(StudentRequiredMixin,View):
+    active_tab = "payment"
+    template_name = "students/college_fee/payment_list.html"
+    def get(self,request):
+        payments=Payment.objects.filter(student=request.user.student)
+        context={
+            "active_tab": self.active_tab,
+            "payments":payments
+        }
+        return render(request,self.template_name,context)

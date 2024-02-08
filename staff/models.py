@@ -33,7 +33,7 @@ def update_availability_status(sender, instance, **kwargs):
     instance.book.save()
 
 
-class Driver(models.Model):
+class Driver(CommonInfo):
     driver_name = models.CharField(max_length=100)
     address = models.CharField(max_length=200)
     contact_number = models.CharField(max_length=20)
@@ -42,7 +42,7 @@ class Driver(models.Model):
         return self.driver_name
 
 
-class Bus(models.Model):
+class Bus(CommonInfo):
     bus_number = models.CharField(max_length=20)
     capacity = models.IntegerField()
     drive_by = models.ForeignKey(Driver, on_delete=models.CASCADE)
@@ -54,7 +54,7 @@ class Bus(models.Model):
         return self.bus_number
 
 
-class Route(models.Model):
+class Route(CommonInfo):
     route_name = models.CharField(max_length=100)
     start_location = models.CharField(max_length=100)
     end_location = models.CharField(max_length=100)
@@ -63,7 +63,7 @@ class Route(models.Model):
         return self.route_name
 
 
-class Stop(models.Model):
+class Stop(CommonInfo):
     stop_name = models.CharField(max_length=100)
     route = models.ForeignKey(Route, on_delete=models.CASCADE)
     stop_order = models.IntegerField()
@@ -72,7 +72,7 @@ class Stop(models.Model):
         return self.stop_name
 
 
-class Schedule(models.Model):
+class Schedule(CommonInfo):
     bus = models.ForeignKey(Bus, on_delete=models.CASCADE)
     route = models.ForeignKey(Route, on_delete=models.CASCADE)
     day_of_week = models.CharField(max_length=20)
@@ -80,7 +80,7 @@ class Schedule(models.Model):
     arrival_time = models.TimeField()
 
 
-class Alert(models.Model):
+class Alert(CommonInfo):
     ALERT_TYPES = (
         ("delay", "Delay"),
         ("schedule_change", "Schedule Change"),
@@ -90,3 +90,21 @@ class Alert(models.Model):
     alert_type = models.CharField(max_length=20, choices=ALERT_TYPES)
     alert_message = models.TextField()
     alert_time = models.DateTimeField()
+
+#payment
+class Fee(CommonInfo):
+    fee_name = models.CharField(max_length=100)
+    amount = models.DecimalField(max_digits=8, decimal_places=2)
+    due_date = models.DateField()
+    def __str__(self) -> str:
+        return self.fee_name
+    
+class Payment(CommonInfo):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    fee = models.ForeignKey(Fee, on_delete=models.CASCADE)
+    amount_paid = models.DecimalField(max_digits=8, decimal_places=2)
+    payment_date = models.DateField()
+    def __str__(self) -> str:
+        return f"Student:{self.student} fee:{self.fee}"
+    class Meta:
+        unique_together = ['student', 'fee']

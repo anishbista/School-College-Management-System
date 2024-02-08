@@ -47,6 +47,21 @@ rel="stylesheet">
                         <li><a href="{% url 'staff:borrowed' %}" class = "{% if active_tab == 'borrowed' %}active {% endif %}">Borrowed Book</a></li>
                     </ul>
                 </li>
+                <li class="submenu">
+                    <a href="#"><i class="fa fa-bus"></i><span> Transporation</span> <span
+                                class="menu-arrow"></span></a>
+                    <ul>
+                        <li><a href="{% url 'staff:alert' %}" class = "{% if active_tab == 'alert' %}active {% endif %}">Alert</a></li>
+                    </ul>
+                </li>
+                <li class="submenu">
+                    <a href="#"><i class="fas fa-comment-dollar"></i><span>College Fee</span> <span
+                                class="menu-arrow"></span></a>
+                    <ul>
+                        <li><a href="{% url 'staff:feelist' %}" class = "{% if active_tab == 'fee' %}active {% endif %}">Fee</a></li>
+                        <li><a href="{% url 'staff:payment' %}" class = "{% if active_tab == 'payment' %}active {% endif %}">Payment</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
