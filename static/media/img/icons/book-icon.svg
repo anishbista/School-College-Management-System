@@ -1,0 +1,13 @@
+<svg width="62" height="62" viewBox="0 0 62 62" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Define pattern -->
+  <defs>
+    <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
+      <!-- Book cover shape -->
+      <rect x="0.1" y="0.1" width="0.8" height="0.8" fill="#FFD700" stroke="#000000"/>
+      <!-- Book binding -->
+      <rect x="0.4" y="0.1" width="0.2" height="0.8" fill="#8B4513"/>
+    </pattern>
+  </defs>
+  <!-- Apply pattern to a rectangle -->
+  <rect width="62" height="62" fill="url(#pattern0)" />
+</svg>
