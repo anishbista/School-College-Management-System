@@ -90,3 +90,21 @@ class Alert(CommonInfo):
     alert_type = models.CharField(max_length=20, choices=ALERT_TYPES)
     alert_message = models.TextField()
     alert_time = models.DateTimeField()
+
+#payment
+class Fee(CommonInfo):
+    fee_name = models.CharField(max_length=100)
+    amount = models.DecimalField(max_digits=8, decimal_places=2)
+    due_date = models.DateField()
+    def __str__(self) -> str:
+        return self.fee_name
+    
+class Payment(CommonInfo):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    fee = models.ForeignKey(Fee, on_delete=models.CASCADE)
+    amount_paid = models.DecimalField(max_digits=8, decimal_places=2)
+    payment_date = models.DateField()
+    def __str__(self) -> str:
+        return f"Student:{self.student} fee:{self.fee}"
+    class Meta:
+        unique_together = ['student', 'fee']

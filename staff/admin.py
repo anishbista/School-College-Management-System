@@ -1,12 +1,13 @@
 from django.contrib import admin
 from .models import *
-# Register your models here.
+# library
 @admin.register(libraryBook)
 class libraryBookAdmin(admin.ModelAdmin):
     list_display=['name','author','availability_status']
 @admin.register(Borrowing)
 class BorrowingAdmin(admin.ModelAdmin):
     list_display=['book','borrowed_person','borrowing_date','due_date']
+#transportation
 @admin.register(Driver)
 class DriverAdmin(admin.ModelAdmin):
     list_display = ('driver_name', 'address', 'contact_number')
@@ -25,3 +26,11 @@ class ScheduleAdmin(admin.ModelAdmin):
 @admin.register(Alert)
 class AlertAdmin(admin.ModelAdmin):
     list_display = ('route', 'alert_type', 'alert_message', 'alert_time')
+#fee
+@admin.register(Fee)
+class FeeAdmin(admin.ModelAdmin):
+    list_display = ('fee_name', 'amount', 'due_date')
+
+@admin.register(Payment)
+class PaymentAdmin(admin.ModelAdmin):
+    list_display = ('student', 'fee', 'amount_paid', 'payment_date')

@@ -18,4 +18,8 @@ urlpatterns = [
     path("transportation/alert/delete/<str:a_id>/",DeleteAlert.as_view(),name="delete_alert"),
     path("transportation/alert/edit/<str:a_id>/",EditAlertView.as_view(),name="edit_alert"),
     path("transportation/alert/add/",AddAlertView.as_view(),name="add_alert"),
+    path("college/fee/",FeeView.as_view(),name="feelist"),
+    path("college/fee/add/",AddFeeView.as_view(),name="add_fee"),
+    path("college/payment/",PaymentView.as_view(),name="payment"),
+    path("college/payment/add/",AddPaymentView.as_view(),name="add_payment"),
 ]
