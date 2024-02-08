@@ -47,11 +47,9 @@
                         <div class="db-widgets d-flex justify-content-between align-items-center">
                             <div class="db-info">
                                 <h6>Available Books</h6>
-                                <h3>{{ available_books.available_books }}/{{ available_books.total_book }}</h3>
+                                <h3>{{ available_books.available_books }}/{{ available_books.total_book }} Books</h3>
                             </div>
-                            <div class="db-icon">
-                                <i class="fa fa-book" data-bs-toggle="tooltip" title="" data-bs-original-title="fa fa-book" aria-label="fa fa-book"></i>
-                            </div>
+                            <i class="fa fa-book fa-3x" data-bs-toggle="tooltip" title="" data-bs-original-title="fa fa-book" aria-label="fa fa-book"></i>
                            
                         </div>  
                     </div>
@@ -63,11 +61,11 @@
                         <div class="db-widgets d-flex justify-content-between align-items-center">
                             <div class="db-info">
                                 <h6>OverDue Books</h6>
-                                <h3>{{overdue_books.over_due }}/{{ overdue_books.borrowed_books }}</h3>
+                                <h3>{{overdue_books.over_due }}/{{ overdue_books.borrowed_books }} Borrowed Books</h3>
                             </div>
-                            <div class="db-icon">
-                                <i class="fa fa-book" data-bs-toggle="tooltip" title="" data-bs-original-title="fa fa-book" aria-label="fa fa-book"></i>
-                            </div>
+                            
+                                <i class="fa fa-book fa-3x" data-bs-toggle="tooltip" title="" data-bs-original-title="fa fa-book" aria-label="fa fa-book"></i>
+                            
                         </div>
                     </div>
                 </div>
@@ -116,7 +114,7 @@
             <div class="col-lg-6">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="header-title">Assignments</h4>
+                        <h4 class="header-title">Recently Added Book</h4>
     
                         
                         <div id="assignmentsCarousel" class="carousel slide " data-bs-ride="carousel">
