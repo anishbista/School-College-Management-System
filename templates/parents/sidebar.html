@@ -38,6 +38,29 @@
                 <li class ="{% if active_tab == 'holiday' %}active {% endif %}"><a href="{% url 'parent:holiday' %}" ><i class="fas fa-suitcase"></i></i><span> Holiday</span></a></li>
                 <li class ="{% if active_tab == 'gallery' %}active{% endif %}"><a href="{% url 'parent:gallery' %}"><i class="fas fa-images"></i>
                     <span> Gallery</span></a></li>
+                    <li class="menu-title">
+                        <span>Management</span>
+                    </li>
+                    <li class="submenu">
+                        <a href="#"><i class="fa fa-bus"></i><span> Transporation</span> <span
+                                    class="menu-arrow"></span></a>
+                        <ul>
+                            <li><a href="{% url 'parent:driver' %}" class = "{% if active_tab == 'driver' %}active {% endif %}">Driver</a></li>
+                            <li><a href="{% url 'parent:bus' %}" class = "{% if active_tab == 'bus' %}active {% endif %}">Bus</a></li>
+                            <li><a href="{% url 'parent:route' %}" class = "{% if active_tab == 'route' %}active {% endif %}">Route</a></li>
+                            <li><a href="{% url 'parent:stop' %}" class = "{% if active_tab == 'stop' %}active {% endif %}">Stop</a></li>
+                            <li><a href="{% url 'parent:schedule' %}" class = "{% if active_tab == 'schedule' %}active {% endif %}">Schedule</a></li>
+                            <li><a href="{% url 'parent:alert' %}" class = "{% if active_tab == 'alert' %}active {% endif %}">Alert</a></li>
+                        </ul>
+                    </li>
+                    <li class="submenu">
+                        <a href="#"><i class="fas fa-comment-dollar"></i><span>College Fee</span> <span
+                                    class="menu-arrow"></span></a>
+                        <ul>
+                            <li><a href="{% url 'parent:feelist' %}" class = "{% if active_tab == 'fee' %}active {% endif %}">Fee</a></li>
+                            <li><a href="{% url 'parent:payment' %}" class = "{% if active_tab == 'payment' %}active {% endif %}">Payment</a></li>
+                        </ul>
+                    </li>
             </ul>
         </div>
     </div>
