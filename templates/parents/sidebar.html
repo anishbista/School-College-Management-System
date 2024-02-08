@@ -28,9 +28,9 @@
                 <li class="menu-title">
                     <span>Main Menu</span>
                 </li>
-                <li class="submenu active">
-                    <a href="#"><i class="feather-grid"></i> <span>
-                            Parent Dashboard</span> </a>
+                <li class="submenu">
+                    <li><a href="{% url 'parent:parent_dashboard' %}"><i class="feather-grid"></i> <span>
+                            Parent Dashboard</span> </a></li>
                     
                 </li>
                 <li class ="{% if active_tab == 'announcement' %}active{% endif %}"><a href="{% url 'parent:announcement' %}"><i class="fas fa-bullhorn"></i><span> Announcement</span></a></li>
