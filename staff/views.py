@@ -7,7 +7,7 @@ from .mixins import StaffRequiredMixin
 from school_news.models import *
 from gallery.models import *
 from .models import libraryBook, Borrowing
-from .forms import BorrowingForm, LibraryBookForm,AlertForm,FeeForm,PaymentForm
+from .forms import BorrowingForm, LibraryBookForm,AlertForm,FeeForm,PaymentForm,ExamForm
 from .services import *
 
 
@@ -264,3 +264,57 @@ class AddPaymentView(StaffRequiredMixin,View):
             "form":form,   
         }
         return render(request,self.template_name,context)
+#exam
+class ExamListView(StaffRequiredMixin,View):
+    active_tab="exam_list"
+    template_name = "staffs/exam/exam_list.html"
+    def get(self,request):
+        exams=Exam.objects.all()
+        context={
+            "active_tab": self.active_tab,
+            "exams":exams
+        }
+        return render(request,self.template_name,context)
+class AddExamView(StaffRequiredMixin,View):
+    active_tab="add_exam"
+    template_name = "staffs/exam/add_exam.html"
+    def get(self,request):
+        form=ExamForm()
+        context={
+            "active_tab": self.active_tab,
+            "form":form
+        }
+        return render(request,self.template_name,context)
+    def post(self,request):
+        form=ExamForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("staff:exam_list")
+        else:
+            context={
+            "active_tab": self.active_tab,
+            "form":form
+            }
+            return render(request,self.template_name,context)
+class EditExamView(StaffRequiredMixin,View):
+    template_name = "staffs/exam/add_exam.html"
+    def get(self,request,e_id):
+        exam=get_object_or_404(Exam,id=e_id)
+        form=ExamForm(instance=exam)
+        context={
+            "form":form,
+            "e_id":e_id,
+        }
+        return render(request,self.template_name,context)
+    def post(self,request,e_id):
+        exam=get_object_or_404(Exam,id=e_id)
+        form=ExamForm(request.POST,instance=exam)
+        if form.is_valid():
+            form.save()
+            return redirect("staff:exam_list")
+        else:
+            context={
+            "form":form,
+            "e_id":e_id,
+            }
+            return render(request,self.template_name,context)

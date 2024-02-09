@@ -62,6 +62,14 @@ rel="stylesheet">
                         <li><a href="{% url 'staff:payment' %}" class = "{% if active_tab == 'payment' %}active {% endif %}">Payment</a></li>
                     </ul>
                 </li>
+                <li class="submenu">
+                    <a href="#"><i class="fas fa-clipboard-check"></i><span>Exam</span> <span
+                                class="menu-arrow"></span></a>
+                    <ul>
+                        <li><a href="{% url 'staff:exam_list' %}" class = "{% if active_tab == 'exam_list' %}active {% endif %}">Exam List</a></li>
+                        <li><a href="{% url 'staff:add_exam' %}" class = "{% if active_tab == 'add_exam' %}active {% endif %}">Add Exam</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>

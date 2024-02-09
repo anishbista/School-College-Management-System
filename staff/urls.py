@@ -22,4 +22,7 @@ urlpatterns = [
     path("college/fee/add/",AddFeeView.as_view(),name="add_fee"),
     path("college/payment/",PaymentView.as_view(),name="payment"),
     path("college/payment/add/",AddPaymentView.as_view(),name="add_payment"),
+    path("exam/list/",ExamListView.as_view(),name="exam_list"),
+    path("exam/add/",AddExamView.as_view(),name="add_exam"),
+    path("exam/edit/<str:e_id>/",EditExamView.as_view(),name="edit_exam"),
 ]

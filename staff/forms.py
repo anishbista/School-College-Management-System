@@ -1,5 +1,5 @@
 from django import forms
-from .models import Borrowing, libraryBook,Alert,Fee,Payment
+from .models import Borrowing, libraryBook,Alert,Fee,Payment,Exam
 
 
 class BorrowingForm(forms.ModelForm):
@@ -69,4 +69,16 @@ class PaymentForm(forms.ModelForm):
             'fee': forms.Select(attrs={'class': 'form-control'}),
             'amount_paid': forms.NumberInput(attrs={'class': 'form-control'}),
             'payment_date': forms.DateInput(attrs={'class': 'form-control','type':'date'}),
+        }
+#exam
+class ExamForm(forms.ModelForm):
+    class Meta:
+        model = Exam
+        fields = ['course', 'description', 'start_date', 'duration', 'status']
+        widgets = {
+            'course': forms.Select(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control'}),
+            'start_date': forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M'),
+            'duration':forms.TextInput(attrs={'class': 'form-control'}),
+            'status': forms.Select(attrs={'class': 'form-control'}),
         }

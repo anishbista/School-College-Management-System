@@ -34,3 +34,16 @@ class FeeAdmin(admin.ModelAdmin):
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
     list_display = ('student', 'fee', 'amount_paid', 'payment_date')
+
+#exam
+@admin.register(Exam)
+class ExamAdmin(admin.ModelAdmin):
+    list_display = ('course', 'start_date', 'status','duration')
+
+@admin.register(Result)
+class ResultAdmin(admin.ModelAdmin):
+    list_display = ('exam', 'student', 'score')
+
+@admin.register(Feedback)
+class FeedbackAdmin(admin.ModelAdmin):
+    list_display = ('result', 'text')

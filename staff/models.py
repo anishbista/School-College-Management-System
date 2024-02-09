@@ -1,6 +1,6 @@
 from django.db import models
 from common.models import CommonInfo
-from accounts.models import Student
+from accounts.models import Student,Course
 from datetime import date, timedelta
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
@@ -108,3 +108,26 @@ class Payment(CommonInfo):
         return f"Student:{self.student} fee:{self.fee}"
     class Meta:
         unique_together = ['student', 'fee']
+
+#exam
+class Exam(CommonInfo):
+    course = models.ForeignKey(Course,on_delete=models.CASCADE)
+    description = models.TextField()
+    start_date = models.DateTimeField()
+    duration = models.CharField(max_length=20)
+    status_choices = [
+        ('upcoming', 'Upcoming'),
+        ('ongoing', 'Ongoing'),
+        ('completed', 'Completed'),
+    ]
+    status = models.CharField(max_length=20, choices=status_choices)
+    def __str__(self) -> str:
+        return f"Course:{self.course} Date:{self.start_date}"
+class Result(CommonInfo):
+    exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    score = models.DecimalField(max_digits=5, decimal_places=2)
+
+class Feedback(CommonInfo):
+    result = models.ForeignKey(Result, on_delete=models.CASCADE)
+    text = models.TextField()
