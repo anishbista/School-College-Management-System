@@ -106,11 +106,12 @@
                         <h4 class="header-title">Assignments </h4>
     
                         
+                        {% if assignment_data %}
                         <div id="assignmentsCarousel" class="carousel slide " data-bs-ride="carousel">
                             <ol class="carousel-indicators ">
                                 {% for data in assignment_data %}
                                 <li data-bs-target="#assignmentsCarousel" data-bs-slide-to="{{ forloop.counter0 }}"
-                                    {% if forloop.first %}class="active"{% endif %}></li>
+                                {% if forloop.first %}class="active"{% endif %}></li>
                                 {% endfor %}
                             </ol>
                             <div class="carousel-inner" role="listbox">
@@ -148,6 +149,9 @@
                                 <span class="visually-hidden">Next</span>
                             </a>
                         </div>
+                        {% else %}
+                        <h5>No Assignments Hurray!</h5>
+                        {% endif %}
                     </div>
                 </div>
             </div>

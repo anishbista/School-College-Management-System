@@ -2,6 +2,8 @@ from django.db import models
 from common.models import CommonInfo
 from teacher.models import *
 
+from django.core.exceptions import ValidationError
+
 
 class Submit(CommonInfo):
     work = models.ForeignKey(
@@ -17,6 +19,10 @@ class Submit(CommonInfo):
     )
     feedback = models.TextField(blank=True)
     checked = models.BooleanField(default=False)
+
+    def clean(self):
+        if not self.image and not self.sb_file:
+            raise ValidationError("You must upload either an image or a file.")
 
     class Meta:
         verbose_name = "Submission"

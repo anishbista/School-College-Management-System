@@ -61,7 +61,8 @@ class SubmissionView(StudentRequiredMixin, View):
     def get(self, request, a_id):
         work = get_object_or_404(Assignment, id=a_id)
         student = request.user.student
-        initial_data = {"work": work.name, "student": student.student_name}
+        print(student.student_userName)
+        initial_data = {"work": work.name, "course": work.course.course_name}
         form = SubmissionForm(initial=initial_data)
         return render(request, self.template_name, {"form": form})
 
@@ -72,7 +73,7 @@ class SubmissionView(StudentRequiredMixin, View):
 
         request.POST = request.POST.copy()
         request.POST["work"] = str(work.id)
-        request.POST["student"] = str(student.id)
+        # request.POST["student"] = str(student.id)
 
         """
         request.POST = request.POST.copy(): This line creates a shallow copy of the request.POST dictionary. This is done to ensure that the original request.POST dictionary remains unchanged. It's generally a good practice when you need to modify the data.
@@ -82,11 +83,13 @@ class SubmissionView(StudentRequiredMixin, View):
 
         form = SubmissionForm(request.POST, request.FILES, instance=existing_submission)
         if form.is_valid():
-            form.save()
+            submission = form.save(commit=False)
+            submission.student = student
+            # submission.work = str(work.id)
+            submission.save()
 
-            # show sucess msg
         else:
-            # show error msg
+
             return render(
                 request,
                 "students/assignment/assignment_submission.html",
@@ -290,24 +293,23 @@ class AlertView(StudentRequiredMixin, View):
         context = {"active_tab": self.active_tab, "alerts": alerts}
         return render(request, self.template_name, context)
 
-#college fee
-class FeeView(StudentRequiredMixin,View):
+
+# college fee
+class FeeView(StudentRequiredMixin, View):
     active_tab = "fee"
     template_name = "students/college_fee/fee.html"
-    def get(self,request):
-        fees=Fee.objects.all()
-        context={
-            "active_tab": self.active_tab,
-            "fees":fees
-        }
-        return render(request,self.template_name,context)
-class PaymentView(StudentRequiredMixin,View):
+
+    def get(self, request):
+        fees = Fee.objects.all()
+        context = {"active_tab": self.active_tab, "fees": fees}
+        return render(request, self.template_name, context)
+
+
+class PaymentView(StudentRequiredMixin, View):
     active_tab = "payment"
     template_name = "students/college_fee/payment_list.html"
-    def get(self,request):
-        payments=Payment.objects.filter(student=request.user.student)
-        context={
-            "active_tab": self.active_tab,
-            "payments":payments
-        }
-        return render(request,self.template_name,context)
+
+    def get(self, request):
+        payments = Payment.objects.filter(student=request.user.student)
+        context = {"active_tab": self.active_tab, "payments": payments}
+        return render(request, self.template_name, context)
